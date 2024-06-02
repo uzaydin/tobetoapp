@@ -1,24 +1,24 @@
 class Catalog {
   String id;
   String title;
-  String instructor;
-  String category;
-  String level;
-  String subject;
-  String language;
-  String certificationStatus;
+  String instructors;
+  String categories;
+  String levels;
+  String subjects;
+  String languages;
+  String certificationStatuses;
   String imageUrl;
   double rating;
 
   Catalog({
     required this.id,
     required this.title,
-    required this.instructor,
-    required this.category,
-    required this.level,
-    required this.subject,
-    required this.language,
-    required this.certificationStatus,
+    required this.instructors,
+    required this.categories,
+    required this.levels,
+    required this.subjects,
+    required this.languages,
+    required this.certificationStatuses,
     required this.imageUrl,
     required this.rating,
   });
@@ -27,12 +27,12 @@ class Catalog {
     return Catalog(
       id: map['id'] ?? '',
       title: map['title'] ?? '',
-      instructor: map['instructor'] ?? '',
-      category: map['category'] ?? '',
-      level: map['level'] ?? '',
-      subject: map['subject'] ?? '',
-      language: map['language'] ?? '',
-      certificationStatus: map['certificationStatus'] ?? '',
+      instructors: map['instructor'] ?? '',
+      categories: map['category'] ?? '',
+      levels: map['level'] ?? '',
+      subjects: map['subject'] ?? '',
+      languages: map['language'] ?? '',
+      certificationStatuses: map['certificationStatus'] ?? '',
       imageUrl: map['imageUrl'] ?? '', 
       rating: map['rating'] ?? 0.0, 
     );

@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/auth/auth_state.dart';
-import 'package:tobetoapp/screens/homepage.dart';
 import 'package:tobetoapp/screens/mainpage.dart';
 
 
@@ -63,7 +62,7 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
             // Gösterge göster
             showDialog(
               context: context,
-              builder: (context) => Center(child: CircularProgressIndicator()),
+              builder: (context) => const Center(child: CircularProgressIndicator()),
               barrierDismissible: false,
             );
             Navigator.of(context).pop();
@@ -77,12 +76,12 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
           }
           if (state is AuthSuccess) {
             Navigator.of(context).pushReplacement(MaterialPageRoute(   // Kullanici basarili sekilde giris veya kayit olduysa yonlendirme yapacak
-              builder: (context) => MainPage(),
+              builder: (context) => const MainPage(),
             ));
           }
           if (state is Unauthenticated) {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => LoginOrSignUp(),
+              builder: (context) => const LoginOrSignUp(),
             ));
           }
         },
@@ -93,27 +92,27 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 80),
+                  const SizedBox(height: 80),
                   SvgPicture.network('https://tobeto.com/_next/static/media/tobeto-logo.29b55e1c.svg', height: 100), 
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     "Hoşgeldiniz",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildToggleButton(), // Yönlendirme
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildForm(), // Kullanıcı formu
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildSubmitButton(), // Kayıt ol veya Giriş Yap butonu
-                  SizedBox(height: 20),
-                  Text("Ya da"),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  const Text("Ya da"),
+                  const SizedBox(height: 20),
                   _buildGoogleSignInButton(), // Google butonu
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextButton(
                     onPressed: () {}, 
-                    child: Text(
+                    child: const Text(
                       "Şifremi Unuttum",
                       style: TextStyle(decoration: TextDecoration.underline),
                     ),
@@ -142,7 +141,7 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
               color: !_registerPage ? Colors.grey.shade200 : Colors.grey.shade100,
               borderRadius: BorderRadius.circular(30),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: Text(
               "Giriş Yap",
               style: TextStyle(
@@ -163,7 +162,7 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
               color: _registerPage ? Colors.grey.shade200 : Colors.grey.shade100,
               borderRadius: BorderRadius.circular(30),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: Text(
               "Kayıt Ol",
               style: TextStyle(
@@ -184,13 +183,13 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
           Column(
             children: [
               _buildTextField(_name, Icons.person, "Ad"),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               _buildTextField(_lastName, Icons.person, "Soyad"),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
             ],
           ),
         _buildTextField(_email, Icons.email, "E-Posta Adresi"),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         _buildTextField(_password, Icons.lock, "Şifre", obscureText: true),
       ],
     );
@@ -216,14 +215,14 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
       onPressed: _submit,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.purple,
-        padding: EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
       ),
       child: Text(
         _registerPage ? "Kayıt Ol" : "Giriş Yap",
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }
@@ -232,15 +231,15 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
     return ElevatedButton.icon(
       onPressed: (){context.read<AuthBloc>().add(AuthGoogleSignIn());},
       icon: Image.asset("lib/images/google.png"),
-      label: Text("Google ile Giriş Yap"),
+      label: const Text("Google ile Giriş Yap"),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        padding: EdgeInsets.symmetric(horizontal: 45, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
-        side: BorderSide(color: Colors.grey),
+        side: const BorderSide(color: Colors.grey),
       ),
     );
   }

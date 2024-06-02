@@ -17,7 +17,7 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
-  bool _isPasswordVisible = false;
+  final bool _isPasswordVisible = false;
   bool _isLoginPage = true;
   final passNotifier = ValueNotifier<PasswordStrength?>(null);
 
