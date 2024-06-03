@@ -11,6 +11,7 @@ import 'package:tobetoapp/models/userModel.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 
 import 'package:tobetoapp/screens/announcement_page.dart';
+import 'package:tobetoapp/screens/homepage.dart';
 
 import 'package:tobetoapp/screens/login_or_signup.dart';
 import 'package:tobetoapp/screens/user/profilim.dart';
@@ -137,9 +138,11 @@ class _MainPageState extends State<MainPage> {
             },
           );
         } else {
+
+          // Kullanici cikis yaptiktan sonra bottomNavigationBar iptal edildi.HomePage sayfasina yonlendiriyor direkt
           return Scaffold(
-            body: _buildContentForNotLoggedInUser(),
-            bottomNavigationBar: _buildBottomNavigationBarForNotLoggedInUser(),
+            body: Homepage()
+            // bottomNavigationBar: _buildBottomNavigationBarForNotLoggedInUser(),
           );
         }
       },
@@ -240,24 +243,24 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  BottomNavigationBar _buildBottomNavigationBarForNotLoggedInUser() {
-    return BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      onTap: (index) {
-        setState(() {
-          _selectedIndex = index;
-        });
-      },
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.info),
-          label: 'Info',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.login),
-          label: 'Login',
-        ),
-      ],
-    );
-  }
+  // BottomNavigationBar _buildBottomNavigationBarForNotLoggedInUser() {
+  //   return BottomNavigationBar(
+  //     currentIndex: _selectedIndex,
+  //     onTap: (index) {
+  //       setState(() {
+  //         _selectedIndex = index;
+  //       });
+  //     },
+  //     items: const <BottomNavigationBarItem>[
+  //       BottomNavigationBarItem(
+  //         icon: Icon(Icons.info),
+  //         label: 'Info',
+  //       ),
+  //       BottomNavigationBarItem(
+  //         icon: Icon(Icons.login),
+  //         label: 'Login',
+  //       ),
+  //     ],
+  //   );
+  // }
 }
