@@ -7,7 +7,9 @@ import 'package:tobetoapp/bloc/lesson/lesson_bloc.dart';
 import 'package:tobetoapp/repository/auth_repo.dart';
 import 'package:tobetoapp/repository/catalog_repository.dart';
 import 'package:tobetoapp/repository/lesson_repository.dart';
+import 'package:tobetoapp/screens/homepage.dart';
 import 'package:tobetoapp/screens/lessons_category_screen.dart';
+import 'package:tobetoapp/screens/user/profilim.dart';
 
 // Bottom Navigation Bar sayfasi 
 
@@ -25,9 +27,9 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(AuthRepository()),
-        ),
+        // BlocProvider<AuthBloc>(
+        //   create: (context) => AuthBloc(AuthRepository()),
+        // ),
         BlocProvider<CatalogBloc>(
           create: (context) => CatalogBloc(catalogRepository: CatalogRepository()),
 ),
@@ -38,9 +40,7 @@ class _MainPageState extends State<MainPage> {
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is Unauthenticated) {
-            setState(() {
-              _selectedIndex = 0;
-            });
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Homepage(),));
           } else if (state is AuthSuccess) {
             setState(() {
               _selectedIndex = 0; // Ana sayfaya yönlendirme
@@ -88,7 +88,7 @@ class _MainPageState extends State<MainPage> {
       case 1:
         return const Scaffold(); // Öğretmen için duyurular sayfası
       case 2:
-        return const Scaffold(); // Profil sayfası
+        return const Profil(); // Profil sayfası
       default:
         return const Scaffold();
     }
@@ -103,7 +103,7 @@ class _MainPageState extends State<MainPage> {
       case 2:
         return const Scaffold(); // Öğrenci için favoriler sayfası
       case 3:
-        return const Scaffold(); // Profil sayfası
+        return const Profil(); // Profil sayfası
       default:
         return const Scaffold();
     }
@@ -116,7 +116,7 @@ class _MainPageState extends State<MainPage> {
       case 1:
         return const Scaffold(); // Admin için duyurular sayfası
       case 2:
-        return const Scaffold(); // Admin için profil sayfası
+        return const Profil(); // Admin için profil sayfası
       case 3:
         return const Scaffold(); // Diğer admin sayfalarını buraya ekleyebilirsiniz
       default:
@@ -127,7 +127,7 @@ class _MainPageState extends State<MainPage> {
   Widget _buildContentForNotLoggedInUser() {
     switch (_selectedIndex) {
       case 0:
-        return const Scaffold(); // Giriş yapmamış kullanıcılar için ana sayfa
+        return const LessonsCategoryScreen(); // Giriş yapmamış kullanıcılar için ana sayfa
       case 1:
         return const Scaffold(); // Bilgi sayfası
       default:
