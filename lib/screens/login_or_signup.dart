@@ -6,6 +6,7 @@ import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/auth/auth_state.dart';
 import 'package:tobetoapp/screens/mainpage.dart';
+import 'package:tobetoapp/screens/password_reset.dart';
 
 
 class LoginOrSignUp extends StatefulWidget {
@@ -62,12 +63,13 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
             // Gösterge göster
             showDialog(
               context: context,
-              builder: (context) => const Center(child: CircularProgressIndicator()),
+              builder: (context) => Center(child: CircularProgressIndicator()),
               barrierDismissible: false,
             );
             Navigator.of(context).pop();
           }
           if (state is AuthFailure) {
+            print("GIRIS DENEMESSSSSSSSII : $state");
             // Hata mesajı göster
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Giriş yapılamadı: ${state.message}")),
@@ -75,13 +77,13 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
             Navigator.of(context).pop();
           }
           if (state is AuthSuccess) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(   // Kullanici basarili sekilde giris veya kayit olduysa yonlendirme yapacak
-              builder: (context) => const MainPage(),
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => MainPage(),
             ));
           }
           if (state is Unauthenticated) {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const LoginOrSignUp(),
+              builder: (context) => LoginOrSignUp(),
             ));
           }
         },
@@ -92,27 +94,29 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 80),
-                  SvgPicture.network('https://tobeto.com/_next/static/media/tobeto-logo.29b55e1c.svg', height: 100), 
-                  const SizedBox(height: 20),
-                  const Text(
+                  SizedBox(height: 80),
+                  SvgPicture.network('https://tobeto.com/_next/static/media/tobeto-logo.29b55e1c.svg', height: 100), // Logo ekleyin
+                  SizedBox(height: 20),
+                  Text(
                     "Hoşgeldiniz",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 20),
-                  _buildToggleButton(), // Yönlendirme
-                  const SizedBox(height: 20),
-                  _buildForm(), // Kullanıcı formu
-                  const SizedBox(height: 20),
-                  _buildSubmitButton(), // Kayıt ol veya Giriş Yap butonu
-                  const SizedBox(height: 20),
-                  const Text("Ya da"),
-                  const SizedBox(height: 20),
-                  _buildGoogleSignInButton(), // Google butonu
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
+                  _buildToggleButton(),
+                  SizedBox(height: 20),
+                  _buildForm(),
+                  SizedBox(height: 20),
+                  _buildSubmitButton(),
+                  SizedBox(height: 20),
+                  Text("Ya da"),
+                  SizedBox(height: 20),
+                  _buildGoogleSignInButton(), // Google kayit butonu
+                  SizedBox(height: 20),
                   TextButton(
-                    onPressed: () {}, 
-                    child: const Text(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResetPasswordPage(),));
+                    },
+                    child: Text(
                       "Şifremi Unuttum",
                       style: TextStyle(decoration: TextDecoration.underline),
                     ),
@@ -141,7 +145,7 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
               color: !_registerPage ? Colors.grey.shade200 : Colors.grey.shade100,
               borderRadius: BorderRadius.circular(30),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: Text(
               "Giriş Yap",
               style: TextStyle(
@@ -162,7 +166,7 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
               color: _registerPage ? Colors.grey.shade200 : Colors.grey.shade100,
               borderRadius: BorderRadius.circular(30),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: Text(
               "Kayıt Ol",
               style: TextStyle(
@@ -183,13 +187,13 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
           Column(
             children: [
               _buildTextField(_name, Icons.person, "Ad"),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               _buildTextField(_lastName, Icons.person, "Soyad"),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
             ],
           ),
         _buildTextField(_email, Icons.email, "E-Posta Adresi"),
-        const SizedBox(height: 10),
+        SizedBox(height: 10),
         _buildTextField(_password, Icons.lock, "Şifre", obscureText: true),
       ],
     );
@@ -215,14 +219,14 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
       onPressed: _submit,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.purple,
-        padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+        padding: EdgeInsets.symmetric(horizontal: 100, vertical: 15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
       ),
       child: Text(
         _registerPage ? "Kayıt Ol" : "Giriş Yap",
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.white),
       ),
     );
   }
@@ -230,16 +234,16 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
   Widget _buildGoogleSignInButton() {
     return ElevatedButton.icon(
       onPressed: (){context.read<AuthBloc>().add(AuthGoogleSignIn());},
-      icon: Image.asset("lib/images/google.png"),
-      label: const Text("Google ile Giriş Yap"),
+      //icon: Image.asset("lib/images/google.png"),
+      label: Text("Google ile Giriş Yap"),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 15),
+        padding: EdgeInsets.symmetric(horizontal: 45, vertical: 15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
-        side: const BorderSide(color: Colors.grey),
+        side: BorderSide(color: Colors.grey),
       ),
     );
   }

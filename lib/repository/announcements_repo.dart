@@ -7,28 +7,43 @@ class AnnouncementRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> addAnnouncement(Announcements announcement) async {
-    await _firestore
-        .collection('announcements')
-        .doc(announcement.id)
-        .set(announcement.toMap());
+    DocumentReference docRef =
+        await _firestore.collection('announcements').add(announcement.toMap());
+    // id'yi belgeden alarak güncelleyin
+    await docRef.update({'id': docRef.id});
   }
 
   Future<void> deleteAnnouncement(String id) async {
     await _firestore.collection('announcements').doc(id).delete();
   }
 
-  Stream<List<Announcements>> getAnnouncementsStream() {
-    return _firestore
-        .collection('announcements')
-        .orderBy('createdAt', descending: false) // False diyerek en duyularin basta gozukmesini sagliyoruz.
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs.map((doc) {
-        final data = doc.data();
-        data['id'] = doc.id;
-        return Announcements.fromMap(data);
-      }).toList();
-    });
+
+    // Duyuruları admin rolune ayrı ve sınıflara gore fıltrelıyoruz!
+  Stream<List<Announcements>> getAnnouncementsStream(
+      List<String>? classIds, String? role) {
+    if (role == 'admin') {
+      return _firestore.collection('announcements').snapshots().map((snapshot) {
+        return snapshot.docs.map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          data['id'] = doc.id;
+          return Announcements.fromMap(data);
+        }).toList();
+      });
+    } else if (classIds != null && classIds.isNotEmpty) {
+      return _firestore
+          .collection('announcements')
+          .where('classIds', arrayContainsAny: classIds)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs.map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          data['id'] = doc.id;
+          return Announcements.fromMap(data);
+        }).toList();
+      });
+    } else {
+      return Stream.value([]);
+    }
   }
 }
 

@@ -4,21 +4,27 @@ import 'package:intl/intl.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_bloc.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_event.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_state.dart';
+import 'package:tobetoapp/models/class_model.dart';
+import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/add_announcement.dart';
 import 'package:tobetoapp/screens/announcement_detail.dart';
 
 
 class AnnouncementsPage extends StatelessWidget {
-  final String role; // 'admin' veya 'student' olacak
+  final UserRole? role;
+  final List<ClassModel>? classModels;
 
-  const AnnouncementsPage({super.key, required this.role});
+  const AnnouncementsPage({super.key, required this.role, this.classModels});
 
   @override
   Widget build(BuildContext context) {
+    // Duyurularin sinifa ve role gore on yuklenme durumu
+    context.read<AnnouncementBloc>().add(LoadAnnouncements(classModels, role));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Announcements'),
-        actions: role == 'admin' || role == 'teacher'
+        actions: role == UserRole.admin
             ? [
                 IconButton(
                   icon: const Icon(Icons.add),
@@ -26,7 +32,8 @@ class AnnouncementsPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AddAnnouncementPage()),
+                        builder: (context) => AddAnnouncementPage(),
+                      ),
                     );
                   },
                 ),
@@ -36,30 +43,29 @@ class AnnouncementsPage extends StatelessWidget {
       body: BlocConsumer<AnnouncementBloc, AnnouncementState>(
         listener: (context, state) {
           if (state is AnnouncementOperationSuccess) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('Operation Successful')));
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Operation Successful')));
           } else if (state is AnnouncementOperationFailure) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('Operation Failed')));
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Operation Failed')));
           }
         },
         builder: (context, state) {
-          print("Current state: $state"); // Durumu kontrol etmek için
           if (state is AnnouncementsLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is AnnouncementsLoaded) {
-            print("Announcements loaded: ${state.announcements}");
             if (state.announcements.isEmpty) {
-              return const Center(child: Text('Duyuru bulunmamaktadır'));
+              return const Center(child: Text('No announcements available.'));
             } else {
-              final reversedAnnouncements = state.announcements.reversed.toList();
+              final reversedAnnouncements =
+                  state.announcements.reversed.toList();
               return ListView.builder(
                 itemCount: reversedAnnouncements.length,
                 itemBuilder: (context, index) {
                   final announcement = reversedAnnouncements[index];
                   final formattedDate = announcement.createdAt != null
                       ? DateFormat('dd.MM.yyyy').format(announcement.createdAt!)
-                      : 'Tarih yok';
+                      : 'No date';
                   return Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -70,7 +76,8 @@ class AnnouncementsPage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => AnnouncementDetailPage(
-                                announcement: announcement),
+                              announcement: announcement,
+                            ),
                           ),
                         );
                       },
@@ -80,7 +87,7 @@ class AnnouncementsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Duyuru',
+                              'Announcement',
                               style: TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.bold,
@@ -100,7 +107,8 @@ class AnnouncementsPage extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(Icons.calendar_today, size: 16.0),
+                                    const Icon(Icons.calendar_today,
+                                        size: 16.0),
                                     const SizedBox(width: 4.0),
                                     Text(formattedDate),
                                   ],
@@ -112,18 +120,20 @@ class AnnouncementsPage extends StatelessWidget {
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             AnnouncementDetailPage(
-                                                announcement: announcement),
+                                          announcement: announcement,
+                                        ),
                                       ),
                                     );
                                   },
-                                  child: const Text('Detaylar'),
+                                  child: const Text('Details'),
                                 ),
-                                if (role == 'admin' || role == 'teacher')
+                                if (role == UserRole.admin)
                                   IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () {
-                                      BlocProvider.of<AnnouncementBloc>(context)
-                                          .add(DeleteAnnouncement(announcement.id!));
+                                      context.read<AnnouncementBloc>().add(
+                                          DeleteAnnouncement(classModels,
+                                              announcement.id!, role!));
                                     },
                                   ),
                               ],
@@ -137,10 +147,8 @@ class AnnouncementsPage extends StatelessWidget {
               );
             }
           } else if (state is AnnouncementOperationFailure) {
-            print("Error: ${state.error}");
             return const Center(child: Text('Failed to load announcements'));
           } else {
-            print("Unknown state: $state");
             return const Center(child: Text('Failed to load announcements'));
           }
         },

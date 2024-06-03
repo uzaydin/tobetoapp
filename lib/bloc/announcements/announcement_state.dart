@@ -2,7 +2,7 @@
 
 import 'package:tobetoapp/models/announcement_model.dart';
 
-abstract class AnnouncementState {}
+class AnnouncementState {}
 
 class AnnouncementsLoading extends AnnouncementState {}
 

@@ -7,50 +7,50 @@ import 'package:tobetoapp/models/user_enum.dart';
 
 
 class AuthRepository {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth;
+  final FirebaseFirestore _firestore;
 
-  Stream<User?> authStateChanges() {
-    return _auth.authStateChanges();
+  AuthRepository({FirebaseAuth? firebaseAuth, FirebaseFirestore? firestore})
+      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+        _firestore = firestore ?? FirebaseFirestore.instance;
+
+  User? getCurrentUser() {
+    return _firebaseAuth.currentUser;
   }
 
-  // login user
-  Future<User?> loggedInUser(String email, password) async {
-    try {
-      UserCredential credential = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      return credential.user!;
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
-    return null;
+  Future<String?> getUserRole(String uid) async {
+    final snapshot = await _firestore.collection('users').doc(uid).get();
+    return snapshot.data()?['role'];
   }
 
-  // create user
-  Future<User?> signUp(String name, lastName, email, password) async {
-    UserModel newUser = UserModel(
-      firstName: name,
-      lastName: lastName,
+  Future<User?> loggedInUser(String email, String password) async {
+    final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
-      role: UserRole.student, // default olarak student kaydı yapılıyor.
+      password: password,
     );
-    try {
-      UserCredential credential = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      if (credential.user != null) {
-        await _db
-            .collection("users")
-            .doc(credential.user!.uid)
-            .set(newUser.toMap());
-      }
-      return credential.user!;
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
-    return null;
+    return userCredential.user;
   }
 
-   Future<User?> signInWithGoogle() async {
+  Future<User?> signUp(String name, String lastName, String email, String password) async {
+    final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    final user = userCredential.user;
+    if (user != null) {
+      final userModel = UserModel(
+        id: user.uid,
+        firstName: name,
+        lastName: lastName,
+        email: email,
+        role: UserRole.student, // Varsayılan rol
+      );
+      await _firestore.collection('users').doc(user.uid).set(userModel.toMap());
+    }
+    return user;
+  }
+
+  Future<User?> signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
     if (googleUser == null) {
@@ -65,11 +65,11 @@ class AuthRepository {
     );
 
     final UserCredential userCredential =
-        await _auth.signInWithCredential(credential);
+        await _firebaseAuth.signInWithCredential(credential);
 
     if (userCredential.user != null) {
       final User user = userCredential.user!;
-      final userDoc = await _db.collection("users").doc(user.uid).get();
+      final userDoc = await _firestore.collection("users").doc(user.uid).get();
       if (!userDoc.exists) {
         // Kullanıcı Firestore'da kayıtlı değilse yeni kayıt oluştur
         UserModel newUser = UserModel(
@@ -78,7 +78,7 @@ class AuthRepository {
           email: googleUser.email,
           role: UserRole.student, // default olarak student kaydı yapılıyor.
         );
-        await _db.collection("users").doc(user.uid).set(newUser.toMap());
+        await _firestore.collection("users").doc(user.uid).set(newUser.toMap());
       }
       return user;
     } else {
@@ -86,19 +86,11 @@ class AuthRepository {
     }
   }
 
-
-  // get user role
-  Future<String?> getUserRole(String uid) async {
-    DocumentSnapshot doc = await _db.collection('users').doc(uid).get();
-    return doc['role'] as String;
+  Future<void> resetPassword(String email) async {
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
-  // logout user
   Future<void> logout() async {
-    await _auth.signOut();
-  }
-
-  User? getCurrentUser() {
-    return _auth.currentUser;
+    await _firebaseAuth.signOut();
   }
 }

@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '279501634796',
     projectId: 'tobeto-clone-app',
     storageBucket: 'tobeto-clone-app.appspot.com',
+    androidClientId: '279501634796-hbi1mrer1m4f0gsjjfjj60qa4077pp04.apps.googleusercontent.com',
+    iosClientId: '279501634796-f3h2t9lou0tpgaeiahu5iktr4hi3d8cc.apps.googleusercontent.com',
     iosBundleId: 'com.example.tobetoapp',
   );
 
@@ -72,6 +74,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '279501634796',
     projectId: 'tobeto-clone-app',
     storageBucket: 'tobeto-clone-app.appspot.com',
+    androidClientId: '279501634796-hbi1mrer1m4f0gsjjfjj60qa4077pp04.apps.googleusercontent.com',
+    iosClientId: '279501634796-f3h2t9lou0tpgaeiahu5iktr4hi3d8cc.apps.googleusercontent.com',
     iosBundleId: 'com.example.tobetoapp',
   );
 
@@ -83,4 +87,5 @@ class DefaultFirebaseOptions {
     authDomain: 'tobeto-clone-app.firebaseapp.com',
     storageBucket: 'tobeto-clone-app.appspot.com',
   );
+
 }

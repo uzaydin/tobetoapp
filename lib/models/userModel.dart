@@ -1,6 +1,8 @@
+import 'package:tobetoapp/models/class_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 
 class UserModel {
+  String? id;
   String? profilePhotoUrl;
   String? firstName;
   String? lastName;
@@ -26,8 +28,10 @@ class UserModel {
   List<SocialMedia>? socialMedia;
   List<Languages>? languages;
   UserRole? role;
+  List<ClassModel>? classModels; // Kullanıcının bir veya birden fazla sınıfı olabilir.
 
   UserModel({
+    this.id,
     this.profilePhotoUrl,
     this.firstName,
     this.lastName,
@@ -53,10 +57,12 @@ class UserModel {
     this.socialMedia,
     this.languages,
     this.role,
+    this.classModels,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'profilePhotoUrl': profilePhotoUrl,
       'firstName': firstName,
       'lastName': lastName,
@@ -82,11 +88,13 @@ class UserModel {
       'socialMedia': socialMedia?.map((item) => item.toMap()).toList(),
       'languages': languages?.map((item) => item.toMap()).toList(),
       'role': role?.name,
+      'classModels': classModels?.map((cls) => cls.toMap()).toList(),
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
+      id: map['id'] as String?,
       profilePhotoUrl: map['profilePhotoUrl'],
       firstName: map['firstName'],
       lastName: map['lastName'],
@@ -141,6 +149,7 @@ class UserModel {
               (item) => Languages.fromMap(Map<String, dynamic>.from(item))))
           : null,
       role: map['role'] != null ? UserRoleExtension.fromName(map['role']) : null,
+      classModels: map['classModels'] != null ? List<ClassModel>.from(map['classModels'].map((cls) => ClassModel.fromMap(cls as Map<String, dynamic>))) : null,
     );
   }
 }

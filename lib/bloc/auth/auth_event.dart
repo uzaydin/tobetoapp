@@ -34,4 +34,12 @@ class AuthStateChanged extends AuthEvent {
   AuthStateChanged({required this.user, required this.role});
 }
 
+class AuthCheckStatus extends AuthEvent {}
+
+class AuthPasswordReset extends AuthEvent{
+  final String email;
+
+  AuthPasswordReset(this.email);
+}
+
 class AuthLogOut extends AuthEvent {}

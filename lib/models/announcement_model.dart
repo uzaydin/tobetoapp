@@ -5,36 +5,38 @@ class Announcements {
   String? id;
   String? title;
   String? content;
+  List<String>? classIds; // classIds olarak aliyoruz. Admin veya Teacher birden fazla sinifa duyuru ekleyebilir.
   DateTime? createdAt;
+  String? role;
+
   Announcements({
     this.id,
     this.title,
     this.content,
+    this.classIds,
     this.createdAt,
+    this.role,
   });
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'id': id,
       'title': title,
       'content': content,
-      'createdAt': createdAt?.millisecondsSinceEpoch,
+      'classIds': classIds, // classId yerine classIds
+      'createdAt': createdAt?.toIso8601String(),
+      'role': role,
     };
   }
 
   factory Announcements.fromMap(Map<String, dynamic> map) {
     return Announcements(
-      id: map['id'] != null ? map['id'] as String : null,
-      title: map['title'] != null ? map['title'] as String : null,
-      content: map['content'] != null ? map['content'] as String : null,
-      createdAt: map['createdAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
-          : null,
+      id: map['id'] as String?,
+      title: map['title'] as String?,
+      content: map['content'] as String?,
+      classIds: List<String>.from(map['classIds'] ?? []), // classId yerine classIds
+      createdAt: map['createdAt'] != null ? DateTime.parse(map['createdAt']) : null,
+      role: map['role'] as String?,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory Announcements.fromJson(String source) =>
-      Announcements.fromMap(json.decode(source) as Map<String, dynamic>);
 }

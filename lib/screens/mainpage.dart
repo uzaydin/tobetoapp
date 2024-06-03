@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
+import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/auth/auth_state.dart';
-import 'package:tobetoapp/bloc/catalog/catalog_bloc.dart';
-import 'package:tobetoapp/bloc/lesson/lesson_bloc.dart';
-import 'package:tobetoapp/repository/auth_repo.dart';
-import 'package:tobetoapp/repository/catalog_repository.dart';
-import 'package:tobetoapp/repository/lesson_repository.dart';
-import 'package:tobetoapp/screens/homepage.dart';
-import 'package:tobetoapp/screens/lessons_category_screen.dart';
+
+import 'package:tobetoapp/bloc/user/user_bloc.dart';
+import 'package:tobetoapp/bloc/user/user_event.dart';
+import 'package:tobetoapp/bloc/user/user_state.dart';
+import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_enum.dart';
+
+import 'package:tobetoapp/screens/announcement_page.dart';
+
+import 'package:tobetoapp/screens/login_or_signup.dart';
 import 'package:tobetoapp/screens/user/profilim.dart';
 
 // Bottom Navigation Bar sayfasi 
@@ -23,190 +27,206 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        // BlocProvider<AuthBloc>(
-        //   create: (context) => AuthBloc(AuthRepository()),
-        // ),
-        BlocProvider<CatalogBloc>(
-          create: (context) => CatalogBloc(catalogRepository: CatalogRepository()),
-),
-        BlocProvider<LessonBloc>(
-          create: (context) => LessonBloc(lessonRepository: LessonRepository()),
-        ),
-      ],
-      child: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is Unauthenticated) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Homepage(),));
-          } else if (state is AuthSuccess) {
-            setState(() {
-              _selectedIndex = 0; // Ana sayfaya yönlendirme
-            });
-          }
-        },
-        builder: (context, state) {
-          if (state is AuthLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is AuthSuccess) {
-            return Scaffold(
-              body: _buildContentForLoggedInUser(state.role!),
-              bottomNavigationBar: _buildBottomNavigationBarForRole(state.role!),
-            );
-          } else {
-            return Scaffold(
-              body: _buildContentForNotLoggedInUser(),
-              bottomNavigationBar: _buildBottomNavigationBarForNotLoggedInUser(),
-            );
-          }
-        },
-      ),
+  // Her sayfa için bağımsız Navigator'ları saklayacak global anahtarlar
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(), // Admin ve student için ek bir sayfa
+  ];
+
+  // Kullanıcının rolüne göre sayfa listeleri oluşturma
+  List<Widget> _buildNavigators(UserModel user) {
+    switch (user.role) {
+      case UserRole.teacher:
+        return [
+          _buildNavigator(0, Scaffold()), // Öğretmen için sınıf sayfası
+          _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Öğretmen için duyurular sayfası
+          _buildNavigator(2, Profil()), // Öğretmen için profil sayfası
+        ];
+      case UserRole.student:
+        return [
+          _buildNavigator(0, Scaffold()), // Öğrenci için sınıf sayfası
+          _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Öğrenci için duyurular sayfası
+          _buildNavigator(2, Scaffold()), // Öğrenci için favoriler sayfası
+          _buildNavigator(3, Profil()), // Öğrenci için profil sayfası
+        ];
+      case UserRole.admin:
+        return [
+          _buildNavigator(0, Scaffold()), // Admin için ana sayfa
+          _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Admin için duyurular sayfası
+          _buildNavigator(2, Profil()), // Admin için profil sayfası
+        ];
+      default:
+        return [];
+    }
+  }
+
+  // Belirli bir index ve child widget için bağımsız bir Navigator oluşturma
+  Widget _buildNavigator(int index, Widget child) {
+    return Navigator(
+      key: _navigatorKeys[index],
+      onGenerateRoute: (routeSettings) {
+        return MaterialPageRoute(builder: (context) => child);
+      },
     );
   }
 
-  Widget _buildContentForLoggedInUser(String role) {
-    switch (role) {
-      case 'teacher':
-        return _buildTeacherContent(role);
-      case 'student':
-        return _buildStudentContent(role);
-      case 'admin':
-        return _buildAdminContent(role);
-      default:
-        return const Scaffold();
+  @override
+  void initState() {
+    super.initState();
+    // WidgetsBinding.instance.addPostFrameCallback, UI oluşturulduktan sonra çağrılır
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final authState = context.read<AuthBloc>().state;
+      if (authState is AuthSuccess) {
+        context.read<UserBloc>().add(FetchUser(authState.id!)); // Kullanıcı bilgilerini getir
+      } else {
+        context.read<AuthBloc>().add(AuthCheckStatus()); // Kullanıcı oturum durumunu kontrol et
+      }
+    });
+  }
+
+  // BottomNavigationBar'da bir öğeye tıklandığında sayfa geçişini yapar
+  void _onItemTapped(int index) {
+    if (_selectedIndex != index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    } else {
+      // Aynı index'e tekrar tıklanırsa, Navigator'un en üst seviyesine kadar gider
+      _navigatorKeys[index].currentState!.popUntil((route) => route.isFirst);
     }
   }
 
-  Widget _buildTeacherContent(String role) {
-    switch (_selectedIndex) {
-      case 0:
-        return const Scaffold(); // Öğretmen için sınıflar sayfası
-      case 1:
-        return const Scaffold(); // Öğretmen için duyurular sayfası
-      case 2:
-        return const Profil(); // Profil sayfası
-      default:
-        return const Scaffold();
-    }
-  }
-
-  Widget _buildStudentContent(String role) {
-    switch (_selectedIndex) {
-      case 0:
-        return const LessonsCategoryScreen(); // Öğrenci için eğitim sayfası
-      case 1:
-        return const Scaffold(); // Öğrenci için duyurular sayfası
-      case 2:
-        return const Scaffold(); // Öğrenci için favoriler sayfası
-      case 3:
-        return const Profil(); // Profil sayfası
-      default:
-        return const Scaffold();
-    }
-  }
-
-  Widget _buildAdminContent(String role) {
-    switch (_selectedIndex) {
-      case 0:
-        return const Scaffold(); // Admin için ana sayfa
-      case 1:
-        return const Scaffold(); // Admin için duyurular sayfası
-      case 2:
-        return const Profil(); // Admin için profil sayfası
-      case 3:
-        return const Scaffold(); // Diğer admin sayfalarını buraya ekleyebilirsiniz
-      default:
-        return const Scaffold();
-    }
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is Unauthenticated) {
+          setState(() {
+            _selectedIndex = 0;
+          });
+        } else if (state is AuthSuccess) {
+          context.read<UserBloc>().add(FetchUser(state.id!)); // Kullanıcı bilgilerini getir
+        }
+      },
+      builder: (context, state) {
+        if (state is AuthLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is AuthSuccess) {
+          return BlocBuilder<UserBloc, UserState>(
+            builder: (context, userState) {
+              if (userState is UserLoaded) {
+                final pages = _buildNavigators(userState.user); // Sayfa listesini oluştur
+                return Scaffold(
+                  body: IndexedStack(
+                    index: _selectedIndex,
+                    children: pages,
+                  ),
+                  bottomNavigationBar: _buildBottomNavigationBarForRole(userState.user.role!), // Rol tabanlı BottomNavigationBar
+                );
+              } else if (userState is UserLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (userState is UserError) {
+                return Center(child: Text('Failed to load user data: ${userState.message}'));
+              } else {
+                return const Center(child: Text('Failed to load user data'));
+              }
+            },
+          );
+        } else {
+          return Scaffold(
+            body: _buildContentForNotLoggedInUser(),
+            bottomNavigationBar: _buildBottomNavigationBarForNotLoggedInUser(),
+          );
+        }
+      },
+    );
   }
 
   Widget _buildContentForNotLoggedInUser() {
     switch (_selectedIndex) {
       case 0:
-        return const LessonsCategoryScreen(); // Giriş yapmamış kullanıcılar için ana sayfa
+        return Scaffold(); // Giriş yapmamış kullanıcılar için ana sayfa
       case 1:
-        return const Scaffold(); // Bilgi sayfası
+        return LoginOrSignUp(); // Bilgi sayfası
       default:
-        return const LessonsCategoryScreen(); //(yağmur) Kategori sayfası
+        return Scaffold();
     }
   }
 
-  BottomNavigationBar _buildBottomNavigationBarForRole(String role) {
+  BottomNavigationBar _buildBottomNavigationBarForRole(UserRole role) {
     List<BottomNavigationBarItem> items;
-    // Student rolünde 3'ten fazla tab olduğu için type kullanıyoruz.
     BottomNavigationBarType? type;
     switch (role) {
-      case 'teacher':
+      case UserRole.teacher:
         items = [
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.class_),
             label: 'Classes',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
             label: 'Announcements',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Profile',
           ),
         ];
         type = BottomNavigationBarType.fixed;
         break;
-      case 'student':
+      case UserRole.student:
         items = [
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.school),
             label: 'Education',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
             label: 'Announcements',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favorites',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Profile',
           ),
         ];
         type = BottomNavigationBarType.fixed;
         break;
-      case 'admin':
+      case UserRole.admin:
         items = [
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
             label: 'Announcements',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Profile',
           ),
-          // Diğer admin öğelerini buraya ekleyebilirsiniz
         ];
         type = BottomNavigationBarType.fixed;
         break;
       default:
         items = [
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
             label: 'Announcements',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Profile',
           ),
@@ -214,12 +234,8 @@ class _MainPageState extends State<MainPage> {
     }
     return BottomNavigationBar(
       currentIndex: _selectedIndex,
-      type: type, // Type parametresini girdiğimizde bütün bottomNavigationBar'lar aynı özellikte oluyor.
-      onTap: (index) {
-        setState(() {
-          _selectedIndex = index;
-        });
-      },
+      type: type,
+      onTap: _onItemTapped,
       items: items,
     );
   }
