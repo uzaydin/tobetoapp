@@ -26,7 +26,7 @@ void main() async {
           create: (context) => AnnouncementBloc(AnnouncementRepository())
             ..add(LoadAnnouncements()))
     ],
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 

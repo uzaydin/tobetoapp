@@ -13,7 +13,7 @@ extension UserRoleExtension on UserRole {
   }
 
   String toName() {
-    return this.name;
+    return name;
   }
 }
 

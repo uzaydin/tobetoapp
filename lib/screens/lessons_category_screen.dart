@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tobetoapp/services/firebase_firestore_services.dart';
 import 'package:tobetoapp/screens/lesson_detail_screen.dart';
 import 'package:tobetoapp/models/catalog_model.dart';
-import 'package:tobetoapp/repository/catalog_repository.dart'; 
+import 'package:tobetoapp/repository/catalog_repository.dart';
 
 class LessonsCategoryScreen extends StatefulWidget {
   const LessonsCategoryScreen({super.key});
@@ -38,12 +38,12 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
   }
 
   void _fetchDropdownData() async {
-    categories = await firestoreService.getCategories();
-    levels = await firestoreService.getLevels();
-    subjects = await firestoreService.getSubjects();
-    languages = await firestoreService.getLanguages();
-    instructors = await firestoreService.getInstructors();
-    certificationStatuses = await firestoreService.getCertificationStatuses();
+    categories = await firestoreService.fetchCategories();
+    levels = await firestoreService.fetchLevels();
+    subjects = await firestoreService.fetchSubjects();
+    languages = await firestoreService.fetchLanguages();
+    instructors = await firestoreService.fetchInstructors();
+    certificationStatuses = await firestoreService.fetchCertificationStatuses();
 
     setState(() {});
   }
@@ -197,12 +197,12 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
 
     setState(() {
       filteredCatalogs = catalogs.where((catalog) {
-        return (selectedCategory == null || selectedCategory == catalog.category) &&
-               (selectedLevel == null || selectedLevel == catalog.level) &&
-               (selectedSubject == null || selectedSubject == catalog.subject) &&
-               (selectedLanguage == null || selectedLanguage == catalog.language) &&
-               (selectedInstructor == null || selectedInstructor == catalog.instructor) &&
-               (selectedCertificationStatus == null || selectedCertificationStatus == catalog.certificationStatus);
+        return (selectedCategory == null || selectedCategory == catalog.categories) &&
+               (selectedLevel == null || selectedLevel == catalog.levels) &&
+               (selectedSubject == null || selectedSubject == catalog.subjects) &&
+               (selectedLanguage == null || selectedLanguage == catalog.languages) &&
+               (selectedInstructor == null || selectedInstructor == catalog.instructors) &&
+               (selectedCertificationStatus == null || selectedCertificationStatus == catalog.certificationStatuses);
       }).toList();
     });
   }
@@ -214,7 +214,7 @@ class VideoCard extends StatelessWidget {
   final double rating;
   final VoidCallback onTap;
 
-  const VideoCard({super.key, 
+  const VideoCard({super.key,
     required this.imageUrl,
     required this.title,
     required this.rating,

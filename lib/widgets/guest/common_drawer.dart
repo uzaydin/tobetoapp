@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tobetoapp/screens/auth.dart';
 import 'package:tobetoapp/screens/guest/basinda_biz.dart';
 import 'package:tobetoapp/screens/guest/bireyler_icin.dart';
 import 'package:tobetoapp/screens/guest/blog.dart';
 import 'package:tobetoapp/screens/guest/hakkimizda.dart';
 import 'package:tobetoapp/screens/guest/iletisim.dart';
 import 'package:tobetoapp/screens/guest/istanbul_kodluyor.dart';
-import 'package:tobetoapp/screens/guest/katalog_guest.dart';
 import 'package:tobetoapp/screens/guest/kurumlar_icin.dart';
 import 'package:tobetoapp/screens/guest/takvim_anasayfa.dart';
+import 'package:tobetoapp/screens/lessons_category_screen.dart';
 import 'package:tobetoapp/screens/login_or_signup.dart';
 
 class CommonDrawer extends StatelessWidget {
@@ -95,7 +94,7 @@ class CommonDrawer extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Katalog()));
+                            builder: (context) => const LessonsCategoryScreen()));
                   },
                 ),
                 ListTile(

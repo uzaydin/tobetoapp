@@ -3,7 +3,7 @@ import 'package:tobetoapp/screens/auth.dart';
 import 'package:tobetoapp/screens/guest/takvim_anasayfa.dart';
 import 'package:tobetoapp/screens/homepage.dart';
 import 'package:tobetoapp/screens/user/degerlendirmeler.dart';
-import 'package:tobetoapp/screens/user/katalog_user.dart';
+import 'package:tobetoapp/screens/user/catalog_user.dart';
 import 'package:tobetoapp/screens/user/profilim.dart';
 
 class CommonUserDrawer extends StatelessWidget {
@@ -11,7 +11,7 @@ class CommonUserDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _onProfileSelected(String value) {
+    void onProfileSelected(String value) {
       switch (value) {
         case "profilBilgileri":
           Navigator.push(
@@ -86,7 +86,7 @@ class CommonUserDrawer extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const KatalogUser()));
+                            builder: (context) => const CatalogUser()));
                   },
                 ),
                 ListTile(
@@ -131,7 +131,7 @@ class CommonUserDrawer extends StatelessWidget {
           ),
           Center(
             child: PopupMenuButton<String>(
-              onSelected: _onProfileSelected,
+              onSelected: onProfileSelected,
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                 const PopupMenuItem<String>(
                   value: "profilBilgileri",

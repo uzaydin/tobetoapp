@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tobetoapp/constants/collection_names.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 
 class LessonRepository {
@@ -10,8 +9,7 @@ class LessonRepository {
   Future<List<Lesson>> getLessonsByCategory() async {
     try {
       final querySnapshot = await _firebaseFirestore
-          .collection(Collections.lessons)
-          .where(Collections.lessons)
+          .collection('lessons')
           .orderBy(FieldPath.documentId, descending: true)
           .get();
 
@@ -30,7 +28,7 @@ class LessonRepository {
       }
 
       final querySnapshot = await _firebaseFirestore
-          .collection(Collections.lessons)
+          .collection('lessons') 
           .where(FieldPath.documentId, whereIn: userLessonList)
           .get();
 
@@ -42,17 +40,16 @@ class LessonRepository {
     }
   }
 
-List<Lesson> _mapLessons(QuerySnapshot snapshot) {
-  return snapshot.docs.map((doc) => Lesson.fromFirestore(doc)).toList();
-}
-
-void _handleError(error) {
-  if (error is FirebaseException) {
-    String? errorMessage = error.message;
-    throw Exception(errorMessage);
-  } else {
-    throw Exception(error.toString());
+  List<Lesson> _mapLessons(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) => Lesson.fromFirestore(doc)).toList();
   }
-}
 
+  void _handleError(error) {
+    if (error is FirebaseException) {
+      String? errorMessage = error.message;
+      throw Exception(errorMessage);
+    } else {
+      throw Exception(error.toString());
+    }
+  }
 }
