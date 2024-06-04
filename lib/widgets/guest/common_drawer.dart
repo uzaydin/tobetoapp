@@ -10,9 +10,17 @@ import 'package:tobetoapp/screens/guest/takvim_anasayfa.dart';
 import 'package:tobetoapp/screens/lessons_category_screen.dart';
 import 'package:tobetoapp/screens/login_or_signup.dart';
 
-class CommonDrawer extends StatelessWidget {
+class CommonDrawer extends StatefulWidget {
   const CommonDrawer({super.key});
 
+  @override
+  State<CommonDrawer> createState() => _CommonDrawerState();
+}
+
+class _CommonDrawerState extends State<CommonDrawer> {
+  String selectedOption = "";
+  bool isServicesExpanded = false;
+  bool isActivitiesExpanded = false;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -53,40 +61,86 @@ class CommonDrawer extends StatelessWidget {
                             builder: (context) => const Hakkimizda()));
                   },
                 ),
-                ListTile(
-                  title: const Text("Neler Sunuyoruz?"),
-                  onTap: () {},
-                  trailing: PopupMenuButton<String>(
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<String>>[
-                      const PopupMenuItem<String>(
-                        value: "bireyler",
-                        child: Text("Bireyler İçin"),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      title: const Text(
+                        "Neler Sunuyoruz?",
                       ),
-                      const PopupMenuItem<String>(
-                        value: "kurumlar",
-                        child: Text("Kurumlar İçin"),
+                      onTap: () {
+                        setState(() {
+                          isServicesExpanded = !isServicesExpanded;
+                        });
+                      },
+                    ),
+                    if (isServicesExpanded)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedOption = "Bireyler İçin";
+                                });
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BireylerIcin()));
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                width: 250,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 163, 77, 233),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Text(
+                                  "Bireyler İçin",
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedOption = "Kurumlar İçin";
+                                });
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const KurumlarIcin()));
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                width: 250,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 163, 77, 233),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Text(
+                                  "Kurumlar İçin",
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                    onSelected: (String value) {
-                      switch (value) {
-                        case "bireyler":
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const BireylerIcin()),
-                          );
-                          break;
-                        case "kurumlar":
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const KurumlarIcin()),
-                          );
-                          break;
-                      }
-                    },
-                  ),
+                  ],
                 ),
                 ListTile(
                   title: const Text("Eğitimlerimiz"),
@@ -94,65 +148,146 @@ class CommonDrawer extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const LessonsCategoryScreen()));
+                            builder: (context) =>
+                                const LessonsCategoryScreen()));
                   },
                 ),
-                ListTile(
-                  title: const Text("Tobeto'da Neler Oluyor?"),
-                  onTap: () {},
-                  trailing: PopupMenuButton<String>(
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<String>>[
-                      const PopupMenuItem<String>(
-                        value: "blog",
-                        child: Text("Blog"),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      title: const Text("Tobeto'da Neler Oluyor?"),
+                      onTap: () {
+                        setState(() {
+                          isActivitiesExpanded = !isActivitiesExpanded;
+                        });
+                      },
+                    ),
+                    if (isActivitiesExpanded)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedOption = "Blog";
+                                });
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const Blog()));
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                width: 250,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 163, 77, 233),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Text(
+                                  "Blog",
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedOption = "Basında Biz";
+                                });
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BasindaBiz()));
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                width: 250,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 163, 77, 233),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Text(
+                                  "Basında Biz",
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedOption = "Takvim";
+                                });
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const Takvim()));
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                width: 250,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 163, 77, 233),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Text(
+                                  "Takvim",
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedOption = "İstanbul Kodluyor";
+                                });
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const IstanbulKodluyor()));
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                width: 250,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 163, 77, 233),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Text(
+                                  "İstanbul Kodluyor",
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      const PopupMenuItem(
-                        value: "basinda",
-                        child: Text("Basında Biz"),
-                      ),
-                      const PopupMenuItem(
-                        value: "takvim",
-                        child: Text("Takvim"),
-                      ),
-                      const PopupMenuItem(
-                        value: "istKodluyor",
-                        child: Text("İstanbul Kodluyor"),
-                      ),
-                    ],
-                    onSelected: (String value) {
-                      switch (value) {
-                        case "blog":
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Blog()),
-                          );
-                          break;
-                        case "basinda":
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const BasindaBiz()),
-                          );
-                          break;
-                        case "takvim":
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Takvim()),
-                          );
-                          break;
-                        case "istKodluyor":
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const IstanbulKodluyor()),
-                          );
-                          break;
-                      }
-                    },
-                  ),
+                  ],
                 ),
                 ListTile(
                   title: const Text("İletişim"),
@@ -177,8 +312,10 @@ class CommonDrawer extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 11.0),
                 ),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const LoginOrSignUp()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginOrSignUp()));
                 },
                 child: const Text(
                   "Giriş Yap",
