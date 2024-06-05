@@ -14,12 +14,13 @@ class LessonsCategoryScreen extends StatefulWidget {
 
 class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
   List<Catalog> filteredCatalogs = [];
-  List<String> categories = [];
-  List<String> levels = [];
-  List<String> subjects = [];
-  List<String> languages = [];
-  List<String> instructors = [];
-  List<String> certificationStatuses = [];
+  List<String> category = [];
+  List<String> level = [];
+  List<String> subject = [];
+  List<String> language = [];
+  List<String> instructor = [];
+  List<String> certificationStatus = [];
+  List<bool> isFree =[];
 
   String? selectedCategory;
   String? selectedLevel;
@@ -27,7 +28,7 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
   String? selectedLanguage;
   String? selectedInstructor;
   String? selectedCertificationStatus;
-  bool isFree = false;
+  bool selectedisFree = false;
 
   FirebaseFirestoreService firestoreService = FirebaseFirestoreService();
 
@@ -38,12 +39,12 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
   }
 
   void _fetchDropdownData() async {
-    categories = await firestoreService.fetchCategories();
-    levels = await firestoreService.fetchLevels();
-    subjects = await firestoreService.fetchSubjects();
-    languages = await firestoreService.fetchLanguages();
-    instructors = await firestoreService.fetchInstructors();
-    certificationStatuses = await firestoreService.fetchCertificationStatuses();
+    category = await firestoreService.fetchCategories();
+    level = await firestoreService.fetchLevels();
+    subject = await firestoreService.fetchSubjects();
+    language = await firestoreService.fetchLanguages();
+    instructor = await firestoreService.fetchInstructors();
+    certificationStatus = await firestoreService.fetchCertificationStatuses();
 
     setState(() {});
   }
@@ -61,7 +62,7 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
             DropdownButton<String>(
               hint: const Text('Kategori Seçin'),
               value: selectedCategory,
-              items: categories.map((String value) {
+              items: category.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -76,7 +77,7 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
             DropdownButton<String>(
               hint: const Text('Seviye Seçin'),
               value: selectedLevel,
-              items: levels.map((String value) {
+              items: level.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -91,7 +92,7 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
             DropdownButton<String>(
               hint: const Text('Konu Seçin'),
               value: selectedSubject,
-              items: subjects.map((String value) {
+              items: subject.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -106,7 +107,7 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
             DropdownButton<String>(
               hint: const Text('Yazılım Dili Seçin'),
               value: selectedLanguage,
-              items: languages.map((String value) {
+              items: language.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -121,7 +122,7 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
             DropdownButton<String>(
               hint: const Text('Eğitmen Seçin'),
               value: selectedInstructor,
-              items: instructors.map((String value) {
+              items: instructor.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -136,7 +137,7 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
             DropdownButton<String>(
               hint: const Text('Sertifika Durumu Seçin'),
               value: selectedCertificationStatus,
-              items: certificationStatuses.map((String value) {
+              items: certificationStatus.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -148,15 +149,15 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
                 });
               },
             ),
-            SwitchListTile(
-              title: const Text('Ücretsiz'),
-              value: isFree,
-              onChanged: (bool value) {
-                setState(() {
-                  isFree = value;
-                });
-              },
-            ),
+SwitchListTile(
+  title: const Text('Ücretsiz'),
+  value: selectedisFree,
+  onChanged: (value) {
+            setState(() {
+          selectedisFree = value;
+        });
+  }
+),
             ElevatedButton(
               onPressed: _applyFilters,
               child: const Text('Filtrele'),
@@ -197,12 +198,12 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
 
     setState(() {
       filteredCatalogs = catalogs.where((catalog) {
-        return (selectedCategory == null || selectedCategory == catalog.categories) &&
-               (selectedLevel == null || selectedLevel == catalog.levels) &&
-               (selectedSubject == null || selectedSubject == catalog.subjects) &&
-               (selectedLanguage == null || selectedLanguage == catalog.languages) &&
-               (selectedInstructor == null || selectedInstructor == catalog.instructors) &&
-               (selectedCertificationStatus == null || selectedCertificationStatus == catalog.certificationStatuses);
+        return (selectedCategory == null || selectedCategory == catalog.category) &&
+               (selectedLevel == null || selectedLevel == catalog.level) &&
+               (selectedSubject == null || selectedSubject == catalog.subject) &&
+               (selectedLanguage == null || selectedLanguage == catalog.language) &&
+               (selectedInstructor == null || selectedInstructor == catalog.instructor) &&
+               (selectedCertificationStatus == null || selectedCertificationStatus == catalog.certificationStatus);
       }).toList();
     });
   }

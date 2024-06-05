@@ -15,7 +15,7 @@ class UserRepository {
       }
     } catch (e) {
       print("Error getting user details: $e");
-      throw e;
+      rethrow;
     }
   }
 }

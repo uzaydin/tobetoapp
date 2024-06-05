@@ -32,7 +32,7 @@ class AnnouncementsPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddAnnouncementPage(),
+                        builder: (context) => const AddAnnouncementPage(),
                       ),
                     );
                   },

@@ -76,7 +76,6 @@
 // }
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tobetoapp/models/catalog_model.dart';
 
 class FirebaseFirestoreService {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -116,6 +115,3 @@ class FirebaseFirestoreService {
     return result.docs.map((doc) => doc['name'] as String).toList();
   }
 }
-
-
- 

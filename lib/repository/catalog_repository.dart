@@ -38,8 +38,8 @@ class CatalogRepository {
   Future<List<Catalog>> getCatalog() async {
   final querySnapshot =
       await FirebaseFirestore.instance.collection('catalog').get();
-  List<Catalog> catalog = querySnapshot.docs.map((doc) => Catalog.fromMap(doc.data())).toList();
-  return catalog;
+List<Catalog> catalog = querySnapshot.docs.map((doc) => Catalog.fromFirestore(doc)).toList();
+return catalog;
   }
 
   Future<List<String>> fetchCategories() async {

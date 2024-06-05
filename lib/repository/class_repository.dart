@@ -12,7 +12,7 @@ class ClassRepository {
       print('Fetched classes from Firestore: ${snapshot.docs.length}');
       return snapshot.docs.map((doc) {
         print('Class doc data: ${doc.data()}');
-        return ClassModel.fromMap(doc.data() as Map<String, dynamic>);
+        return ClassModel.fromMap(doc.data());
       }).toList();
     }).handleError((error) {
       print('Error in getClassesStream: $error');

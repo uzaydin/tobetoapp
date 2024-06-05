@@ -72,7 +72,7 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
       UserRole? role;
       if (event.announcement.role != null) {
         role = UserRole.values.firstWhere(
-            (e) => e.toString() == 'UserRole.' + event.announcement.role!);
+            (e) => e.toString() == 'UserRole.${event.announcement.role!}');
       }
 
       add(LoadAnnouncements(classModels, role));

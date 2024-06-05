@@ -15,11 +15,11 @@ class _ProfilState extends State<Profil> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profil"),
+        title: const Text("Profil"),
         actions: [
           IconButton(onPressed: (){
             context.read<AuthBloc>().add(AuthLogOut());
-          }, icon: Icon(Icons.logout))
+          }, icon: const Icon(Icons.logout))
         ],
       ),
     );

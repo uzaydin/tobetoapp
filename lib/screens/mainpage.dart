@@ -41,22 +41,22 @@ class _MainPageState extends State<MainPage> {
     switch (user.role) {
       case UserRole.teacher:
         return [
-          _buildNavigator(0, Scaffold()), // Öğretmen için sınıf sayfası
+          _buildNavigator(0, const Scaffold()), // Öğretmen için sınıf sayfası
           _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Öğretmen için duyurular sayfası
-          _buildNavigator(2, Profil()), // Öğretmen için profil sayfası
+          _buildNavigator(2, const Profil()), // Öğretmen için profil sayfası
         ];
       case UserRole.student:
         return [
-          _buildNavigator(0, Scaffold()), // Öğrenci için sınıf sayfası
+          _buildNavigator(0, const Scaffold()), // Öğrenci için sınıf sayfası
           _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Öğrenci için duyurular sayfası
-          _buildNavigator(2, Scaffold()), // Öğrenci için favoriler sayfası
-          _buildNavigator(3, Profil()), // Öğrenci için profil sayfası
+          _buildNavigator(2, const Scaffold()), // Öğrenci için favoriler sayfası
+          _buildNavigator(3, const Profil()), // Öğrenci için profil sayfası
         ];
       case UserRole.admin:
         return [
-          _buildNavigator(0, Scaffold()), // Admin için ana sayfa
+          _buildNavigator(0, const Scaffold()), // Admin için ana sayfa
           _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Admin için duyurular sayfası
-          _buildNavigator(2, Profil()), // Admin için profil sayfası
+          _buildNavigator(2, const Profil()), // Admin için profil sayfası
         ];
       default:
         return [];
@@ -140,7 +140,7 @@ class _MainPageState extends State<MainPage> {
         } else {
 
           // Kullanici cikis yaptiktan sonra bottomNavigationBar iptal edildi.HomePage sayfasina yonlendiriyor direkt
-          return Scaffold(
+          return const Scaffold(
             body: Homepage()
             // bottomNavigationBar: _buildBottomNavigationBarForNotLoggedInUser(),
           );
@@ -152,11 +152,11 @@ class _MainPageState extends State<MainPage> {
   Widget _buildContentForNotLoggedInUser() {
     switch (_selectedIndex) {
       case 0:
-        return Scaffold(); // Giriş yapmamış kullanıcılar için ana sayfa
+        return const Scaffold(); // Giriş yapmamış kullanıcılar için ana sayfa
       case 1:
-        return LoginOrSignUp(); // Bilgi sayfası
+        return const LoginOrSignUp(); // Bilgi sayfası
       default:
-        return Scaffold();
+        return const Scaffold();
     }
   }
 
@@ -166,15 +166,15 @@ class _MainPageState extends State<MainPage> {
     switch (role) {
       case UserRole.teacher:
         items = [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.class_),
             label: 'Classes',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
             label: 'Announcements',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Profile',
           ),
@@ -183,19 +183,19 @@ class _MainPageState extends State<MainPage> {
         break;
       case UserRole.student:
         items = [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.school),
             label: 'Education',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
             label: 'Announcements',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favorites',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Profile',
           ),
@@ -204,15 +204,15 @@ class _MainPageState extends State<MainPage> {
         break;
       case UserRole.admin:
         items = [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
             label: 'Announcements',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Profile',
           ),
@@ -221,15 +221,15 @@ class _MainPageState extends State<MainPage> {
         break;
       default:
         items = [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
             label: 'Announcements',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Profile',
           ),
