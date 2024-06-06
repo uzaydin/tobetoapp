@@ -66,7 +66,7 @@ return catalog;
     return await _firebaseFirestoreService.fetchCertificationStatuses();
   }
 
-  Future<List<String>> fetchFreeCourses() async {
-    return await _firebaseFirestoreService.fetchFreeCourses();
+  Future<List<bool>> fetchFreeCourses() async {
+    return await _firebaseFirestoreService.fetchIsFree();
   }
 }

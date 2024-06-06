@@ -5,7 +5,8 @@ import 'package:tobetoapp/models/catalog_model.dart';
 import 'package:tobetoapp/repository/catalog_repository.dart';
 
 class LessonsCategoryScreen extends StatefulWidget {
-  const LessonsCategoryScreen({super.key});
+  // ignore: use_key_in_widget_constructors
+  const LessonsCategoryScreen({Key? key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -13,14 +14,8 @@ class LessonsCategoryScreen extends StatefulWidget {
 }
 
 class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
-  List<Catalog> filteredCatalogs = [];
-  List<String> category = [];
-  List<String> level = [];
-  List<String> subject = [];
-  List<String> language = [];
-  List<String> instructor = [];
-  List<String> certificationStatus = [];
-  List<bool> isFree =[];
+  final FirebaseFirestoreService firestoreService = FirebaseFirestoreService();
+  late Map<String, List<String>> dropdownData = {};
 
   String? selectedCategory;
   String? selectedLevel;
@@ -28,9 +23,9 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
   String? selectedLanguage;
   String? selectedInstructor;
   String? selectedCertificationStatus;
-  bool selectedisFree = false;
+  bool selectedIsFree = false;
 
-  FirebaseFirestoreService firestoreService = FirebaseFirestoreService();
+  List<Catalog> filteredCatalogs = [];
 
   @override
   void initState() {
@@ -39,125 +34,48 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
   }
 
   void _fetchDropdownData() async {
-    category = await firestoreService.fetchCategories();
-    level = await firestoreService.fetchLevels();
-    subject = await firestoreService.fetchSubjects();
-    language = await firestoreService.fetchLanguages();
-    instructor = await firestoreService.fetchInstructors();
-    certificationStatus = await firestoreService.fetchCertificationStatuses();
+    try {
+      dropdownData['category'] = await firestoreService.fetchCategories();
+      dropdownData['level'] = await firestoreService.fetchLevels();
+      dropdownData['subject'] = await firestoreService.fetchSubjects();
+      dropdownData['language'] = await firestoreService.fetchLanguages();
+      dropdownData['instructor'] = await firestoreService.fetchInstructors();
+      dropdownData['certificationStatus'] =
+          await firestoreService.fetchCertificationStatuses();
 
-    setState(() {});
+      setState(() {});
+    } catch (e) {
+      print('Error fetching dropdown data: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Eğitimler'),
+        title: const Text('Eğitimlerimiz'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            DropdownButton<String>(
-              hint: const Text('Kategori Seçin'),
-              value: selectedCategory,
-              items: category.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
+            _buildDropdown('Kategori Seçin', 'category', selectedCategory),
+            _buildDropdown('Seviye Seçin', 'level', selectedLevel),
+            _buildDropdown('Konu Seçin', 'subject', selectedSubject),
+            _buildDropdown(
+                'Yazılım Dili Seçin', 'language', selectedLanguage),
+            _buildDropdown('Eğitmen Seçin', 'instructor', selectedInstructor),
+            _buildDropdown('Sertifika Durumu Seçin', 'certificationStatus',
+                selectedCertificationStatus),
+            SwitchListTile(
+              title: const Text('Ücretsiz'),
+              value: selectedIsFree,
+              onChanged: (value) {
                 setState(() {
-                  selectedCategory = newValue;
+                  selectedIsFree = value;
                 });
               },
             ),
-            DropdownButton<String>(
-              hint: const Text('Seviye Seçin'),
-              value: selectedLevel,
-              items: level.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedLevel = newValue;
-                });
-              },
-            ),
-            DropdownButton<String>(
-              hint: const Text('Konu Seçin'),
-              value: selectedSubject,
-              items: subject.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedSubject = newValue;
-                });
-              },
-            ),
-            DropdownButton<String>(
-              hint: const Text('Yazılım Dili Seçin'),
-              value: selectedLanguage,
-              items: language.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedLanguage = newValue;
-                });
-              },
-            ),
-            DropdownButton<String>(
-              hint: const Text('Eğitmen Seçin'),
-              value: selectedInstructor,
-              items: instructor.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedInstructor = newValue;
-                });
-              },
-            ),
-            DropdownButton<String>(
-              hint: const Text('Sertifika Durumu Seçin'),
-              value: selectedCertificationStatus,
-              items: certificationStatus.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedCertificationStatus = newValue;
-                });
-              },
-            ),
-SwitchListTile(
-  title: const Text('Ücretsiz'),
-  value: selectedisFree,
-  onChanged: (value) {
-            setState(() {
-          selectedisFree = value;
-        });
-  }
-),
             ElevatedButton(
               onPressed: _applyFilters,
               child: const Text('Filtrele'),
@@ -167,22 +85,15 @@ SwitchListTile(
                 itemCount: filteredCatalogs.length,
                 itemBuilder: (context, index) {
                   Catalog catalog = filteredCatalogs[index];
-                  return VideoCard(
-                    imageUrl: catalog.imageUrl,
-                    title: catalog.title,
-                    rating: catalog.rating,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LessonDetailScreen(
-                            videoUrl: catalog.imageUrl,
-                            videoTitle: catalog.title,
-                            videoRating: catalog.rating,
-                          ),
-                        ),
-                      );
-                    },
+                  return GestureDetector(
+                    onTap: () => _navigateToDetailScreen(catalog),
+                    child: Card(
+                      child: ListTile(
+                        leading: Image.network(catalog.imageUrl),
+                        title: Text(catalog.title),
+                        subtitle: Text('Rating: ${catalog.rating}'),
+                      ),
+                    ),
                   );
                 },
               ),
@@ -193,46 +104,85 @@ SwitchListTile(
     );
   }
 
-  void _applyFilters() async {
-    List<Catalog> catalogs = await CatalogRepository().getCatalog();
-
-    setState(() {
-      filteredCatalogs = catalogs.where((catalog) {
-        return (selectedCategory == null || selectedCategory == catalog.category) &&
-               (selectedLevel == null || selectedLevel == catalog.level) &&
-               (selectedSubject == null || selectedSubject == catalog.subject) &&
-               (selectedLanguage == null || selectedLanguage == catalog.language) &&
-               (selectedInstructor == null || selectedInstructor == catalog.instructor) &&
-               (selectedCertificationStatus == null || selectedCertificationStatus == catalog.certificationStatus);
-      }).toList();
-    });
-  }
-}
-
-class VideoCard extends StatelessWidget {
-  final String imageUrl;
-  final String title;
-  final double rating;
-  final VoidCallback onTap;
-
-  const VideoCard({super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.rating,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        child: ListTile(
-          leading: Image.network(imageUrl),
-          title: Text(title),
-          subtitle: Text('Rating: $rating'),
+  void _navigateToDetailScreen(Catalog catalog) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LessonDetailScreen(
+          videoUrl: catalog.imageUrl,
+          videoTitle: catalog.title,
+          videoRating: catalog.rating,
         ),
       ),
     );
+  }
+
+Widget _buildDropdown(
+    String hintText, String dropdownKey, String? selectedValue) {
+  List<String> dropdownValues = dropdownData[dropdownKey] ?? [];
+
+  dropdownValues = dropdownValues.toSet().toList(); 
+
+  return DropdownButton<String>(
+    hint: Text(hintText),
+    value: selectedValue,
+    items: dropdownValues.map((String value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        child: Text(value),
+      );
+    }).toList(),
+    onChanged: (String? newValue) {
+      setState(() {
+        switch (dropdownKey) {
+          case 'category':
+            selectedCategory = newValue;
+            break;
+          case 'level':
+            selectedLevel = newValue;
+            break;
+          case 'subject':
+            selectedSubject = newValue;
+            break;
+          case 'language':
+            selectedLanguage = newValue;
+            break;
+          case 'instructor':
+            selectedInstructor = newValue;
+            break;
+          case 'certificationStatus':
+            selectedCertificationStatus = newValue;
+            break;
+          case 'isFree':
+            selectedIsFree = newValue == 'Ücretsiz';
+            break;
+        }
+      });
+    },
+  );
+}
+
+  void _applyFilters() async {
+    try {
+      List<Catalog> catalogs = await CatalogRepository().getCatalog();
+
+      setState(() {
+        filteredCatalogs = catalogs.where((catalog) {
+          return (selectedCategory == null ||
+                  selectedCategory == catalog.category) &&
+              (selectedLevel == null || selectedLevel == catalog.level) &&
+              (selectedSubject == null || selectedSubject == catalog.subject) &&
+              (selectedLanguage == null ||
+                  selectedLanguage == catalog.language) &&
+              (selectedInstructor == null ||
+                  selectedInstructor == catalog.instructor) &&
+              (selectedCertificationStatus == null ||
+                  selectedCertificationStatus == catalog.certificationStatus) &&
+              (!selectedIsFree || catalog.isFree == true);
+        }).toList();
+      });
+    } catch (e) {
+      print('Error applying filters: $e');
+    }
   }
 }

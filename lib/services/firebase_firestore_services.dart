@@ -81,37 +81,37 @@ class FirebaseFirestoreService {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   Future<List<String>> fetchCategories() async {
-    final QuerySnapshot result = await _firebaseFirestore.collection('categories').get();
-    return result.docs.map((doc) => doc['name'] as String).toList();
+    final QuerySnapshot result = await _firebaseFirestore.collection('catalog').get();
+    return result.docs.map((doc) => doc['category'] as String).toList();
   }
 
   Future<List<String>> fetchLevels() async {
-    final QuerySnapshot result = await _firebaseFirestore.collection('levels').get();
-    return result.docs.map((doc) => doc['name'] as String).toList();
+    final QuerySnapshot result = await _firebaseFirestore.collection('catalog').get();
+    return result.docs.map((doc) => doc['level'] as String).toList();
   }
 
   Future<List<String>> fetchSubjects() async {
-    final QuerySnapshot result = await _firebaseFirestore.collection('subjects').get();
-    return result.docs.map((doc) => doc['name'] as String).toList();
+    final QuerySnapshot result = await _firebaseFirestore.collection('catalog').get();
+    return result.docs.map((doc) => doc['subject'] as String).toList();
   }
 
   Future<List<String>> fetchLanguages() async {
-    final QuerySnapshot result = await _firebaseFirestore.collection('languages').get();
-    return result.docs.map((doc) => doc['name'] as String).toList();
+    final QuerySnapshot result = await _firebaseFirestore.collection('catalog').get();
+    return result.docs.map((doc) => doc['language'] as String).toList();
   }
 
   Future<List<String>> fetchInstructors() async {
-    final QuerySnapshot result = await _firebaseFirestore.collection('instructors').get();
-    return result.docs.map((doc) => doc['name'] as String).toList();
+    final QuerySnapshot result = await _firebaseFirestore.collection('catalog').get();
+    return result.docs.map((doc) => doc['instructor'] as String).toList();
   }
 
   Future<List<String>> fetchCertificationStatuses() async {
-    final QuerySnapshot result = await _firebaseFirestore.collection('certificationStatuses').get();
-    return result.docs.map((doc) => doc['name'] as String).toList();
+    final QuerySnapshot result = await _firebaseFirestore.collection('catalog').get();
+    return result.docs.map((doc) => doc['certificationStatus'] as String).toList();
   }
 
-  Future<List<String>> fetchFreeCourses() async {
-    final QuerySnapshot result = await _firebaseFirestore.collection('courses').where('isFree', isEqualTo: false).get();
-    return result.docs.map((doc) => doc['name'] as String).toList();
+  Future<List<bool>> fetchIsFree() async {
+    final QuerySnapshot result = await _firebaseFirestore.collection('catalog').get();
+    return result.docs.map((doc) => doc['isFree'] as bool).toList();
   }
 }
