@@ -58,18 +58,25 @@ class _NewsPageState extends State<NewsPage> {
       itemBuilder: (context, index) {
         News news = newsList[index];
         return ListTile(
+          leading: Image.network(
+            news.imageUrl,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+          ),
           title: Text(news.title),
           subtitle: Text(news.publishedDate.toString()),
           onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => NewsDetailPage(news: news),
-                    ),
-                  );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NewsDetailPage(news: news),
+              ),
+            );
           },
         );
       },
     );
   }
 }
+

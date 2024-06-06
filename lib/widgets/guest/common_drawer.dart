@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tobetoapp/screens/guest/basinda_biz.dart';
+import 'package:tobetoapp/screens/blogpage.dart';
 import 'package:tobetoapp/screens/guest/bireyler_icin.dart';
-import 'package:tobetoapp/screens/guest/blog.dart';
 import 'package:tobetoapp/screens/guest/hakkimizda.dart';
 import 'package:tobetoapp/screens/guest/iletisim.dart';
 import 'package:tobetoapp/screens/guest/istanbul_kodluyor.dart';
@@ -9,6 +8,7 @@ import 'package:tobetoapp/screens/guest/kurumlar_icin.dart';
 import 'package:tobetoapp/screens/guest/takvim_anasayfa.dart';
 import 'package:tobetoapp/screens/lessons_category_screen.dart';
 import 'package:tobetoapp/screens/login_or_signup.dart';
+import 'package:tobetoapp/screens/newspage.dart';
 
 class CommonDrawer extends StatefulWidget {
   const CommonDrawer({super.key});
@@ -177,7 +177,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const Blog()));
+                                        builder: (context) => const BlogPage()));
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(10),
@@ -207,7 +207,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const BasindaBiz()));
+                                            const NewsPage()));
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(10),

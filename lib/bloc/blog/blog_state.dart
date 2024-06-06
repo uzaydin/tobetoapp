@@ -1,11 +1,11 @@
-import 'package:tobetoapp/models/news_model.dart';
+import 'package:tobetoapp/models/blog_model.dart';
 
 abstract class BlogState {}
 
 class BlogInitial extends BlogState {}
 
 class BlogLoaded extends BlogState {
-  final List<News> blogList;
+  final List<Blog> blogList;
   BlogLoaded(this.blogList);
 }
 

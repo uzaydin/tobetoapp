@@ -10,10 +10,10 @@ class BlogRepository {
   Future<dynamic> fetchBlogs({String? blogID}) async {
     try {
       if (blogID != null) {
-        DocumentSnapshot snapshot = await _firestore.collection('blogs').doc(blogID).get();
+        DocumentSnapshot snapshot = await _firestore.collection('blog').doc(blogID).get();
         return Blog.fromDocument(snapshot);
       } else {
-        QuerySnapshot snapshot = await _firestore.collection('blogs').orderBy('publishedDate', descending: true).get();
+        QuerySnapshot snapshot = await _firestore.collection('blog').orderBy('publishedDate', descending: true).get();
         return snapshot.docs.map((doc) => Blog.fromDocument(doc)).toList();
       }
     } catch (e) {

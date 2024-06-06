@@ -5,11 +5,9 @@ import 'package:tobetoapp/models/catalog_model.dart';
 import 'package:tobetoapp/repository/catalog_repository.dart';
 
 class LessonsCategoryScreen extends StatefulWidget {
-  // ignore: use_key_in_widget_constructors
   const LessonsCategoryScreen({Key? key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _LessonsCategoryScreenState createState() => _LessonsCategoryScreenState();
 }
 
@@ -26,6 +24,7 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
   bool selectedIsFree = false;
 
   List<Catalog> filteredCatalogs = [];
+  bool hasFiltered = false; 
 
   @override
   void initState() {
@@ -40,12 +39,11 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
       dropdownData['subject'] = await firestoreService.fetchSubjects();
       dropdownData['language'] = await firestoreService.fetchLanguages();
       dropdownData['instructor'] = await firestoreService.fetchInstructors();
-      dropdownData['certificationStatus'] =
-          await firestoreService.fetchCertificationStatuses();
+      dropdownData['certificationStatus'] = await firestoreService.fetchCertificationStatuses();
 
       setState(() {});
     } catch (e) {
-      print('Error fetching dropdown data: $e');
+      print('Dropdown verileri alınırken hata: $e');
     }
   }
 
@@ -62,41 +60,39 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
             _buildDropdown('Kategori Seçin', 'category', selectedCategory),
             _buildDropdown('Seviye Seçin', 'level', selectedLevel),
             _buildDropdown('Konu Seçin', 'subject', selectedSubject),
-            _buildDropdown(
-                'Yazılım Dili Seçin', 'language', selectedLanguage),
+            _buildDropdown('Yazılım Dili Seçin', 'language', selectedLanguage),
             _buildDropdown('Eğitmen Seçin', 'instructor', selectedInstructor),
-            _buildDropdown('Sertifika Durumu Seçin', 'certificationStatus',
-                selectedCertificationStatus),
-            SwitchListTile(
-              title: const Text('Ücretsiz'),
-              value: selectedIsFree,
-              onChanged: (value) {
-                setState(() {
-                  selectedIsFree = value;
-                });
-              },
-            ),
+            _buildDropdown('Sertifika Durumu Seçin', 'certificationStatus', selectedCertificationStatus),
+            _buildDropdown('Ücretsiz', 'isFree', null),
             ElevatedButton(
               onPressed: _applyFilters,
               child: const Text('Filtrele'),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: filteredCatalogs.length,
-                itemBuilder: (context, index) {
-                  Catalog catalog = filteredCatalogs[index];
-                  return GestureDetector(
-                    onTap: () => _navigateToDetailScreen(catalog),
-                    child: Card(
-                      child: ListTile(
-                        leading: Image.network(catalog.imageUrl),
-                        title: Text(catalog.title),
-                        subtitle: Text('Rating: ${catalog.rating}'),
+              child: hasFiltered && filteredCatalogs.isEmpty
+                  ? const Center(
+                      child: Text(
+                        'Aradığınız kriterlere uygun içerik bulunamadı!',
+                        style: TextStyle(fontSize: 16, color: Colors.red),
+                        textAlign: TextAlign.center,
                       ),
+                    )
+                  : ListView.builder(
+                      itemCount: filteredCatalogs.length,
+                      itemBuilder: (context, index) {
+                        Catalog catalog = filteredCatalogs[index];
+                        return GestureDetector(
+                          onTap: () => _navigateToDetailScreen(catalog),
+                          child: Card(
+                            child: ListTile(
+                              leading: Image.network(catalog.imageUrl),
+                              title: Text(catalog.title),
+                              subtitle: Text('Rating: ${catalog.rating}'),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),
@@ -117,50 +113,57 @@ class _LessonsCategoryScreenState extends State<LessonsCategoryScreen> {
     );
   }
 
-Widget _buildDropdown(
-    String hintText, String dropdownKey, String? selectedValue) {
-  List<String> dropdownValues = dropdownData[dropdownKey] ?? [];
+  Widget _buildDropdown(String hintText, String dropdownKey, String? selectedValue) {
+    Set<String> dropdownValuesSet = dropdownData[dropdownKey]?.toSet() ?? {};
 
-  dropdownValues = dropdownValues.toSet().toList(); 
-
-  return DropdownButton<String>(
-    hint: Text(hintText),
-    value: selectedValue,
-    items: dropdownValues.map((String value) {
-      return DropdownMenuItem<String>(
-        value: value,
-        child: Text(value),
+    if (dropdownKey == 'isFree') {
+      return SwitchListTile(
+        title: Text(hintText),
+        value: selectedIsFree,
+        onChanged: (value) {
+          setState(() {
+            selectedIsFree = value;
+          });
+        },
       );
-    }).toList(),
-    onChanged: (String? newValue) {
-      setState(() {
-        switch (dropdownKey) {
-          case 'category':
-            selectedCategory = newValue;
-            break;
-          case 'level':
-            selectedLevel = newValue;
-            break;
-          case 'subject':
-            selectedSubject = newValue;
-            break;
-          case 'language':
-            selectedLanguage = newValue;
-            break;
-          case 'instructor':
-            selectedInstructor = newValue;
-            break;
-          case 'certificationStatus':
-            selectedCertificationStatus = newValue;
-            break;
-          case 'isFree':
-            selectedIsFree = newValue == 'Ücretsiz';
-            break;
-        }
-      });
-    },
-  );
-}
+    }
+
+    List<String> dropdownValues = dropdownValuesSet.toList();
+    return DropdownButton<String>(
+      hint: Text(hintText),
+      value: selectedValue,
+      items: dropdownValues.map((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      onChanged: (String? newValue) {
+        setState(() {
+          switch (dropdownKey) {
+            case 'category':
+              selectedCategory = newValue;
+              break;
+            case 'level':
+              selectedLevel = newValue;
+              break;
+            case 'subject':
+              selectedSubject = newValue;
+              break;
+            case 'language':
+              selectedLanguage = newValue;
+              break;
+            case 'instructor':
+              selectedInstructor = newValue;
+              break;
+            case 'certificationStatus':
+              selectedCertificationStatus = newValue;
+              break;
+          }
+        });
+      },
+    );
+  }
 
   void _applyFilters() async {
     try {
@@ -168,21 +171,18 @@ Widget _buildDropdown(
 
       setState(() {
         filteredCatalogs = catalogs.where((catalog) {
-          return (selectedCategory == null ||
-                  selectedCategory == catalog.category) &&
+          return (selectedCategory == null || selectedCategory == catalog.category) &&
               (selectedLevel == null || selectedLevel == catalog.level) &&
               (selectedSubject == null || selectedSubject == catalog.subject) &&
-              (selectedLanguage == null ||
-                  selectedLanguage == catalog.language) &&
-              (selectedInstructor == null ||
-                  selectedInstructor == catalog.instructor) &&
-              (selectedCertificationStatus == null ||
-                  selectedCertificationStatus == catalog.certificationStatus) &&
+              (selectedLanguage == null || selectedLanguage == catalog.language) &&
+              (selectedInstructor == null || selectedInstructor == catalog.instructor) &&
+              (selectedCertificationStatus == null || selectedCertificationStatus == catalog.certificationStatus) &&
               (!selectedIsFree || catalog.isFree == true);
         }).toList();
+        hasFiltered = true; 
       });
     } catch (e) {
-      print('Error applying filters: $e');
+      print('Filtreler uygulanırken hata: $e');
     }
   }
 }
