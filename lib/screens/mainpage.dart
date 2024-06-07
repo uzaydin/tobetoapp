@@ -11,6 +11,7 @@ import 'package:tobetoapp/models/userModel.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 
 import 'package:tobetoapp/screens/announcement_page.dart';
+import 'package:tobetoapp/screens/class_details_page.dart';
 import 'package:tobetoapp/screens/homepage.dart';
 
 import 'package:tobetoapp/screens/login_or_signup.dart';
@@ -42,20 +43,20 @@ class _MainPageState extends State<MainPage> {
       case UserRole.teacher:
         return [
           _buildNavigator(0, const Scaffold()), // Öğretmen için sınıf sayfası
-          _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Öğretmen için duyurular sayfası
+          _buildNavigator(1, AnnouncementsPage(role: user.role, classIds: user.classIds)), // Öğretmen için duyurular sayfası
           _buildNavigator(2, const Profil()), // Öğretmen için profil sayfası
         ];
       case UserRole.student:
         return [
-          _buildNavigator(0, const Scaffold()), // Öğrenci için sınıf sayfası
-          _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Öğrenci için duyurular sayfası
+          _buildNavigator(0, ClassDetailPage(classIds: user.classIds)), // Öğrenci için sınıf sayfası
+          _buildNavigator(1, AnnouncementsPage(role: user.role, classIds: user.classIds)), // Öğrenci için duyurular sayfası
           _buildNavigator(2, const Scaffold()), // Öğrenci için favoriler sayfası
           _buildNavigator(3, const Profil()), // Öğrenci için profil sayfası
         ];
       case UserRole.admin:
         return [
           _buildNavigator(0, const Scaffold()), // Admin için ana sayfa
-          _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Admin için duyurular sayfası
+          _buildNavigator(1, AnnouncementsPage(role: user.role, classIds: user.classIds)), // Admin için duyurular sayfası
           _buildNavigator(2, const Profil()), // Admin için profil sayfası
         ];
       default:

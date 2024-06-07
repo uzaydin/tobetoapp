@@ -6,10 +6,10 @@ import 'package:tobetoapp/models/user_enum.dart';
 abstract class AnnouncementEvent {}
 
 class LoadAnnouncements extends AnnouncementEvent {
-  final List<ClassModel>? classModels;
+  final List<String>? classIds;
   final UserRole? role;
 
-  LoadAnnouncements(this.classModels, this.role);
+  LoadAnnouncements(this.classIds, this.role);
 }
 
 class AddAnnouncement extends AnnouncementEvent {
@@ -19,11 +19,11 @@ class AddAnnouncement extends AnnouncementEvent {
 }
 
 class DeleteAnnouncement extends AnnouncementEvent {
-  final List<ClassModel>? classId;
+  final List<String>? classIds;
   final String id;
   final UserRole role;
 
-  DeleteAnnouncement(this.classId, this.id, this.role);
+  DeleteAnnouncement(this.classIds, this.id, this.role);
 }
 
 class AnnouncementsUpdated extends AnnouncementEvent {

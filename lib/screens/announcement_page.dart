@@ -12,14 +12,14 @@ import 'package:tobetoapp/screens/announcement_detail.dart';
 
 class AnnouncementsPage extends StatelessWidget {
   final UserRole? role;
-  final List<ClassModel>? classModels;
+  final List<String>? classIds;
 
-  const AnnouncementsPage({super.key, required this.role, this.classModels});
+  const AnnouncementsPage({super.key, required this.role, this.classIds});
 
   @override
   Widget build(BuildContext context) {
     // Duyurularin sinifa ve role gore on yuklenme durumu
-    context.read<AnnouncementBloc>().add(LoadAnnouncements(classModels, role));
+    context.read<AnnouncementBloc>().add(LoadAnnouncements(classIds, role));
 
     return Scaffold(
       appBar: AppBar(
@@ -132,7 +132,7 @@ class AnnouncementsPage extends StatelessWidget {
                                     icon: const Icon(Icons.delete),
                                     onPressed: () {
                                       context.read<AnnouncementBloc>().add(
-                                          DeleteAnnouncement(classModels,
+                                          DeleteAnnouncement(classIds,
                                               announcement.id!, role!));
                                     },
                                   ),

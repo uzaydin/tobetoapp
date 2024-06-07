@@ -145,11 +145,11 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 ListTile(
                   title: const Text("Eğitimlerimiz"),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const LessonsCategoryScreen()));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) =>
+                    //             const LessonsCategoryScreen()));
                   },
                 ),
                 Column(

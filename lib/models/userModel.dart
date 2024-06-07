@@ -28,7 +28,8 @@ class UserModel {
   List<SocialMedia>? socialMedia;
   List<Languages>? languages;
   UserRole? role;
-  List<ClassModel>? classModels; // Kullanıcının bir veya birden fazla sınıfı olabilir.
+  List<String>?
+      classIds; // Kullanıcının bir veya birden fazla sınıfı olabilir.
 
   UserModel({
     this.id,
@@ -57,7 +58,7 @@ class UserModel {
     this.socialMedia,
     this.languages,
     this.role,
-    this.classModels,
+    this.classIds,
   });
 
   Map<String, dynamic> toMap() {
@@ -88,70 +89,70 @@ class UserModel {
       'socialMedia': socialMedia?.map((item) => item.toMap()).toList(),
       'languages': languages?.map((item) => item.toMap()).toList(),
       'role': role?.name,
-      'classModels': classModels?.map((cls) => cls.toMap()).toList(),
+      'classIds': classIds,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
-      id: map['id'] as String?,
-      profilePhotoUrl: map['profilePhotoUrl'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
-      phoneNumber: map['phoneNumber'],
-      birthDate:
-          map['birthDate'] != null ? DateTime.parse(map['birthDate']) : null,
-      tcNo: map['tcNo'],
-      email: map['email'],
-      gender: map['gender'] != null
-          ? GenderExtension.fromName(map['gender'])
-          : null,
-      militaryStatus: map['militaryStatus'] != null
-          ? MilitaryStatusExtension.fromName(map['militaryStatus'])
-          : null,
-      disabilityStatus: map['disabilityStatus'] != null
-          ? DisabilityStatusExtension.fromName(map['disabilityStatus'])
-          : null,
-      github: map['github'],
-      country: map['country'],
-      city: map['city'],
-      district: map['district'],
-      street: map['street'],
-      about: map['about'],
-      experiences: map['experiences'] != null
-          ? (map['experiences'] as List)
-              .map((item) => Experience.fromMap(item))
-              .toList()
-          : null,
-      education: map['education'] != null
-          ? (map['education'] as List)
-              .map((item) => Education.fromMap(item))
-              .toList()
-          : null,
-      skills: (map['skills'] as List<dynamic>?)
-          ?.map((e) => UserSkill.fromMap(e as Map<String, dynamic>))
-          .toList(),
-      certificates: (map['certificates'] as List<dynamic>?)
-          ?.map((e) => Certificate.fromMap(e as Map<String, dynamic>))
-          .toList(),
-      communities: (map['communities'] as List<dynamic>?)
-          ?.map((e) => Community.fromMap(e as Map<String, dynamic>))
-          .toList(),
-      projectsAwards: (map['projectsAwards'] as List<dynamic>?)
-          ?.map((e) => ProjectAwards.fromMap(e as Map<String, dynamic>))
-          .toList(),
-      socialMedia: map['socialMedia'] != null
-          ? List<SocialMedia>.from(map['socialMedia'].map(
-              (item) => SocialMedia.fromMap(Map<String, dynamic>.from(item))))
-          : null,
-      languages: map['languages'] != null
-          ? List<Languages>.from(map['languages'].map(
-              (item) => Languages.fromMap(Map<String, dynamic>.from(item))))
-          : null,
-      role: map['role'] != null ? UserRoleExtension.fromName(map['role']) : null,
-      classModels: map['classModels'] != null ? List<ClassModel>.from(map['classModels'].map((cls) => ClassModel.fromMap(cls as Map<String, dynamic>))) : null,
-    );
-  }
+  return UserModel(
+    id: map['id'] as String?,
+    profilePhotoUrl: map['profilePhotoUrl'],
+    firstName: map['firstName'],
+    lastName: map['lastName'],
+    phoneNumber: map['phoneNumber'],
+    birthDate:
+        map['birthDate'] != null ? DateTime.parse(map['birthDate']) : null,
+    tcNo: map['tcNo'],
+    email: map['email'],
+    gender: map['gender'] != null
+        ? GenderExtension.fromName(map['gender'])
+        : null,
+    militaryStatus: map['militaryStatus'] != null
+        ? MilitaryStatusExtension.fromName(map['militaryStatus'])
+        : null,
+    disabilityStatus: map['disabilityStatus'] != null
+        ? DisabilityStatusExtension.fromName(map['disabilityStatus'])
+        : null,
+    github: map['github'],
+    country: map['country'],
+    city: map['city'],
+    district: map['district'],
+    street: map['street'],
+    about: map['about'],
+    experiences: map['experiences'] != null
+        ? (map['experiences'] as List)
+            .map((item) => Experience.fromMap(item))
+            .toList()
+        : null,
+    education: map['education'] != null
+        ? (map['education'] as List)
+            .map((item) => Education.fromMap(item))
+            .toList()
+        : null,
+    skills: (map['skills'] as List<dynamic>?)
+        ?.map((e) => UserSkill.fromMap(e as Map<String, dynamic>))
+        .toList(),
+    certificates: (map['certificates'] as List<dynamic>?)
+        ?.map((e) => Certificate.fromMap(e as Map<String, dynamic>))
+        .toList(),
+    communities: (map['communities'] as List<dynamic>?)
+        ?.map((e) => Community.fromMap(e as Map<String, dynamic>))
+        .toList(),
+    projectsAwards: (map['projectsAwards'] as List<dynamic>?)
+        ?.map((e) => ProjectAwards.fromMap(e as Map<String, dynamic>))
+        .toList(),
+    socialMedia: map['socialMedia'] != null
+        ? List<SocialMedia>.from(map['socialMedia'].map(
+            (item) => SocialMedia.fromMap(Map<String, dynamic>.from(item))))
+        : null,
+    languages: map['languages'] != null
+        ? List<Languages>.from(map['languages'].map(
+            (item) => Languages.fromMap(Map<String, dynamic>.from(item))))
+        : null,
+    role: map['role'] != null ? UserRoleExtension.fromName(map['role']) : null,
+    classIds: map['classIds'] != null ? List<String>.from(map['classIds']) : [],
+  );
+}
 }
 
 class Experience {

@@ -23,7 +23,7 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
   Future<void> _loadAnnouncements(
       LoadAnnouncements event, Emitter<AnnouncementState> emit) async {
     emit(AnnouncementsLoading());
-    if ((event.classModels == null || event.classModels!.isEmpty) &&
+    if ((event.classIds == null || event.classIds!.isEmpty) &&
         event.role != UserRole.admin) {
       emit(AnnouncementsLoaded(
           [])); // Class ID null ve admin değilse duyurular sayfasında boş liste döndürüyoruz.
@@ -32,7 +32,7 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
     await _announcementsSubscription?.cancel();
     _announcementsSubscription = _announcementRepository
         .getAnnouncementsStream(
-      event.classModels?.map((e) => e.id!).toList(),
+      event.classIds,
       event.role?.toString().split('.').last,
     )
         .listen(
@@ -60,22 +60,14 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
       );
       await _announcementRepository.addAnnouncement(event.announcement);
 
-      // Burada classIds'yi classModels listesine dönüştürüyoruz
-      List<ClassModel> classModels = [];
-      if (event.announcement.classIds != null) {
-        classModels = event.announcement.classIds!
-            .map((id) => ClassModel(id: id))
-            .toList();
-      }
-
       // role alanını UserRole tipine dönüştürüyoruz
       UserRole? role;
       if (event.announcement.role != null) {
         role = UserRole.values.firstWhere(
-            (e) => e.toString() == 'UserRole.${event.announcement.role!}');
+            (e) => e.toString() == 'UserRole.' + event.announcement.role!);
       }
 
-      add(LoadAnnouncements(classModels, role));
+      add(LoadAnnouncements(event.announcement.classIds!, role));
     } catch (e) {
       emit(AnnouncementOperationFailure(e.toString()));
     }
@@ -85,7 +77,7 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
       DeleteAnnouncement event, Emitter<AnnouncementState> emit) async {
     try {
       await _announcementRepository.deleteAnnouncement(event.id);
-      add(LoadAnnouncements(event.classId, event.role));
+      add(LoadAnnouncements(event.classIds, event.role));
     } catch (e) {
       emit(AnnouncementOperationFailure(e.toString()));
     }

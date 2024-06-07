@@ -5,10 +5,10 @@ import 'package:tobetoapp/widgets/common_footer.dart';
 import 'package:tobetoapp/widgets/guest/common_drawer.dart';
 
 class BireylerIcin extends StatelessWidget {
-  void navigateToCatalogPage(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const CatalogGuest()));
-  }
+  // void navigateToCatalogPage(BuildContext context) {
+  //   Navigator.push(
+  //       context, MaterialPageRoute(builder: (context) => const CatalogGuest()));
+  // }
 
   const BireylerIcin({super.key});
 
@@ -230,7 +230,7 @@ class BireylerIcin extends StatelessWidget {
   Widget buildImageWithTap(String imagePath, BuildContext context) {
     return GestureDetector(
         onTap: () {
-          navigateToCatalogPage(context);
+          //navigateToCatalogPage(context);
         },
         child: Container(
           width: MediaQuery.of(context).size.width * 0.4 - 15,

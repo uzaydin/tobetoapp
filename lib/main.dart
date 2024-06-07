@@ -7,7 +7,8 @@ import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/blog/blog_bloc.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_bloc.dart';
 import 'package:tobetoapp/bloc/class/class_bloc.dart';
-import 'package:tobetoapp/bloc/lesson/lesson_bloc.dart';
+import 'package:tobetoapp/bloc/lessons/lesson_bloc.dart';
+import 'package:tobetoapp/bloc/lessons/lesson_video/video_bloc.dart';
 import 'package:tobetoapp/bloc/news/news_bloc.dart';
 import 'package:tobetoapp/bloc/user/user_bloc.dart';
 import 'package:tobetoapp/repository/announcements_repo.dart';
@@ -15,7 +16,9 @@ import 'package:tobetoapp/repository/auth_repo.dart';
 import 'package:tobetoapp/repository/blog_repository.dart';
 import 'package:tobetoapp/repository/catalog_repository.dart';
 import 'package:tobetoapp/repository/class_repository.dart';
-import 'package:tobetoapp/repository/lesson_repository.dart';
+
+import 'package:tobetoapp/repository/lessons/lesson_repository.dart';
+import 'package:tobetoapp/repository/lessons/lesson_video_repository.dart';
 import 'package:tobetoapp/repository/news_repository.dart';
 import 'package:tobetoapp/repository/user_repository.dart';
 import 'package:tobetoapp/screens/homepage.dart';
@@ -59,7 +62,10 @@ class Home extends StatelessWidget {
           create: (context) => CatalogBloc(CatalogRepository()),
         ),
         BlocProvider(
-          create: (context) => LessonBloc(lessonRepository: LessonRepository()),
+          create: (context) => LessonBloc(LessonRepository()),
+        ),
+        BlocProvider(
+          create: (context) => VideoBloc(VideoRepository()),
         ),
       ],
       child: const MyApp(),
