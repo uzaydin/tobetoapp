@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBeIvuUhq7p7MuonzyNjFcjtjEyC4ctM0g',
-    appId: '1:279501634796:android:8faa1176131e7ef88679c9',
+    appId: '1:279501634796:android:74af0e4579025af08679c9',
     messagingSenderId: '279501634796',
     projectId: 'tobeto-clone-app',
     storageBucket: 'tobeto-clone-app.appspot.com',

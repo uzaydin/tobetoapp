@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tobetoapp/screens/guest/iletisim.dart';
+import 'package:tobetoapp/screens/guest/contact.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
 import 'package:tobetoapp/widgets/guest/common_drawer.dart';
 
-class KurumlarIcin extends StatelessWidget {
-  const KurumlarIcin({super.key});
+class ForInstitutions extends StatelessWidget {
+  const ForInstitutions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -324,7 +324,7 @@ class KurumlarIcin extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Iletisim()));
+                                builder: (context) => const Contact()));
                       },
                       child: const Text(
                         "Bize Ulaşın",

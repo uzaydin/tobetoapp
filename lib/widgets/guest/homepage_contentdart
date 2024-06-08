@@ -8,11 +8,9 @@ Widget buildPage1() {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(30.0),
           child: Image.asset(
             "assets/pictures/foto1.jpg",
-            width: 300,
-            height: 300,
           ),
         ),
         const SizedBox(height: 20),
@@ -42,11 +40,10 @@ Widget buildPage2() {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(30.0),
           child: Image.asset(
             "assets/pictures/foto2.jpg",
-            width: 300,
-            height: 300,
+          
           ),
         ),
         const SizedBox(height: 20),

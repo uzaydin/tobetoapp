@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:tobetoapp/screens/auth.dart';
-import 'package:tobetoapp/screens/guest/takvim_anasayfa.dart';
+import 'package:tobetoapp/screens/guest/calendar.dart';
 import 'package:tobetoapp/screens/homepage.dart';
-import 'package:tobetoapp/screens/user/degerlendirmeler.dart';
 import 'package:tobetoapp/screens/user/catalog_user.dart';
-import 'package:tobetoapp/screens/user/profilim.dart';
+import 'package:tobetoapp/screens/user/assessment.dart';
+import 'package:tobetoapp/screens/user/profile.dart';
 
-class CommonUserDrawer extends StatelessWidget {
+class CommonUserDrawer extends StatefulWidget {
   const CommonUserDrawer({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    void onProfileSelected(String value) {
-      switch (value) {
-        case "profilBilgileri":
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const Profil()));
-          break;
-        case "oturumuKapat":
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => const Auth()));
-          break;
-      }
-    }
+  State<CommonUserDrawer> createState() => _CommonUserDrawerState();
+}
 
+class _CommonUserDrawerState extends State<CommonUserDrawer> {
+  String selectedOption = "";
+  bool isServicesExpanded = false;
+  @override
+  Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -68,7 +62,7 @@ class CommonUserDrawer extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Degerlendirmeler()));
+                            builder: (context) => const Assessment()));
                   },
                 ),
                 ListTile(
@@ -77,7 +71,7 @@ class CommonUserDrawer extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Profil()));
+                            builder: (context) => const Profile()));
                   },
                 ),
                 ListTile(
@@ -95,7 +89,7 @@ class CommonUserDrawer extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Takvim()));
+                            builder: (context) => const Calendar()));
                   },
                 ),
               ],
@@ -106,9 +100,7 @@ class CommonUserDrawer extends StatelessWidget {
           ),
           const Divider(),
           Padding(
-            //padding: const EdgeInsets.all(20.0),
             padding: const EdgeInsets.only(left: 30.0, right: 16.0),
-
             child: TextButton(
               onPressed: () {
                 Navigator.push(context,
@@ -129,42 +121,103 @@ class CommonUserDrawer extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Center(
-            child: PopupMenuButton<String>(
-              onSelected: onProfileSelected,
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
-                  value: "profilBilgileri",
-                  child: Text("Profil Bilgileri"),
+          Padding(
+            padding: const EdgeInsets.all(14),
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isServicesExpanded = !isServicesExpanded;
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                side: const BorderSide(color: Colors.grey, width: 1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18),
                 ),
-                const PopupMenuItem<String>(
-                    value: "oturumuKapat", child: Text("Oturumu Kapat")),
-              ],
-              child: ElevatedButton(
-                onPressed: null,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(12.0),
-                ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircleAvatar(
-                      radius: 18.0,
-                      child: Icon(Icons.person),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircleAvatar(
+                    radius: 20.0,
+                    child: Icon(Icons.person),
+                  ),
+                  SizedBox(width: 10.0),
+                  Padding(
+                    padding: EdgeInsets.only(left: 40, right: 40),
+                    child: Text(
+                      "Nihan Ertuğ",
+                      style: TextStyle(fontSize: 16.0),
                     ),
-                    SizedBox(width: 10.0),
-                    Padding(
-                      padding: EdgeInsets.only(left: 40, right: 40),
-                      child: Text(
-                        "Nihan Ertuğ",
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
+          if (isServicesExpanded)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedOption = "Profil Bilgileri";
+                      });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Profile()));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.symmetric(vertical: 5),
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 163, 77, 233),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        "Profil Bilgileri",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedOption = "Oturumu Kapat";
+                      });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Auth()));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.symmetric(vertical: 5),
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 163, 77, 233),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        "Oturumu Kapat",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           const SizedBox(
             height: 20,
           ),

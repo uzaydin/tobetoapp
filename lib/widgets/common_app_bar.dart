@@ -25,6 +25,15 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
+      automaticallyImplyLeading: false,
+      actions: <Widget>[
+        Builder(
+            builder: (context) => IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                icon: const Icon(Icons.menu))),
+      ],
     );
   }
 

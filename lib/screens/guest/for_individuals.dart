@@ -4,13 +4,13 @@ import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
 import 'package:tobetoapp/widgets/guest/common_drawer.dart';
 
-class BireylerIcin extends StatelessWidget {
+class ForIndividuals extends StatelessWidget {
   void navigateToCatalogPage(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const CatalogGuest()));
   }
 
-  const BireylerIcin({super.key});
+  const ForIndividuals({super.key});
 
   @override
   Widget build(BuildContext context) {

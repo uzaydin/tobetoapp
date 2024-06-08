@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class EkipCard extends StatelessWidget {
+class TeamCard extends StatelessWidget {
   final String imagePath;
   final String name;
   final String title;
   final String linkedInUrl;
-  const EkipCard({
+  const TeamCard({
     super.key,
     required this.imagePath,
     required this.name,
@@ -64,54 +64,3 @@ class EkipCard extends StatelessWidget {
     );
   }
 }
-
-
-/*
-class EkipList extends StatelessWidget {
-  const EkipList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Ekip"),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: const [
-          EkipCard(
-            imagePath: "assets/ekip/elif.jpeg",
-            name: "Elif Kılıç",
-            title: "Kurucu Direktör",
-            linkedInUrl: 'https://www.linkedin.com/in/eliftugtan/',
-          ),
-          EkipCard(
-            imagePath: "assets/ekip/kader_yavuz.jpg",
-            name: "Kader Yavuz",
-            title: "Eğitim ve Proje Koordinatörü",
-            linkedInUrl: 'https://www.linkedin.com/in/kader-yavuz/',
-          ),
-          EkipCard(
-            imagePath: "assets/ekip/pelin.png",
-            name: "Pelin Batır",
-            title: "İş Geliştirme ve Yöneticisi",
-            linkedInUrl: '',
-          ),
-          EkipCard(
-            imagePath: "assets/ekip/gurkan.jfif",
-            name: "Gürkan İlişen",
-            title: "Eğitim Teknolojileri ve Platform Sorumlusu",
-            linkedInUrl: 'https://www.linkedin.com/in/gürkanilişen/',
-          ),
-          EkipCard(
-            imagePath: "assets/ekip/ali_seyhan.jpg",
-            name: "Ali Seyhan",
-            title: "Operasyon Uzman Yardımcısı",
-            linkedInUrl: 'https://tr.linkedin.com/in/aliseyhnn',
-          ),
-        ],
-      ),
-    );
-  }
-}
-*/

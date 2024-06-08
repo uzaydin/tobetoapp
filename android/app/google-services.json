@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:279501634796:android:74af0e4579025af08679c9",
+        "android_client_info": {
+          "package_name": "com.e"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279501634796-a3ie1s126o6gfibo60dsr2c42ob4i21v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeIvuUhq7p7MuonzyNjFcjtjEyC4ctM0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279501634796-a3ie1s126o6gfibo60dsr2c42ob4i21v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "279501634796-f3h2t9lou0tpgaeiahu5iktr4hi3d8cc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tobetoapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:279501634796:android:8faa1176131e7ef88679c9",
         "android_client_info": {
           "package_name": "com.example.tobetoapp"

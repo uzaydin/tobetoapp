@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tobetoapp/screens/guest/basinda_biz.dart';
-import 'package:tobetoapp/screens/guest/bireyler_icin.dart';
+import 'package:tobetoapp/screens/guest/in_the_press.dart';
+import 'package:tobetoapp/screens/guest/for_individuals.dart';
 import 'package:tobetoapp/screens/guest/blog.dart';
-import 'package:tobetoapp/screens/guest/hakkimizda.dart';
-import 'package:tobetoapp/screens/guest/iletisim.dart';
+import 'package:tobetoapp/screens/guest/about_us.dart';
+import 'package:tobetoapp/screens/guest/contact.dart';
 import 'package:tobetoapp/screens/guest/istanbul_kodluyor.dart';
-import 'package:tobetoapp/screens/guest/kurumlar_icin.dart';
-import 'package:tobetoapp/screens/guest/takvim_anasayfa.dart';
+import 'package:tobetoapp/screens/guest/for_institutions.dart';
+import 'package:tobetoapp/screens/guest/calendar.dart';
 import 'package:tobetoapp/screens/lessons_category_screen.dart';
 import 'package:tobetoapp/screens/login_or_signup.dart';
 
@@ -58,7 +58,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Hakkimizda()));
+                            builder: (context) => const AboutUs()));
                   },
                 ),
                 Column(
@@ -89,7 +89,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const BireylerIcin()));
+                                            const ForIndividuals()));
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(10),
@@ -119,7 +119,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const KurumlarIcin()));
+                                            const ForInstitutions()));
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(10),
@@ -207,7 +207,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const BasindaBiz()));
+                                            const InThePress()));
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(10),
@@ -236,7 +236,8 @@ class _CommonDrawerState extends State<CommonDrawer> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const Takvim()));
+                                        builder: (context) =>
+                                            const Calendar()));
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(10),
@@ -295,7 +296,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Iletisim()));
+                            builder: (context) => const Contact()));
                   },
                 ),
               ],

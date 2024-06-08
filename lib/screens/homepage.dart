@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tobetoapp/screens/auth.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
-import 'package:tobetoapp/widgets/guest/anasayfa_icerik.dart';
+import 'package:tobetoapp/widgets/guest/homepage_contentdart';
 import 'package:tobetoapp/widgets/guest/animated_avatar.dart';
 import 'package:tobetoapp/widgets/guest/animated_container.dart';
 import 'package:tobetoapp/widgets/guest/common_drawer.dart';
@@ -81,13 +81,13 @@ class _AnasayfaState extends State<Homepage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CommonAppBar(),
-      endDrawer: const CommonDrawer(),
+      drawer: const CommonDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
               ),

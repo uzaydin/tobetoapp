@@ -14,9 +14,9 @@ import 'package:tobetoapp/screens/announcement_page.dart';
 import 'package:tobetoapp/screens/homepage.dart';
 
 import 'package:tobetoapp/screens/login_or_signup.dart';
-import 'package:tobetoapp/screens/user/profilim.dart';
+import 'package:tobetoapp/screens/user/profile.dart';
 
-// Bottom Navigation Bar sayfasi 
+// Bottom Navigation Bar sayfasi
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -42,21 +42,36 @@ class _MainPageState extends State<MainPage> {
       case UserRole.teacher:
         return [
           _buildNavigator(0, Scaffold()), // Öğretmen için sınıf sayfası
-          _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Öğretmen için duyurular sayfası
-          _buildNavigator(2, Profil()), // Öğretmen için profil sayfası
+          _buildNavigator(
+              1,
+              AnnouncementsPage(
+                  role: user.role,
+                  classModels:
+                      user.classModels)), // Öğretmen için duyurular sayfası
+          _buildNavigator(2, Profile()), // Öğretmen için profil sayfası
         ];
       case UserRole.student:
         return [
           _buildNavigator(0, Scaffold()), // Öğrenci için sınıf sayfası
-          _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Öğrenci için duyurular sayfası
+          _buildNavigator(
+              1,
+              AnnouncementsPage(
+                  role: user.role,
+                  classModels:
+                      user.classModels)), // Öğrenci için duyurular sayfası
           _buildNavigator(2, Scaffold()), // Öğrenci için favoriler sayfası
-          _buildNavigator(3, Profil()), // Öğrenci için profil sayfası
+          _buildNavigator(3, Profile()), // Öğrenci için profil sayfası
         ];
       case UserRole.admin:
         return [
           _buildNavigator(0, Scaffold()), // Admin için ana sayfa
-          _buildNavigator(1, AnnouncementsPage(role: user.role, classModels: user.classModels)), // Admin için duyurular sayfası
-          _buildNavigator(2, Profil()), // Admin için profil sayfası
+          _buildNavigator(
+              1,
+              AnnouncementsPage(
+                  role: user.role,
+                  classModels:
+                      user.classModels)), // Admin için duyurular sayfası
+          _buildNavigator(2, Profile()), // Admin için profil sayfası
         ];
       default:
         return [];
@@ -80,9 +95,13 @@ class _MainPageState extends State<MainPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final authState = context.read<AuthBloc>().state;
       if (authState is AuthSuccess) {
-        context.read<UserBloc>().add(FetchUser(authState.id!)); // Kullanıcı bilgilerini getir
+        context
+            .read<UserBloc>()
+            .add(FetchUser(authState.id!)); // Kullanıcı bilgilerini getir
       } else {
-        context.read<AuthBloc>().add(AuthCheckStatus()); // Kullanıcı oturum durumunu kontrol et
+        context
+            .read<AuthBloc>()
+            .add(AuthCheckStatus()); // Kullanıcı oturum durumunu kontrol et
       }
     });
   }
@@ -108,7 +127,9 @@ class _MainPageState extends State<MainPage> {
             _selectedIndex = 0;
           });
         } else if (state is AuthSuccess) {
-          context.read<UserBloc>().add(FetchUser(state.id!)); // Kullanıcı bilgilerini getir
+          context
+              .read<UserBloc>()
+              .add(FetchUser(state.id!)); // Kullanıcı bilgilerini getir
         }
       },
       builder: (context, state) {
@@ -120,30 +141,32 @@ class _MainPageState extends State<MainPage> {
           return BlocBuilder<UserBloc, UserState>(
             builder: (context, userState) {
               if (userState is UserLoaded) {
-                final pages = _buildNavigators(userState.user); // Sayfa listesini oluştur
+                final pages =
+                    _buildNavigators(userState.user); // Sayfa listesini oluştur
                 return Scaffold(
                   body: IndexedStack(
                     index: _selectedIndex,
                     children: pages,
                   ),
-                  bottomNavigationBar: _buildBottomNavigationBarForRole(userState.user.role!), // Rol tabanlı BottomNavigationBar
+                  bottomNavigationBar: _buildBottomNavigationBarForRole(
+                      userState.user.role!), // Rol tabanlı BottomNavigationBar
                 );
               } else if (userState is UserLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (userState is UserError) {
-                return Center(child: Text('Failed to load user data: ${userState.message}'));
+                return Center(
+                    child:
+                        Text('Failed to load user data: ${userState.message}'));
               } else {
                 return const Center(child: Text('Failed to load user data'));
               }
             },
           );
         } else {
-
           // Kullanici cikis yaptiktan sonra bottomNavigationBar iptal edildi.HomePage sayfasina yonlendiriyor direkt
-          return Scaffold(
-            body: Homepage()
-            // bottomNavigationBar: _buildBottomNavigationBarForNotLoggedInUser(),
-          );
+          return Scaffold(body: Homepage()
+              // bottomNavigationBar: _buildBottomNavigationBarForNotLoggedInUser(),
+              );
         }
       },
     );

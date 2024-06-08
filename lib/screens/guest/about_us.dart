@@ -5,20 +5,20 @@ import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
 import 'package:tobetoapp/widgets/guest/common_drawer.dart';
 import 'package:tobetoapp/widgets/guest/controls_overlay.dart';
-import 'package:tobetoapp/widgets/guest/ekip_card.dart';
-import 'package:tobetoapp/widgets/guest/tobeto_farki.dart';
+import 'package:tobetoapp/widgets/guest/team_card.dart';
+import 'package:tobetoapp/widgets/guest/tobeto_difference.dart';
 import 'package:tobetoapp/widgets/validation_video_controller.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
 
-class Hakkimizda extends StatefulWidget {
-  const Hakkimizda({super.key});
+class AboutUs extends StatefulWidget {
+  const AboutUs({super.key});
 
   @override
-  State<Hakkimizda> createState() => _HakkimizdaState();
+  State<AboutUs> createState() => _HakkimizdaState();
 }
 
-class _HakkimizdaState extends State<Hakkimizda> {
+class _HakkimizdaState extends State<AboutUs> {
   final commonFooter = const CommonFooter();
   @override
   Widget build(BuildContext context) {
@@ -230,27 +230,27 @@ class _HakkimizdaState extends State<Hakkimizda> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              EkipCard(
+                              TeamCard(
                                 imagePath: "assets/ekip/elif_kilic.jpeg",
                                 name: "Elif Kılıç",
                                 title: "Kurucu Direktör",
                                 linkedInUrl:
                                     'https://www.linkedin.com/in/eliftugtan/',
                               ),
-                              EkipCard(
+                              TeamCard(
                                 imagePath: "assets/ekip/kader_yavuz.jpg",
                                 name: "Kader Yavuz",
                                 title: "Eğitim ve Proje Koordinatörü",
                                 linkedInUrl:
                                     'https://www.linkedin.com/in/kader-yavuz/',
                               ),
-                              EkipCard(
+                              TeamCard(
                                 imagePath: "assets/ekip/pelin_batir.png",
                                 name: "Pelin Batır",
                                 title: "İş Geliştirme ve Yöneticisi",
                                 linkedInUrl: '',
                               ),
-                              EkipCard(
+                              TeamCard(
                                 imagePath: "assets/ekip/gurkan_ilisen.jfif",
                                 name: "Gürkan İlişen",
                                 title:
@@ -258,7 +258,7 @@ class _HakkimizdaState extends State<Hakkimizda> {
                                 linkedInUrl:
                                     'https://www.linkedin.com/in/gürkanilişen/',
                               ),
-                              EkipCard(
+                              TeamCard(
                                 imagePath: "assets/ekip/ali_seyhan.jpg",
                                 name: "Ali Seyhan",
                                 title: "Operasyon Uzman Yardımcısı",
