@@ -29,6 +29,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   firebase_storage: ^11.7.7
   flick_video_player: ^0.8.0
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +52,7 @@ flutter:
     - assets/logo/perculus.jpg
     - assets/logo/talent.png
     - assets/logo/tobeto.png
+    - assets/logo/lessons_banner.png
     - assets/pictures/foto1.jpg
     - assets/pictures/foto2.jpg
     - assets/pictures/foto3.webp

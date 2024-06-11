@@ -5,68 +5,67 @@ import 'package:tobetoapp/models/lesson_model.dart';
 
 class VideoRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<List<Video>> getVideos(List<String> videoIds) async {
     try {
       final snapshot = await _firestore
           .collection('videos')
-          .where('id', whereIn: videoIds) // --- otomatik id tanimlandi 
-          // 'id'   -- idleri elle girdigimiz icin .where(FieldPath.documentId, whereIn: videoIds) "FieldPath.documentId" calismadi. id otomatik olusuyorsa bu kullanilir!
+          .where('id', whereIn: videoIds)
           .get();
-      debugPrint('Fetched ${snapshot.docs.length} videos from Firestore');
+
       return snapshot.docs
           .map((doc) => Video.fromMap(doc.data() as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      debugPrint('Error fetching videos: $e');
-      throw e;
+      throw Exception('Error fetching videos: $e');
     }
   }
 
-   Future<Video?> getVideoByUrl(String videoUrl) async {
-    final snapshot = await _firestore.collection('videos')
-        .where('link', isEqualTo: videoUrl)
-        .get();
-    if (snapshot.docs.isNotEmpty) {
-      return Video.fromMap(snapshot.docs.first.data() as Map<String, dynamic>);
-    }
-    return null;
-  }
-
-  // Future<void> uploadVideo(Video video, String filePath) async {
-  //   try {
-  //     // Upload file to Firebase Storage
-  //     final ref = _storage.ref().child('videos/${video.id}');
-  //     final uploadTask = ref.putFile(File(filePath));
-  //     final snapshot = await uploadTask;
-  //     final downloadUrl = await snapshot.ref.getDownloadURL();
-
-  //     // Save video details to Firestore
-  //     final videoWithUrl = video.copyWith(link: downloadUrl);
-  //     await _firestore.collection('videos').doc(video.id).set(videoWithUrl.toMap());
-  //   } catch (error) {
-  //     print('Error uploading video: $error');
-  //     throw error;
-  //   }
-  // }
-
-  Future<void> updateVideo(Video video) async {
+ Future<Map<String, dynamic>> getUserVideoStatuses(String userId, String lessonId, List<String> videoIds) async {
     try {
-      await _firestore.collection('videos').doc(video.id).update(video.toMap());
-    } catch (error) {
-      print('Error updating video: $error');
-      throw error;
+      final snapshot = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('userLessons')
+          .doc(lessonId)
+          .collection('videos')
+          .where('videoId', whereIn: videoIds)
+          .get();
+
+      return {
+        for (var doc in snapshot.docs)
+          doc.data()['videoId']: {
+            'isCompleted': doc.data()['isCompleted'],
+            'spentTime': Duration(seconds: doc.data()['spentTime']),
+          }
+      };
+    } catch (e) {
+      throw Exception('Error fetching user video statuses: $e');
     }
   }
 
-  // Future<void> addVideo(Video video) async {
-  //   try {
-  //     await _firestore.collection('videos').add(video.toMap());
-  //   } catch (error) {
-  //     print('Error adding video: $error');
-  //     throw error;
-  //   }
-  // }
+  Future<void> updateVideoStatus(String userId, String lessonId, String videoId,
+      bool isCompleted, Duration spentTime) async {
+    try {
+      final docRef = _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('userLessons')
+          .doc(lessonId)
+          .collection('videos')
+          .doc(videoId);
 
+      await docRef.set(
+          {
+            'isCompleted': isCompleted,
+            'videoId': videoId,
+            'spentTime': spentTime.inSeconds,
+          },
+          SetOptions(
+              merge:
+                  true)); // merge: true ekleyerek var olan verilere ekleme yapıyoruz
+    } catch (e) {
+      throw Exception('Error updating video status: $e');
+    }
+  }
 }

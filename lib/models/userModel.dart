@@ -1,4 +1,4 @@
-import 'package:tobetoapp/models/class_model.dart';
+
 import 'package:tobetoapp/models/user_enum.dart';
 
 class UserModel {

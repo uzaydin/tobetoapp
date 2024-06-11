@@ -11,10 +11,16 @@ class VideosLoaded extends VideoState {
   VideosLoaded(this.videos);
 }
 
-class VideoOperationSuccess extends VideoState {}
+class VideoUpdated extends VideoState {
+  final Video video;
+
+  VideoUpdated({required this.video});
+}
 
 class VideoOperationFailure extends VideoState {
   final String error;
 
-  VideoOperationFailure(this.error);
+  VideoOperationFailure({required this.error});
 }
+
+class VideoUpdating extends VideoState {}

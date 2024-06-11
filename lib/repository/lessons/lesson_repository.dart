@@ -10,7 +10,7 @@ class LessonRepository {
           .collection('lessons')
           .where('classIds', arrayContainsAny: classIds)
           .get();
-      if(snapshot.docs.isEmpty){
+      if (snapshot.docs.isEmpty) {
         return [];
       }
       return snapshot.docs
@@ -18,6 +18,22 @@ class LessonRepository {
           .toList();
     } catch (e) {
       throw Exception('Error getting lessons: $e');
+    }
+  }
+
+  Future<LessonModel> getLessonById(String lessonId) async {
+    try {
+      final doc = await _firestore.collection('lessons').doc(lessonId).get();
+      if (doc.exists) {
+        print('Lesson found: ${doc.data()}'); // Hata ayıklama mesajı
+        return LessonModel.fromMap(doc.data()!);
+      } else {
+        print('Lesson not found: $lessonId'); // Hata ayıklama mesajı
+        throw Exception('Lesson not found');
+      }
+    } catch (e) {
+      print('Error getting lesson: $e'); // Hata ayıklama mesajı
+      throw Exception('Error getting lesson: $e');
     }
   }
 

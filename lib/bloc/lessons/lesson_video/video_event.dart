@@ -5,39 +5,51 @@ import 'package:tobetoapp/models/lesson_model.dart';
 abstract class VideoEvent {}
 
 class LoadVideos extends VideoEvent {
+
+  final String lessonId;
   final List<String> videoIds;
 
-  LoadVideos(this.videoIds);
+  LoadVideos(
+      { required this.lessonId, required this.videoIds});
 }
 
-class AddVideo extends VideoEvent {
+class UpdateUserVideo extends VideoEvent {
+  final String userId;
+  final String lessonId;
   final Video video;
+  final List<String> videoIds; // Listeyi ekledik
 
-  AddVideo(this.video);
+  UpdateUserVideo({
+    required this.userId,
+    required this.lessonId,
+    required this.video,
+    required this.videoIds,
+  });
+}
+class UpdateSpentTime extends VideoEvent {
+  final String userId;
+  final String lessonId;
+  final String? videoId;
+  final Duration spentTime;
+  final List<String> videoIds;
+
+  UpdateSpentTime({
+    required this.userId,
+    required this.lessonId,
+    required this.videoId,
+    required this.spentTime,
+    required this.videoIds,
+  });
 }
 
-class UpdateVideo extends VideoEvent {
+class VideoSelected extends VideoEvent {
+  final String lessonId;
   final Video video;
+  final List<String> videoIds;
 
-  UpdateVideo(this.video);
-}
-
-class UpdateVideoCompletion extends VideoEvent {
-  final String videoUrl;
-  final bool isCompleted;
-
-  UpdateVideoCompletion(this.videoUrl, this.isCompleted);
-}
-
-class VideosUpdated extends VideoEvent {
-  final List<Video> videos;
-  VideosUpdated(
-   this.videos,
- );
-}
-
-class DeleteVideo extends VideoEvent {
-  final String videoId;
-
-  DeleteVideo(this.videoId);
+  VideoSelected({
+    required this.lessonId,
+    required this.video,
+    required this.videoIds,
+  });
 }

@@ -14,9 +14,10 @@ class LessonModel {
   DateTime? endDate;
   List<String>? videoIds;
   Duration? estimatedTime;
-  Duration? spentTime;
-  bool? isLive;  // canli ders ise true olacak ve yonlendirme yapicak.
-  List<String>? teacherIds; // Öğretmenlerin ID'leri dersler ID lere gore fıltrelenecek!
+
+  bool? isLive; // canli ders ise true olacak ve yonlendirme yapicak.
+  List<String>?
+      teacherIds; // Öğretmenlerin ID'leri dersler ID lere gore fıltrelenecek!
   List<String>? homeworkIds; // Ödevlerin ID'leri
   double? progress;
 
@@ -31,7 +32,6 @@ class LessonModel {
     this.endDate,
     this.videoIds,
     this.estimatedTime,
-    this.spentTime,
     this.isLive,
     this.teacherIds,
     this.homeworkIds,
@@ -49,7 +49,7 @@ class LessonModel {
       'endDate': endDate?.toUtc(), // Convert to UTC
       'videoIds': videoIds,
       'estimatedTime': estimatedTime?.inSeconds,
-      'spentTime': spentTime?.inSeconds,
+
       'isLive': isLive,
       'teacherIds': teacherIds,
       'homeworkIds': homeworkIds,
@@ -72,8 +72,6 @@ class LessonModel {
       estimatedTime: map['estimatedTime'] != null
           ? Duration(seconds: map['estimatedTime'])
           : null,
-      spentTime:
-          map['spentTime'] != null ? Duration(seconds: map['spentTime']) : null,
       isLive: map['isLive'] as bool?,
       teacherIds: map['teacherIds'] != null
           ? List<String>.from((map['teacherIds'] as List<dynamic>))
@@ -131,7 +129,8 @@ class HomeworkModel {
       attachedFiles: map['attachedFiles'] != null
           ? List<String>.from((map['attachedFiles'] as List<dynamic>))
           : null,
-      assignedBy: map['assignedBy'] != null ? map['assignedBy'] as String : null,
+      assignedBy:
+          map['assignedBy'] != null ? map['assignedBy'] as String : null,
       studentSubmissions: map['studentSubmissions'] != null
           ? List<String>.from((map['studentSubmissions'] as List<dynamic>))
           : null,
@@ -147,20 +146,20 @@ class HomeworkModel {
       HomeworkModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
-
 class Video {
-  String? id;
+  String id;
   String? videoTitle;
   String? link;
   Duration? duration;
+  Duration? spentTime;
   bool? isCompleted;
-
   Video({
-    this.id,
+    required this.id,
     this.videoTitle,
     this.link,
     this.duration,
-    this.isCompleted = false,
+    this.spentTime,
+    this.isCompleted,
   });
 
   Map<String, dynamic> toMap() {
@@ -169,6 +168,7 @@ class Video {
       'videoTitle': videoTitle,
       'link': link,
       'duration': duration?.inMilliseconds,
+      'spentTime': spentTime?.inSeconds,
       'isCompleted': isCompleted,
     };
   }
@@ -178,8 +178,12 @@ class Video {
       id: map['id'],
       videoTitle: map['videoTitle'],
       link: map['link'],
-      duration: map['duration'] != null ? Duration(milliseconds: map['duration']) : null,
-      isCompleted: map['isCompleted'] ?? false,
+      duration: map['duration'] != null
+          ? Duration(milliseconds: map['duration'])
+          : null,
+      isCompleted: map['isCompleted'],
+      spentTime:
+          map['spentTime'] != null ? Duration(seconds: map['spentTime']) : null,
     );
   }
 
@@ -188,15 +192,16 @@ class Video {
     String? videoTitle,
     String? link,
     Duration? duration,
+    Duration? spentTime,
     bool? isCompleted,
   }) {
     return Video(
-      id: id ?? this.id,
-      videoTitle: videoTitle ?? this.videoTitle,
-      link: link ?? this.link,
-      duration: duration ?? this.duration,
-      isCompleted: isCompleted ?? this.isCompleted,
-    );
+        id: id ?? this.id,
+        videoTitle: videoTitle ?? this.videoTitle,
+        link: link ?? this.link,
+        duration: duration ?? this.duration,
+        isCompleted: isCompleted ?? this.isCompleted,
+        spentTime: spentTime ?? this.spentTime);
   }
 }
 
