@@ -28,6 +28,8 @@ dependencies:
   video_player: ^2.8.6
   flutter_svg: ^2.0.10+1
   webview_flutter_plus: ^0.4.5
+  shared_preferences: ^2.2.3
+  outline_gradient_button: ^2.0.1+1
 
 dev_dependencies:
   flutter_test:
@@ -44,10 +46,10 @@ flutter:
   
   assets:
     - assets/logo/tobetologo.PNG
-    - assets/logo/advancity.jpg
+    - assets/logo/advancity.png
     - assets/logo/code2.png
     - assets/logo/enocta.png
-    - assets/logo/perculus.jpg
+    - assets/logo/perculus.webp
     - assets/logo/talent.png
     - assets/logo/tobeto.png
     - assets/pictures/foto1.jpg

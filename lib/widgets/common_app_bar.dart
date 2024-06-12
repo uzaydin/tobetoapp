@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tobetoapp/screens/homepage.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
-  //final String title;
   const CommonAppBar({
     super.key,
-    //required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
       title: InkWell(
         onTap: () {
           Navigator.pushReplacement(context,

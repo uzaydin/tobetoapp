@@ -4,10 +4,10 @@ class InThePress extends StatefulWidget {
   const InThePress({super.key});
 
   @override
-  State<InThePress> createState() => _BasindaBizState();
+  State<InThePress> createState() => _InThePressState();
 }
 
-class _BasindaBizState extends State<InThePress> {
+class _InThePressState extends State<InThePress> {
   @override
   Widget build(BuildContext context) {
     return const Placeholder();

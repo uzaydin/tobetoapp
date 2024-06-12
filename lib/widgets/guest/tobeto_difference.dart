@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tobetoapp/theme/light/light_theme.dart';
 
 class RotatingSentenceList extends StatefulWidget {
   final String title;
@@ -55,8 +56,7 @@ class _RotatingSentenceListState extends State<RotatingSentenceList> {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 widget.title,
-                style:
-                    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.displaySmall,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -88,8 +88,10 @@ class _RotatingSentenceListState extends State<RotatingSentenceList> {
                           alignment: Alignment.bottomCenter,
                           child: Text(
                             sentenceProvider.sentences[previousIndex],
-                            style: const TextStyle(
-                                fontSize: 14, color: Colors.grey),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(color: Colors.grey),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -99,8 +101,10 @@ class _RotatingSentenceListState extends State<RotatingSentenceList> {
                           alignment: Alignment.topCenter,
                           child: Text(
                             sentenceProvider.sentences[nextIndex],
-                            style: const TextStyle(
-                                fontSize: 14, color: Colors.grey),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(color: Colors.grey),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -108,11 +112,10 @@ class _RotatingSentenceListState extends State<RotatingSentenceList> {
                       Center(
                         child: Text(
                           sentenceProvider.sentences[currentIndex],
-                          style: const TextStyle(
-                            fontSize: 21,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 163, 77, 233),
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(color: AppColors.tobetoMoru),
                           textAlign: TextAlign.center,
                         ),
                       )

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tobetoapp/screens/guest/catalog_guest.dart';
+import 'package:tobetoapp/theme/constants/constants.dart';
+import 'package:tobetoapp/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
-import 'package:tobetoapp/widgets/guest/common_drawer.dart';
+import 'package:tobetoapp/widgets/common_drawer/common_drawer.dart';
 
 class ForIndividuals extends StatelessWidget {
   void navigateToCatalogPage(BuildContext context) {
@@ -15,31 +17,28 @@ class ForIndividuals extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(232, 255, 255, 255),
       appBar: const CommonAppBar(),
-      endDrawer: const CommonDrawer(),
+      drawer: const CommonDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [
             buildGradientContainer(
               context,
-              const [
+              [
                 TextSpan(
                   text: "Kontrol\n sende \n",
-                  style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.displayLarge,
                   children: [
                     TextSpan(
                       text: "adım at, \n",
-                      style: TextStyle(
-                        fontSize: 45,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 163, 77, 233),
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .displayLarge!
+                          .copyWith(color: AppColors.tobetoMoru),
                     ),
                     TextSpan(
                       text: "Tobeto ile\n fark yarat!",
-                      style:
-                          TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                   ],
                 ),
@@ -47,9 +46,9 @@ class ForIndividuals extends StatelessWidget {
               'assets/pictures/foto5.png',
               isFirst: true,
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: AppConstants.sizedBoxHeightXLarge),
             buildImageContainer('assets/pictures/foto6.jpg', 30.0),
-            const SizedBox(height: 20),
+            SizedBox(height: AppConstants.sizedBoxHeightMedium),
             buildTextSection(
               context,
               "Eğitim Yolculuğu",
@@ -61,7 +60,7 @@ class ForIndividuals extends StatelessWidget {
                 "Hibrit eğitim modeli",
               ],
             ),
-            const SizedBox(height: 60),
+            SizedBox(height: AppConstants.sizedBoxHeightXXLarge),
             buildTextSection(
               context,
               "Öğrenme Yolculuğu",
@@ -73,11 +72,11 @@ class ForIndividuals extends StatelessWidget {
                 "Hibrit eğitim modeli",
               ],
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: AppConstants.sizedBoxHeightXLarge),
             buildImageContainer("assets/pictures/foto4.jpg", 30.0),
-            const SizedBox(height: 40),
+            SizedBox(height: AppConstants.sizedBoxHeightXLarge),
             buildImageContainer("assets/pictures/foto7.jpg", 30.0),
-            const SizedBox(height: 60),
+            SizedBox(height: AppConstants.sizedBoxHeightXXLarge),
             buildTextSection(
               context,
               "Kariyer Yolculuğu",
@@ -89,22 +88,22 @@ class ForIndividuals extends StatelessWidget {
                 "Kariyer buluşmaları",
               ],
             ),
-            const SizedBox(height: 60),
+            SizedBox(height: AppConstants.sizedBoxHeightXXLarge),
             buildGradientContainer(
               context,
-              const [
+              [
                 TextSpan(
                   text: "Kariyeriniz için\n en iyi\n yolculuklar",
-                  style: TextStyle(
-                      fontSize: 45,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayLarge!
+                      .copyWith(color: Colors.white),
                 ),
               ],
               null,
               child: buildImageRows(context),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: AppConstants.sizedBoxHeightMedium),
             const CommonFooter(),
           ],
         ),
@@ -134,7 +133,7 @@ class ForIndividuals extends StatelessWidget {
               ),
       ),
       child: Container(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(AppConstants.paddingMedium),
         child: Column(
           children: [
             Text.rich(
@@ -142,7 +141,7 @@ class ForIndividuals extends StatelessWidget {
                 children: textSpans,
               ),
             ),
-            const SizedBox(height: 30),
+            SizedBox(height: AppConstants.sizedBoxHeightLarge),
             if (imagePath != null) Image.asset(imagePath),
             if (child != null) child,
           ],
@@ -153,7 +152,7 @@ class ForIndividuals extends StatelessWidget {
 
   Widget buildImageContainer(String imagePath, double borderRadius) {
     return Container(
-      padding: const EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
         child: Image.asset(imagePath),
@@ -164,41 +163,42 @@ class ForIndividuals extends StatelessWidget {
   Widget buildTextSection(BuildContext context, String title,
       String description, List<String> items) {
     return Container(
-      padding: const EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
             textAlign: TextAlign.left,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: AppConstants.sizedBoxHeightSmall),
           Text(
             description,
-            style: const TextStyle(fontSize: 18),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: AppConstants.sizedBoxHeightSmall),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: items.map((item) => buildListItem(item)).toList(),
+            children:
+                items.map((item) => buildListItem(item, context)).toList(),
           ),
         ],
       ),
     );
   }
 
-  Widget buildListItem(String text) {
+  Widget buildListItem(String text, BuildContext context) {
     return Padding(
       padding:
           const EdgeInsetsDirectional.symmetric(vertical: 5.0, horizontal: 7.0),
       child: Row(
         children: [
           const Icon(Icons.circle, size: 10),
-          const SizedBox(width: 7),
+          SizedBox(width: AppConstants.sizedBoxWidthSmall),
           Text(
             text,
-            style: const TextStyle(fontSize: 17),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ],
       ),
@@ -233,12 +233,13 @@ class ForIndividuals extends StatelessWidget {
           navigateToCatalogPage(context);
         },
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.4 - 15,
-          height: MediaQuery.of(context).size.width * 0.4 - 15,
-          margin: const EdgeInsets.symmetric(horizontal: 7.5),
+          width: AppConstants.screenWidth * 0.4,
+          height: AppConstants.screenWidth * 0.4,
+          //margin: const EdgeInsets.symmetric(horizontal: 10),
+
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(AppConstants.br8),
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -250,8 +251,9 @@ class ForIndividuals extends StatelessWidget {
           child: Center(
             child: Image.asset(
               imagePath,
-              width: 130,
-              height: 130,
+              //130,
+              width: AppConstants.profileImageSize + 100,
+              height: AppConstants.profileImageSize + 100,
             ),
           ),
         ));

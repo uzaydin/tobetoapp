@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
+import 'package:tobetoapp/theme/constants/constants.dart';
+import 'package:tobetoapp/theme/light/light_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TeamCard extends StatelessWidget {
@@ -23,38 +26,47 @@ class TeamCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return OutlineGradientButton(
       onTap: () => _launchUrl(linkedInUrl),
+      strokeWidth: 3,
+      radius: Radius.circular(AppConstants.br30),
+      gradient: const LinearGradient(
+        colors: [
+          AppColors.tobetoMoru,
+          Color.fromARGB(209, 255, 255, 255),
+          Color.fromARGB(178, 255, 255, 255),
+          AppColors.tobetoMoru,
+        ],
+        stops: [0.0, 0.5, 0.5, 1.0],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        padding: const EdgeInsets.all(20),
+        margin: EdgeInsets.symmetric(vertical: AppConstants.paddingMedium),
+        padding: EdgeInsets.all(AppConstants.paddingLarge),
         width: double.infinity,
-        constraints: const BoxConstraints(minHeight: 200),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          border: Border.all(color: Colors.grey, width: 2),
-        ),
+        constraints:
+            BoxConstraints(minHeight: AppConstants.profileImageSize + 100),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              radius: 40,
+              radius: AppConstants.profileImageSize,
               backgroundImage: AssetImage(imagePath),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: AppConstants.sizedBoxHeightSmall),
             Text(
               name,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 5),
+            SizedBox(height: AppConstants.sizedBoxHeightSmall),
             Text(
               title,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
-                color: Colors.grey,
+                color: Color.fromARGB(255, 151, 149, 149),
               ),
               textAlign: TextAlign.center,
             ),

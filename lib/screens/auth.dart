@@ -4,7 +4,7 @@ import 'package:password_strength_checker/password_strength_checker.dart';
 import 'package:tobetoapp/screens/user/reset_password.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
-import 'package:tobetoapp/widgets/guest/common_drawer.dart';
+import 'package:tobetoapp/widgets/common_drawer/common_drawer.dart';
 import 'package:tobetoapp/widgets/password_suffix_icon.dart';
 import 'package:tobetoapp/widgets/validation_video_controller.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -31,9 +31,9 @@ class _AuthState extends State<Auth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       appBar: const CommonAppBar(),
-      endDrawer: const CommonDrawer(),
+      drawer: const CommonDrawer(),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
