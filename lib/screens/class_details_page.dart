@@ -23,14 +23,37 @@ class ClassDetailPage extends StatefulWidget {
 class _ClassDetailPageState extends State<ClassDetailPage> {
   bool isListView = true;
 
+  TextEditingController _searchController = TextEditingController(); // Arama çubuğu için controller
+  List<LessonModel> _filteredLessons = []; // Filtrelenmiş dersler listesi
+
   @override
   void initState() {
     super.initState();
-    // Derslerin, sınıf id'lerine göre yüklenmesi
     if (widget.classIds != null && widget.classIds!.isNotEmpty) {
       context.read<LessonBloc>().add(LoadLessons(widget.classIds));
     }
     initializeDateFormatting();
+    _searchController.addListener(_filterLessons); // Arama çubuğu dinleyici ekleniyor
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_filterLessons); // Dinleyici kaldırılıyor
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _filterLessons() {
+    final query = _searchController.text.toLowerCase(); // Arama çubuğundaki metin küçük harfe dönüştürülüyor
+    final state = context.read<LessonBloc>().state;
+    if (state is LessonsLoaded) {
+      setState(() {
+        _filteredLessons = state.lessons.where((lesson) {
+          final title = lesson.title!.toLowerCase();
+          return title.contains(query); // Ders başlığı arama sorgusunu içeriyorsa true döner
+        }).toList();
+      });
+    }
   }
 
   @override
@@ -44,7 +67,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
             icon: Icon(isListView ? Icons.grid_view : Icons.list),
             onPressed: () {
               setState(() {
-                isListView = !isListView;
+                isListView = !isListView; // Liste ve Grid görünümü arasında geçiş yapılır
               });
             },
           ),
@@ -53,21 +76,21 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
       body: Column(
         children: [
           // Banner
-          Container(
+          SizedBox(
             width: double.infinity,
             height: 150, // Banner yüksekliği
             child: Stack(
               children: [
                 Positioned.fill(
                   child: Image.asset(
-                    'assets/logo/lessons_banner.png', // Banner resmi
+                    'assets/lessons_banner.png', // Banner resmi
                     fit: BoxFit.cover,
                   ),
                 ),
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0), 
+                    padding: EdgeInsets.all(16.0), 
                     child: Text(
                       "Eğitimlerim", // Banner içindeki yazı
                       style: TextStyle(
@@ -81,13 +104,28 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
               ],
             ),
           ),
+          // Arama Çubuğu
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController, // Arama çubuğu için controller atanıyor
+              decoration: InputDecoration(
+                hintText: 'Ders arayın...', // Placeholder metni
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                prefixIcon: Icon(Icons.search), // Arama ikonu
+              ),
+            ),
+          ),
           Expanded(
-            child: _buildBody(),
+            child: _buildBody(), // Body bölümü
           ),
         ],
       ),
     );
   }
+
   Widget _buildBody() {
     if (widget.classIds == null || widget.classIds!.isEmpty) {
       return Center(
@@ -100,23 +138,26 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
         if (state is LessonsLoading) {
           return Center(child: CircularProgressIndicator());
         } else if (state is LessonsLoaded) {
-          if (state.lessons.isEmpty) {
+          final lessonsToShow = _searchController.text.isEmpty
+              ? state.lessons
+              : _filteredLessons; // Arama çubuğunda metin varsa filtrelenmiş dersler gösterilir
+          if (lessonsToShow.isEmpty) {
             return Center(child: Text("Henüz ders tanımlanmamıştır"));
           } else {
             return isListView
                 ? ListView.builder(
-                    itemCount: state.lessons.length,
+                    itemCount: lessonsToShow.length,
                     itemBuilder: (context, index) {
-                      return _buildLessonItem(state.lessons[index]);
+                      return _buildLessonItem(lessonsToShow[index]);
                     },
                   )
                 : GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                     ),
-                    itemCount: state.lessons.length,
+                    itemCount: lessonsToShow.length,
                     itemBuilder: (context, index) {
-                      return _buildLessonCard(state.lessons[index]);
+                      return _buildLessonCard(lessonsToShow[index]);
                     },
                   );
           }

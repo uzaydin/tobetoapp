@@ -17,32 +17,32 @@ class AnnouncementRepository {
     await _firestore.collection('announcements').doc(id).delete();
   }
 
+  // Duyuruları admin,öğretmen,ogrencı rolune göre  ayrı sınıflara  fıltrelıyoruz!
+   Future<List<Announcements>> getAnnouncements(List<String>? classIds, String? role) async {
+    try {
+      QuerySnapshot snapshot;
+      if (role == 'admin') {
+        snapshot = await _firestore
+            .collection('announcements')
+            .orderBy('createdAt', descending: true) // En son eklenen duyurunun en üstte gözükmesi
+            .get();
+      } else if (classIds != null && classIds.isNotEmpty) {
+        snapshot = await _firestore
+            .collection('announcements')
+            .where('classIds', arrayContainsAny: classIds)
+            .orderBy('createdAt', descending: true) // En son eklenen duyurunun en üstte gözükmesi
+            .get();
+      } else {
+        return [];
+      }
 
-    // Duyuruları admin rolune ayrı ve sınıflara gore fıltrelıyoruz!
-  Stream<List<Announcements>> getAnnouncementsStream(
-      List<String>? classIds, String? role) {
-    if (role == 'admin') {
-      return _firestore.collection('announcements').snapshots().map((snapshot) {
-        return snapshot.docs.map((doc) {
-          final data = doc.data();
-          data['id'] = doc.id;
-          return Announcements.fromMap(data);
-        }).toList();
-      });
-    } else if (classIds != null && classIds.isNotEmpty) {
-      return _firestore
-          .collection('announcements')
-          .where('classIds', arrayContainsAny: classIds)
-          .snapshots()
-          .map((snapshot) {
-        return snapshot.docs.map((doc) {
-          final data = doc.data();
-          data['id'] = doc.id;
-          return Announcements.fromMap(data);
-        }).toList();
-      });
-    } else {
-      return Stream.value([]);
+      return snapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        data['id'] = doc.id;
+        return Announcements.fromMap(data);
+      }).toList();
+    } catch (e) {
+      throw Exception('Error fetching announcements: $e');
     }
   }
 }

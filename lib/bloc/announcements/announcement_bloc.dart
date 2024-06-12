@@ -10,7 +10,6 @@ import 'package:tobetoapp/repository/announcements_repo.dart';
 
 class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
   final AnnouncementRepository _announcementRepository;
-  StreamSubscription<List<Announcements>>? _announcementsSubscription;
 
   AnnouncementBloc(this._announcementRepository)
       : super(AnnouncementsLoading()) {
@@ -29,21 +28,18 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
           [])); // Class ID null ve admin değilse duyurular sayfasında boş liste döndürüyoruz.
       return;
     }
-    await _announcementsSubscription?.cancel();
-    _announcementsSubscription = _announcementRepository
-        .getAnnouncementsStream(
-      event.classIds,
-      event.role?.toString().split('.').last,
-    )
-        .listen(
-      (announcements) {
-        add(AnnouncementsUpdated(announcements));
-      },
-      onError: (error) {
-        emit(AnnouncementOperationFailure(error.toString()));
-      },
-    );
+    try {
+      final announcements = await _announcementRepository.getAnnouncements(
+        event.classIds,
+        event.role?.toString().split('.').last,
+      );
+      emit(AnnouncementsLoaded(announcements));
+    } catch (e) {
+      emit(AnnouncementOperationFailure(e.toString()));
+    }
   }
+
+ 
 
   void _onAnnouncementsUpdated(
       AnnouncementsUpdated event, Emitter<AnnouncementState> emit) {
@@ -64,7 +60,7 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
       UserRole? role;
       if (event.announcement.role != null) {
         role = UserRole.values.firstWhere(
-            (e) => e.toString() == 'UserRole.' + event.announcement.role!);
+            (e) => e.toString() == 'UserRole.${event.announcement.role!}');
       }
 
       add(LoadAnnouncements(event.announcement.classIds!, role));
@@ -81,12 +77,6 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
     } catch (e) {
       emit(AnnouncementOperationFailure(e.toString()));
     }
-  }
-
-  @override
-  Future<void> close() {
-    _announcementsSubscription?.cancel();
-    return super.close();
   }
 }
 

@@ -9,7 +9,6 @@ import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/add_announcement.dart';
 import 'package:tobetoapp/screens/announcement_detail.dart';
 
-
 class AnnouncementsPage extends StatefulWidget {
   final UserRole? role;
   final List<String>? classIds;
@@ -66,10 +65,10 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const Align(          
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.all(16.0), 
+                    padding: EdgeInsets.all(16.0),
                     child: Text(
                       "Duyurularım", // Banner içindeki yazı
                       style: TextStyle(
@@ -100,16 +99,16 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is AnnouncementsLoaded) {
                   if (state.announcements.isEmpty) {
-                    return const Center(child: Text('No announcements available.'));
+                    return const Center(
+                        child: Text('No announcements available.'));
                   } else {
-                    final reversedAnnouncements =
-                        state.announcements.reversed.toList();
                     return ListView.builder(
-                      itemCount: reversedAnnouncements.length,
+                      itemCount: state.announcements.length,
                       itemBuilder: (context, index) {
-                        final announcement = reversedAnnouncements[index];
+                        final announcement = state.announcements[index];
                         final formattedDate = announcement.createdAt != null
-                            ? DateFormat('dd.MM.yyyy').format(announcement.createdAt!)
+                            ? DateFormat('dd.MM.yyyy')
+                                .format(announcement.createdAt!)
                             : 'No date';
                         return Card(
                           shape: RoundedRectangleBorder(
@@ -148,11 +147,13 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                                   ),
                                   const SizedBox(height: 8.0),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
-                                          const Icon(Icons.calendar_today, size: 16.0),
+                                          const Icon(Icons.calendar_today,
+                                              size: 16.0),
                                           const SizedBox(width: 4.0),
                                           Text(formattedDate),
                                         ],
@@ -175,9 +176,12 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                                         IconButton(
                                           icon: const Icon(Icons.delete),
                                           onPressed: () {
-                                            context.read<AnnouncementBloc>().add(
-                                                DeleteAnnouncement(widget.classIds,
-                                                    announcement.id!, widget.role!));
+                                            context
+                                                .read<AnnouncementBloc>()
+                                                .add(DeleteAnnouncement(
+                                                    widget.classIds,
+                                                    announcement.id!,
+                                                    widget.role!));
                                           },
                                         ),
                                     ],
@@ -191,9 +195,11 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                     );
                   }
                 } else if (state is AnnouncementOperationFailure) {
-                  return const Center(child: Text('Failed to load announcements'));
+                  return const Center(
+                      child: Text('Failed to load announcements'));
                 } else {
-                  return const Center(child: Text('Failed to load announcements'));
+                  return const Center(
+                      child: Text('Failed to load announcements'));
                 }
               },
             ),
@@ -203,5 +209,3 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
     );
   }
 }
-
-
