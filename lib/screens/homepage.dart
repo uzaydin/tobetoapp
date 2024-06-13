@@ -1,23 +1,27 @@
 import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:provider/provider.dart';
+import 'package:tobetoapp/theme/constants/constants.dart';
 import 'package:tobetoapp/screens/auth.dart';
+import 'package:tobetoapp/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
+import 'package:tobetoapp/widgets/common_drawer/common_user_drawer.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
-import 'package:tobetoapp/widgets/guest/anasayfa_icerik.dart';
+import 'package:tobetoapp/widgets/guest/homepage_content.dart';
 import 'package:tobetoapp/widgets/guest/animated_avatar.dart';
 import 'package:tobetoapp/widgets/guest/animated_container.dart';
-import 'package:tobetoapp/widgets/guest/common_drawer.dart';
+import 'package:tobetoapp/widgets/common_drawer/common_drawer.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
 
   @override
-  State<Homepage> createState() => _AnasayfaState();
+  State<Homepage> createState() => _HomepageState();
 }
 
-class _AnasayfaState extends State<Homepage> {
+class _HomepageState extends State<Homepage> {
   late PageController _controller;
   int _currentPage = 0;
 
@@ -60,9 +64,9 @@ class _AnasayfaState extends State<Homepage> {
 
   final List<String> _assetPaths = [
     "assets/logo/enocta.png",
-    "assets/logo/advancity.jpg",
+    "assets/logo/advancity.png",
     "assets/logo/code2.png",
-    "assets/logo/perculus.jpg",
+    "assets/logo/perculus.webp",
     "assets/logo/talent.png",
   ];
 
@@ -74,25 +78,21 @@ class _AnasayfaState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    //double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     final animationControl = Provider.of<AnimationControllerExample>(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: const CommonAppBar(),
-      endDrawer: const CommonDrawer(),
+      drawer: const CommonDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(AppConstants.paddingSmall),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-              ),
+                  borderRadius: BorderRadius.circular(AppConstants.br16)),
               child: SizedBox(
-                height: screenHeight,
+                height: AppConstants.screenHeight,
                 child: ScrollConfiguration(
                     behavior: const ScrollBehavior().copyWith(
                       scrollbars: false,
@@ -110,7 +110,21 @@ class _AnasayfaState extends State<Homepage> {
                         },
                         itemCount: 2,
                         itemBuilder: (context, index) {
-                          return index == 0 ? buildPage1() : buildPage2();
+                          return index == 0
+                              ? const ContentHomepage(
+                                  imagePath: "assets/pictures/foto1.jpg",
+                                  title:
+                                      "Hayalindeki teknoloji kariyerini Tobeto ile başlat.",
+                                  subtitle1:
+                                      "Tobeto eğitimlerine katıl, sen de harekete geç, iş hayatında yerini al.",
+                                  subtitle2: "")
+                              : const ContentHomepage(
+                                  imagePath: "assets/pictures/foto2.jpg",
+                                  title: "Tobeto Platform",
+                                  subtitle1:
+                                      "Eğitim ve istihdam arasında köprü görevi görür.",
+                                  subtitle2:
+                                      "Eğitim, değerlendirme, istihdam süreçlerinin tek yerden yönetilebileceği dijital platform olarak hem bireylere hem kurumlara hizmet eder.");
                         })),
               ),
             ),
@@ -118,7 +132,6 @@ class _AnasayfaState extends State<Homepage> {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(2, (index) {
@@ -128,20 +141,21 @@ class _AnasayfaState extends State<Homepage> {
                       height: _currentPage == index ? 10 : 6,
                       decoration: BoxDecoration(
                         color: _currentPage == index
-                            ? Colors.black87
+                            ? const Color.fromARGB(221, 68, 67, 67)
                             : Colors.grey,
                         shape: BoxShape.circle,
                       ),
                     );
                   }),
                 ),
+                SizedBox(height: AppConstants.sizedBoxHeightLarge),
                 const Divider(),
-                const SizedBox(height: 20),
+                SizedBox(height: AppConstants.sizedBoxHeightLarge),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(AppConstants.paddingMedium),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(AppConstants.br16),
                   ),
                   child: Column(
                     children: [
@@ -152,16 +166,30 @@ class _AnasayfaState extends State<Homepage> {
                               TextSpan(
                                 text: "Birlikte ",
                                 style: TextStyle(
-                                  fontSize: 28,
+                                  fontSize: 30,
                                   color: Color.fromARGB(255, 100, 39, 150),
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black45,
+                                      blurRadius: 3,
+                                      offset: Offset(3, 1),
+                                    ),
+                                  ],
                                 ),
                               ),
                               TextSpan(
                                 text: "Büyüyoruz!",
                                 style: TextStyle(
-                                  fontSize: 30,
+                                  fontSize: 32,
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromARGB(255, 100, 39, 150),
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black45,
+                                      blurRadius: 3,
+                                      offset: Offset(3, 1),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -171,10 +199,10 @@ class _AnasayfaState extends State<Homepage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: AppConstants.sizedBoxHeightLarge),
                 SizedBox(
-                  width: 300,
-                  height: 300,
+                  width: AppConstants.screenWidth * 0.9,
+                  height: AppConstants.screenWidth * 0.9,
                   child: OverflowBox(
                     maxWidth: double.infinity,
                     maxHeight: double.infinity,
@@ -184,35 +212,38 @@ class _AnasayfaState extends State<Homepage> {
                       },
                       child: AnimatedContainer(
                         duration: const Duration(seconds: 1),
-                        width: animationControl.width,
-                        height: animationControl.height,
                         decoration: BoxDecoration(
                           border: Border.all(
-                              color: animationControl.color, width: 5),
-                          borderRadius: BorderRadius.circular(20),
+                              color: animationControl.color, width: 6),
+                          borderRadius:
+                              BorderRadius.circular(AppConstants.br20),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
                               animationControl.icon,
-                              size: 50,
+                              size: AppConstants.profileImageSize,
                             ),
-                            const SizedBox(height: 20),
+                            SizedBox(height: AppConstants.sizedBoxHeightMedium),
                             Text(
                               "${animationControl.number}",
                               style: TextStyle(
-                                  fontSize: 35,
+                                  fontSize: 40,
                                   color: animationControl.color,
                                   fontWeight: FontWeight.w900),
                             ),
-                            const SizedBox(height: 20),
+                            SizedBox(height: AppConstants.sizedBoxHeightMedium),
                             Center(
                               child: Text(
                                 animationControl.text,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontSize: 27, fontWeight: FontWeight.bold),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displaySmall!
+                                    .copyWith(
+                                        color: Colors.black.withOpacity(0.5),
+                                        fontWeight: FontWeight.w400),
                               ),
                             ),
                           ],
@@ -221,76 +252,96 @@ class _AnasayfaState extends State<Homepage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: AppConstants.sizedBoxHeightXXLarge),
                 const Divider(),
-                const SizedBox(height: 20),
+                SizedBox(height: AppConstants.sizedBoxHeightXXLarge),
                 Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Tobeto \"İşte Başarı Modeli\"mizi Keşfet!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 24),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        "Üyelerimize ücretsiz sunduğumuz, iş bulma ve işte başarılı olma sürecinde gerekli 80 tane davranış ifadesinden oluşan Tobeto 'İşte Başarı Modeli' ile, profesyonellik yetkinliklerini ölç, raporunu gör.",
-                        style: TextStyle(fontSize: 20),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Auth()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 163, 77, 233),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                  padding: EdgeInsets.all(AppConstants.paddingMedium),
+                  child: OutlineGradientButton(
+                    strokeWidth: 3,
+                    radius: Radius.circular(AppConstants.br30),
+                    gradient: const LinearGradient(
+                      colors: [
+                        AppColors.tobetoMoru,
+                        Color.fromARGB(209, 255, 255, 255),
+                        Color.fromARGB(178, 255, 255, 255),
+                        AppColors.tobetoMoru,
+                      ],
+                      stops: [0.0, 0.5, 0.5, 1.0],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(AppConstants.paddingMedium),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Tobeto \"İşte Başarı Modeli\"mizi Keşfet!",
+                            style: Theme.of(context).textTheme.headlineMedium,
+                            textAlign: TextAlign.center,
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 50.0,
-                            vertical: 15.0,
+                          SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                          Text(
+                            "Üyelerimize ücretsiz sunduğumuz, iş bulma ve işte başarılı olma sürecinde gerekli 80 tane davranış ifadesinden oluşan Tobeto 'İşte Başarı Modeli' ile, profesyonellik yetkinliklerini ölç, raporunu gör.",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                            textAlign: TextAlign.center,
                           ),
-                        ),
-                        child: const Text(
-                          "Hemen Başla",
-                          style: TextStyle(color: Colors.black87),
-                        ),
+                          SizedBox(height: AppConstants.sizedBoxHeightLarge),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Auth()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.tobetoMoru,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(AppConstants.br30),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppConstants.screenWidth * 0.15,
+                                vertical: AppConstants.screenHeight * 0.025,
+                              ),
+                            ),
+                            child: Text(
+                              "Hemen Başla",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(color: Colors.white),
+                            ),
+                          ),
+                          SizedBox(height: AppConstants.sizedBoxHeightLarge),
+                          SizedBox(height: AppConstants.sizedBoxHeightLarge),
+                          Image.asset("assets/gif/spider_light.gif"),
+                        ],
                       ),
-                      const SizedBox(height: 30),
-                      Image.asset("assets/gif/spider_light.gif"),
-                    ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: AppConstants.sizedBoxHeightLarge),
                 const Divider(),
-                const SizedBox(height: 30),
+                SizedBox(height: AppConstants.sizedBoxHeightLarge),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(AppConstants.paddingMedium),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Öğrenci Görüşleri",
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.headlineLarge,
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 10),
-                      const Text(
+                      SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                      Text(
                         "Tobeto'yu öğrencilerimizin gözünden keşfedin.",
-                        style: TextStyle(fontSize: 20),
+                        style: Theme.of(context).textTheme.bodyLarge,
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 30),
+                      SizedBox(height: AppConstants.sizedBoxHeightLarge),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -308,17 +359,23 @@ class _AnasayfaState extends State<Homepage> {
                           }),
                         ),
                       ),
-                      const SizedBox(height: 30),
+                      SizedBox(height: AppConstants.sizedBoxHeightLarge),
                       if (_selectedIndex != -1)
                         Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(AppConstants.paddingMedium),
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius:
+                                BorderRadius.circular(AppConstants.br16),
+                            gradient: LinearGradient(
+                                colors: [
+                                  AppColors.tobetoMoru,
+                                  Colors.grey.withOpacity(0.5)
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight),
                             boxShadow: [
                               BoxShadow(
-                                color: //const Color.fromARGB(255, 108, 32, 170)
-                                    Colors.grey.withOpacity(0.5),
+                                color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 5,
                                 blurRadius: 9,
                                 offset: const Offset(0, 3),
@@ -329,37 +386,41 @@ class _AnasayfaState extends State<Homepage> {
                             children: [
                               Text(
                                 _users[_selectedIndex]['username']!,
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(fontWeight: FontWeight.w400),
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 _users[_selectedIndex]['comment']!,
-                                style: const TextStyle(fontSize: 14),
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
                           ),
                         ),
-                      const SizedBox(height: 30),
+                      SizedBox(height: AppConstants.sizedBoxHeightXXLarge),
                       const Divider(),
-                      const SizedBox(height: 30),
+                      SizedBox(height: AppConstants.sizedBoxHeightXXLarge),
                       Column(
                         children: [
-                          const Text(
+                          Text(
                             "Çözüm Ortaklarımız",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.headlineLarge,
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: AppConstants.sizedBoxHeightMedium),
                           Container(
-                            margin:
-                                const EdgeInsets.all(10), // Dış boşluk ayarla
-                            padding:
-                                const EdgeInsets.all(10), // İç boşluk ayarla
+                            margin: EdgeInsets.all(AppConstants.paddingMedium),
+                            padding: EdgeInsets.all(AppConstants.paddingMedium),
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.grey, width: 1),
+                              borderRadius:
+                                  BorderRadius.circular(AppConstants.br16),
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Colors.white24,
+                                  AppColors.tobetoMoru,
+                                ],
+                              ),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -367,13 +428,13 @@ class _AnasayfaState extends State<Homepage> {
                                 _assetPaths.length,
                                 (index) => Image.asset(
                                   _assetPaths[index],
-                                  width: 100,
-                                  height: 100,
+                                  width: AppConstants.screenWidth * 0.4,
+                                  height: AppConstants.screenWidth * 0.3,
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: AppConstants.sizedBoxHeightLarge),
                           const CommonFooter(),
                         ],
                       ),

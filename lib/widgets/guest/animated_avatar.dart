@@ -60,25 +60,3 @@ class _AnimatedAvatarState extends State<AnimatedAvatar>
     super.dispose();
   }
 }
-
-/*
-  void _showDetalis(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(widget.username),
-          content: Text(widget.comment),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Kapat"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-  */

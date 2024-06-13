@@ -3,23 +3,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_event.dart';
 
-class Profil extends StatefulWidget {
-  const Profil({super.key});
+class Profile extends StatefulWidget {
+  const Profile({super.key});
 
   @override
-  State<Profil> createState() => _ProfilState();
+  State<Profile> createState() => _ProfileState();
 }
 
-class _ProfilState extends State<Profil> {
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profil"),
         actions: [
-          IconButton(onPressed: (){
-            context.read<AuthBloc>().add(AuthLogOut());
-          }, icon: const Icon(Icons.logout))
+          IconButton(
+              onPressed: () {
+                context.read<AuthBloc>().add(AuthLogOut());
+              },
+              icon: const Icon(Icons.logout))
         ],
       ),
     );

@@ -30,6 +30,8 @@ dependencies:
   firebase_storage: ^11.7.7
   flick_video_player: ^0.8.0
   shared_preferences: ^2.2.3
+  outline_gradient_button: ^2.0.1+1
+  webview_flutter_plus: ^0.4.5
 
 dev_dependencies:
   flutter_test:
@@ -46,10 +48,10 @@ flutter:
   
   assets:
     - assets/logo/tobetologo.PNG
-    - assets/logo/advancity.jpg
+    - assets/logo/advancity.png
     - assets/logo/code2.png
     - assets/logo/enocta.png
-    - assets/logo/perculus.jpg
+    - assets/logo/perculus.webp
     - assets/logo/talent.png
     - assets/logo/tobeto.png
     - assets/logo/general_banner.png
@@ -73,6 +75,7 @@ flutter:
     - assets/ekip/gurkan_ilisen.jfif
     - assets/ekip/kader_yavuz.jpg
     - assets/ekip/pelin_batir.png
+    - assets/recaptcha/
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

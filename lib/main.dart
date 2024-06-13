@@ -18,12 +18,14 @@ import 'package:tobetoapp/repository/auth_repo.dart';
 import 'package:tobetoapp/repository/blog_repository.dart';
 import 'package:tobetoapp/repository/catalog_repository.dart';
 import 'package:tobetoapp/repository/class_repository.dart';
-
 import 'package:tobetoapp/repository/lessons/lesson_repository.dart';
 import 'package:tobetoapp/repository/lessons/lesson_video_repository.dart';
 import 'package:tobetoapp/repository/news_repository.dart';
 import 'package:tobetoapp/repository/user_repository.dart';
 import 'package:tobetoapp/screens/homepage.dart';
+import 'package:tobetoapp/theme/constants/constants.dart';
+import 'package:tobetoapp/theme/theme_data.dart';
+import 'package:tobetoapp/theme/theme_switcher.dart';
 import 'package:tobetoapp/widgets/guest/animated_container.dart';
 import 'firebase_options.dart';
 
@@ -87,21 +89,55 @@ class Home extends StatelessWidget {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>(); // tema için
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = ThemeMode.light;
+  final ThemeService _themeService = ThemeService();
+  @override
+  void initState() {
+    super.initState();
+    _loadThemeMode();
+  }
+
+  Future<void> _loadThemeMode() async {
+    final themeMode = await _themeService.getThemeMode();
+    setState(() {
+      _themeMode = themeMode;
+    });
+  }
+
+  void setTheme(ThemeMode themeMode) {
+    setState(() {
+      _themeMode = themeMode;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return (ChangeNotifierProvider(
-        create: (context) => AnimationControllerExample(),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
+    return Builder(
+      builder: (context) {
+        AppConstants.init(context);
+
+        return (ChangeNotifierProvider(
+          create: (context) => AnimationControllerExample(),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: AppThemes.light,
+            darkTheme: AppThemes.dark,
+            themeMode: _themeMode,
+            home: const Homepage(),
           ),
-          home: const Homepage(),
-        )));
+        ));
+      },
+    );
   }
 }
