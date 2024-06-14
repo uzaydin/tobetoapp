@@ -23,7 +23,8 @@ class ClassDetailPage extends StatefulWidget {
 class _ClassDetailPageState extends State<ClassDetailPage> {
   bool isListView = true;
 
-  TextEditingController _searchController = TextEditingController(); // Arama çubuğu için controller
+  TextEditingController _searchController =
+      TextEditingController(); // Arama çubuğu için controller
   List<LessonModel> _filteredLessons = []; // Filtrelenmiş dersler listesi
 
   @override
@@ -33,7 +34,8 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
       context.read<LessonBloc>().add(LoadLessons(widget.classIds));
     }
     initializeDateFormatting();
-    _searchController.addListener(_filterLessons); // Arama çubuğu dinleyici ekleniyor
+    _searchController
+        .addListener(_filterLessons); // Arama çubuğu dinleyici ekleniyor
   }
 
   @override
@@ -44,13 +46,15 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   }
 
   void _filterLessons() {
-    final query = _searchController.text.toLowerCase(); // Arama çubuğundaki metin küçük harfe dönüştürülüyor
+    final query = _searchController.text
+        .toLowerCase(); // Arama çubuğundaki metin küçük harfe dönüştürülüyor
     final state = context.read<LessonBloc>().state;
     if (state is LessonsLoaded) {
       setState(() {
         _filteredLessons = state.lessons.where((lesson) {
           final title = lesson.title!.toLowerCase();
-          return title.contains(query); // Ders başlığı arama sorgusunu içeriyorsa true döner
+          return title.contains(
+              query); // Ders başlığı arama sorgusunu içeriyorsa true döner
         }).toList();
       });
     }
@@ -67,7 +71,8 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
             icon: Icon(isListView ? Icons.grid_view : Icons.list),
             onPressed: () {
               setState(() {
-                isListView = !isListView; // Liste ve Grid görünümü arasında geçiş yapılır
+                isListView =
+                    !isListView; // Liste ve Grid görünümü arasında geçiş yapılır
               });
             },
           ),
@@ -83,14 +88,14 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
               children: [
                 Positioned.fill(
                   child: Image.asset(
-                    'assets/lessons_banner.png', // Banner resmi
+                    'assets/logo/general_banner.png', // Banner resmi
                     fit: BoxFit.cover,
                   ),
                 ),
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.all(16.0), 
+                    padding: EdgeInsets.all(16.0),
                     child: Text(
                       "Eğitimlerim", // Banner içindeki yazı
                       style: TextStyle(
@@ -108,7 +113,8 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              controller: _searchController, // Arama çubuğu için controller atanıyor
+              controller:
+                  _searchController, // Arama çubuğu için controller atanıyor
               decoration: InputDecoration(
                 hintText: 'Ders arayın...', // Placeholder metni
                 border: OutlineInputBorder(
@@ -162,7 +168,8 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                   );
           }
         } else if (state is LessonOperationFailure) {
-          return Center(child: Text("Ders yükleme başarısız oldu! ${state.error}"));
+          return Center(
+              child: Text("Ders yükleme başarısız oldu! ${state.error}"));
         } else {
           return const Center(child: Text("Bilinmeyen bir hata oluştu."));
         }

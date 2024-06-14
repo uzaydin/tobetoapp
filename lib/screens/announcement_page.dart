@@ -61,7 +61,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
               children: [
                 Positioned.fill(
                   child: Image.asset(
-                    'assets/lessons_banner.png', // Banner resmi
+                    'assets/logo/general_banner.png', // Banner resmi
                     fit: BoxFit.cover,
                   ),
                 ),
