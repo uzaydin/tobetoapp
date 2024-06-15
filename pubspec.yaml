@@ -24,7 +24,6 @@ dependencies:
   toggle_switch: ^2.3.0
   font_awesome_flutter: ^10.7.0
   provider: ^6.1.2
-  url_launcher: ^6.2.6
   video_player: ^2.8.6
   flutter_svg: ^2.0.10+1
   firebase_storage: ^12.0.1
@@ -32,6 +31,10 @@ dependencies:
   shared_preferences: ^2.2.3
   outline_gradient_button: ^2.0.1+1
   webview_flutter_plus: ^0.4.5
+  hexcolor: ^3.0.1
+  image_picker: ^1.1.2
+  file_picker: ^8.0.5
+  url_launcher: ^6.2.6
 
 dev_dependencies:
   flutter_test:
