@@ -20,6 +20,7 @@ class LessonModel {
       teacherIds; // Öğretmenlerin ID'leri dersler ID lere gore fıltrelenecek!
   List<String>? homeworkIds; // Ödevlerin ID'leri
   double? progress;
+  List<String>? liveSessions;
 
   LessonModel({
     this.id,
@@ -36,6 +37,7 @@ class LessonModel {
     this.teacherIds,
     this.homeworkIds,
     this.progress = 0.0,
+    this.liveSessions,
   });
 
   Map<String, dynamic> toMap() {
@@ -44,6 +46,7 @@ class LessonModel {
       'title': title,
       'image': image,
       'description': description,
+      'category': category,
       'classIds': classIds,
       'startDate': startDate?.toUtc(), // Convert to UTC
       'endDate': endDate?.toUtc(), // Convert to UTC
@@ -54,6 +57,7 @@ class LessonModel {
       'teacherIds': teacherIds,
       'homeworkIds': homeworkIds,
       'progress': progress,
+      'liveSessions': liveSessions,
     };
   }
 
@@ -63,6 +67,7 @@ class LessonModel {
       title: map['title'] as String?,
       image: map['image'] as String?,
       description: map['description'] as String?,
+      category: map['category'] as String?,
       classIds:
           map['classIds'] != null ? List<String>.from(map['classIds']) : null,
       startDate: (map['startDate'] as Timestamp?)?.toDate(),
@@ -80,6 +85,7 @@ class LessonModel {
           ? List<String>.from((map['homeworkIds'] as List<dynamic>))
           : null,
       progress: map['progress'] != null ? map['progress'].toDouble() : 0.0,
+      liveSessions: List<String>.from(map['liveSessions'] ?? []),
     );
   }
 
@@ -90,60 +96,62 @@ class LessonModel {
 }
 
 class HomeworkModel {
+  String? lessonId;
   String? id;
   String? title;
   String? description;
   List<String>? attachedFiles;
   String? assignedBy;
-  List<String>? studentSubmissions;
+  List<Map<String, dynamic>>? studentSubmissions;
+  DateTime? assignedDate;
   DateTime? dueDate;
 
   HomeworkModel({
+    this.lessonId,
     this.id,
     this.title,
     this.description,
     this.attachedFiles,
     this.assignedBy,
     this.studentSubmissions,
+    this.assignedDate,
     this.dueDate,
   });
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
+      'lessonId': lessonId,
       'id': id,
       'title': title,
       'description': description,
       'attachedFiles': attachedFiles,
       'assignedBy': assignedBy,
       'studentSubmissions': studentSubmissions,
-      'dueDate': dueDate?.millisecondsSinceEpoch,
+      'assignedDate': assignedDate?.toUtc(),
+      'dueDate': dueDate?.toUtc(),
     };
   }
 
-  factory HomeworkModel.fromMap(Map<String, dynamic> map) {
+  factory HomeworkModel.fromMap(Map<String, dynamic> map, String documentId) {
     return HomeworkModel(
-      id: map['id'] != null ? map['id'] as String : null,
-      title: map['title'] != null ? map['title'] as String : null,
-      description:
-          map['description'] != null ? map['description'] as String : null,
-      attachedFiles: map['attachedFiles'] != null
-          ? List<String>.from((map['attachedFiles'] as List<dynamic>))
-          : null,
-      assignedBy:
-          map['assignedBy'] != null ? map['assignedBy'] as String : null,
-      studentSubmissions: map['studentSubmissions'] != null
-          ? List<String>.from((map['studentSubmissions'] as List<dynamic>))
-          : null,
-      dueDate: map['dueDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['dueDate'])
+      lessonId: map['lessonId'],
+      id: documentId,
+      title: map['title'],
+      description: map['description'],
+      attachedFiles: List<String>.from(map['attachedFiles'] ?? []),
+      assignedBy: map['assignedBy'],
+      studentSubmissions: (map['studentSubmissions'] as List<dynamic>?)
+          ?.map((e) => Map<String, dynamic>.from(e))
+          .toList(),
+      assignedDate:
+          map['assignedDate'] != null && map['assignedDate'] is Timestamp
+              ? (map['assignedDate'] as Timestamp).toDate().toUtc()
+              : null,
+      dueDate: map['dueDate'] != null && map['dueDate'] is Timestamp
+          ? (map['dueDate'] as Timestamp).toDate().toUtc()
           : null,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory HomeworkModel.fromJson(String source) =>
-      HomeworkModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 class Video {
@@ -202,6 +210,39 @@ class Video {
         duration: duration ?? this.duration,
         isCompleted: isCompleted ?? this.isCompleted,
         spentTime: spentTime ?? this.spentTime);
+  }
+}
+
+class LiveSessionModel {
+  String? id;
+  String? title;
+  DateTime? startDate;
+  DateTime? endDate;
+
+  LiveSessionModel({
+    this.id,
+    this.title,
+    this.startDate,
+    this.endDate,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'startDate': startDate?.toUtc(),
+      'endDate': endDate?.toUtc(),
+    };
+  }
+
+  factory LiveSessionModel.fromMap(
+      Map<String, dynamic> map, String documentId) {
+    return LiveSessionModel(
+      id: documentId,
+      title: map['title'],
+      startDate: (map['startDate'] as Timestamp).toDate().toUtc(),
+      endDate: (map['endDate'] as Timestamp).toDate().toUtc(),
+    );
   }
 }
 

@@ -16,6 +16,7 @@ import 'package:tobetoapp/screens/favorites_page.dart';
 import 'package:tobetoapp/screens/homepage.dart';
 
 import 'package:tobetoapp/screens/login_or_signup.dart';
+import 'package:tobetoapp/screens/teacher_lesson_page.dart';
 import 'package:tobetoapp/screens/user/profile.dart';
 
 // Bottom Navigation Bar sayfasi
@@ -43,7 +44,10 @@ class _MainPageState extends State<MainPage> {
     switch (user.role) {
       case UserRole.teacher:
         return [
-          _buildNavigator(0, const Scaffold()), // Öğretmen için sınıf sayfası
+          _buildNavigator(
+              0,
+              TeacherLessonPage(
+                  teacherId: user.id!)), // Öğretmen için sınıf sayfası
           _buildNavigator(
               1,
               AnnouncementsPage(

@@ -1,5 +1,5 @@
-
 import 'package:tobetoapp/models/lesson_model.dart';
+import 'package:tobetoapp/models/userModel.dart';
 
 abstract class LessonState {}
 
@@ -17,4 +17,16 @@ class LessonOperationFailure extends LessonState {
   final String error;
 
   LessonOperationFailure(this.error);
+}
+
+class StudentsLoaded extends LessonState {
+  final List<UserModel> students;
+
+  StudentsLoaded(this.students);
+}
+
+class TeacherNamesLoaded extends LessonState {
+  final Map<String, String> teacherNames;
+
+  TeacherNamesLoaded(this.teacherNames);
 }
