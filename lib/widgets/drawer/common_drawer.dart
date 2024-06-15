@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+import 'package:tobetoapp/main.dart';
+import 'package:tobetoapp/screens/auth.dart';
 import 'package:tobetoapp/screens/guest/in_the_press.dart';
 import 'package:tobetoapp/screens/guest/for_individuals.dart';
 import 'package:tobetoapp/screens/guest/blog.dart';
@@ -11,7 +15,7 @@ import 'package:tobetoapp/screens/lessons_category_screen.dart';
 import 'package:tobetoapp/screens/login_or_signup.dart';
 import 'package:tobetoapp/theme/constants/constants.dart';
 import 'package:tobetoapp/theme/theme_switcher.dart';
-import 'package:tobetoapp/widgets/common_drawer/drawer_items.dart';
+import 'package:tobetoapp/widgets/drawer/drawer_items.dart';
 
 class CommonDrawer extends StatefulWidget {
   const CommonDrawer({super.key});
@@ -257,10 +261,11 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 ),
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoginOrSignUp()));
+                final authProvider =
+                    Provider.of<AuthProviderDrawer>(context, listen: false);
+                authProvider.login();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Auth()));
               },
               child: Text(
                 "Giriş Yap",

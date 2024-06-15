@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/blog/blog_bloc.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_bloc.dart';
 import 'package:tobetoapp/bloc/class/class_bloc.dart';
@@ -26,6 +27,8 @@ import 'package:tobetoapp/screens/homepage.dart';
 import 'package:tobetoapp/theme/constants/constants.dart';
 import 'package:tobetoapp/theme/theme_data.dart';
 import 'package:tobetoapp/theme/theme_switcher.dart';
+import 'package:tobetoapp/widgets/drawer/common_drawer.dart';
+import 'package:tobetoapp/widgets/drawer/common_user_drawer.dart';
 import 'package:tobetoapp/widgets/guest/animated_container.dart';
 import 'firebase_options.dart';
 
@@ -50,6 +53,8 @@ class Home extends StatelessWidget {
         providers: [
           Provider<LessonRepository>(create: (_) => LessonRepository()),
           Provider<SharedPreferences>.value(value: sharedPreferences),
+          ChangeNotifierProvider(create: (_) => AuthProviderDrawer()),
+          ChangeNotifierProvider(create: (_) => AnimationControllerExample()),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -98,13 +103,32 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   ThemeMode _themeMode = ThemeMode.light;
   final ThemeService _themeService = ThemeService();
   @override
   void initState() {
     super.initState();
     _loadThemeMode();
+    WidgetsBinding.instance.addObserver(this);
+    // app kapatıldığında oturum da kapatılsın diye
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.detached) {
+      // Uygulama kapatıldığında oturumu kapat
+      final authProvider =
+          Provider.of<AuthProviderDrawer>(context, listen: false);
+      authProvider.logout();
+    }
   }
 
   Future<void> _loadThemeMode() async {
@@ -125,18 +149,27 @@ class _MyAppState extends State<MyApp> {
     return Builder(
       builder: (context) {
         AppConstants.init(context);
-
-        return (ChangeNotifierProvider(
-          create: (context) => AnimationControllerExample(),
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            theme: AppThemes.light,
-            darkTheme: AppThemes.dark,
-            themeMode: _themeMode,
-            home: const Homepage(),
-          ),
-        ));
+        return Consumer<AuthProviderDrawer>(
+          builder: (context, authProvider, _) {
+            final drawer = authProvider.isLoggedIn
+                ? const CommonUserDrawer()
+                : const CommonDrawer();
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              theme: AppThemes.light,
+              darkTheme: AppThemes.dark,
+              themeMode: _themeMode,
+              home: const Homepage(),
+              builder: (context, child) {
+                return Scaffold(
+                  body: child,
+                  drawer: drawer,
+                );
+              },
+            );
+          },
+        );
       },
     );
   }

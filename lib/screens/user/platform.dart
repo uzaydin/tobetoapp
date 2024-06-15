@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
-import 'package:tobetoapp/widgets/common_drawer/common_user_drawer.dart';
 
 // kullanıcı giriş yapınca yönlendirilen anasayfa
 
@@ -16,7 +16,7 @@ class _PlatformState extends State<Platform> {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: CommonAppBar(),
-      drawer: CommonUserDrawer(),
+      drawer: DrawerManager(),
       body: Center(child: Text("Tobeto'ya Hoşgeldiniz")),
     );
   }

@@ -27,8 +27,8 @@ final ThemeData darkTheme = ThemeData(
     ),
     labelStyle: TextStyle(color: AppColors.tobetoMoru),
   ),
-  cardTheme: CardTheme(
-    color: Colors.grey[800],
+  cardTheme: const CardTheme(
+    //color: Colors.grey[800],
     shadowColor: Colors.black45,
     elevation: 4,
   ),

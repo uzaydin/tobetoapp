@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
-import 'package:tobetoapp/widgets/common_drawer/common_drawer.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
 import 'package:tobetoapp/widgets/guest/contact_info.dart';
 import 'package:tobetoapp/widgets/user/contact_functions.dart';
@@ -39,7 +39,7 @@ class _IletisimState extends State<Contact> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CommonAppBar(),
-      drawer: const CommonDrawer(),
+      drawer: const DrawerManager(),
       body: SingleChildScrollView(
         child: Column(
           children: [

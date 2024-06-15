@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+import 'package:tobetoapp/theme/constants/constants.dart';
+import 'package:tobetoapp/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
 
@@ -30,19 +33,20 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: const CommonAppBar(),
+      drawer: const DrawerManager(),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.symmetric(
+            vertical: AppConstants.paddingXLarge,
+            horizontal: AppConstants.paddingMedium),
         child: Container(
-          height: 300,
-          padding: const EdgeInsets.all(25.0),
+          height: AppConstants.screenHeight * 0.6,
+          padding: EdgeInsets.all(AppConstants.paddingMedium),
           decoration: BoxDecoration(
-            color: const Color.fromARGB(211, 255, 255, 255),
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(AppConstants.br16),
             boxShadow: const [
               BoxShadow(
-                color: Colors.black26,
+                color: Colors.white30,
                 blurRadius: 10.0,
                 spreadRadius: 2.0,
               ),
@@ -51,32 +55,31 @@ class _ResetPasswordState extends State<ResetPassword> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 "Şifre Sıfırlama",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: (Theme.of(context).textTheme.headlineSmall),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: AppConstants.sizedBoxHeightMedium),
               Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 226, 222, 222),
-                  borderRadius: BorderRadius.circular(12.0),
+                  borderRadius: BorderRadius.circular(AppConstants.br20),
                 ),
                 child: TextField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: AppConstants.paddingMedium),
                     labelText: "E-posta adresinizi giriniz",
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: AppConstants.sizedBoxHeightMedium),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _resetPassword,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 163, 77, 233),
+                    backgroundColor: AppColors.tobetoMoru,
                   ),
                   child: const Text(
                     "Gönder",
@@ -90,7 +93,7 @@ class _ResetPasswordState extends State<ResetPassword> {
           ),
         ),
       ),
-      bottomSheet: const CommonFooter(),
+      bottomNavigationBar: const CommonFooter(),
     );
   }
 }

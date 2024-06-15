@@ -7,6 +7,8 @@ class AppConstants {
   static late double paddingSmall;
   static late double paddingMedium;
   static late double paddingLarge;
+  static late double paddingXLarge;
+
   static late double sizedBoxHeightSmall;
   static late double sizedBoxHeightMedium;
   static late double sizedBoxHeightLarge;
@@ -34,6 +36,7 @@ class AppConstants {
     paddingSmall = screenWidth * 0.025;
     paddingMedium = screenWidth * 0.04;
     paddingLarge = screenWidth * 0.075;
+    paddingXLarge = screenWidth * 0.2;
 
     profileImageSize = screenWidth * 0.2;
 

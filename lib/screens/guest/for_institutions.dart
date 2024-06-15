@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/screens/guest/contact.dart';
 import 'package:tobetoapp/theme/constants/constants.dart';
 import 'package:tobetoapp/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
-import 'package:tobetoapp/widgets/common_drawer/common_drawer.dart';
 import 'package:tobetoapp/widgets/guest/institutions_card.dart';
 
 class ForInstitutions extends StatelessWidget {
@@ -15,7 +15,7 @@ class ForInstitutions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CommonAppBar(),
-      drawer: const CommonDrawer(),
+      drawer: const DrawerManager(),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(AppConstants.paddingMedium),
