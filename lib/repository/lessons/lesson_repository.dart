@@ -112,6 +112,8 @@ class LessonRepository {
       final snapshot = await _firestore
           .collection('lessons')
           .where('teacherIds', arrayContains: teacherId)
+          .where('isLive',
+              isEqualTo: true) // eğitmenlere sadece canlı dersler atandığı için
           .get();
       if (snapshot.docs.isEmpty) {
         return [];
