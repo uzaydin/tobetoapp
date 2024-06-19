@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tobetoapp/bloc/admin/admin_bloc.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
@@ -109,6 +110,10 @@ class Home extends StatelessWidget {
             BlocProvider(
               create: (context) => LiveSessionBloc(LessonLiveRepository()),
             ),
+            BlocProvider<AdminBloc>(
+            create: (context) => AdminBloc(UserRepository(), ClassRepository(),
+                LessonRepository()),
+          ),
           ],
           child: const MyApp(),
         ));

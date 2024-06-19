@@ -30,6 +30,7 @@ class UserModel {
   List<Languages>? languages;
   UserRole? role;
   List<String>? classIds; // Kullanıcının bir veya birden fazla sınıfı olabilir.
+  DateTime? registrationDate;
 
   UserModel({
     this.id,
@@ -59,6 +60,7 @@ class UserModel {
     this.languages,
     this.role,
     this.classIds,
+    this.registrationDate,
   });
 
   String getProfilePhotoUrl() {
@@ -94,6 +96,7 @@ class UserModel {
     List<Languages>? languages,
     List<String>? classIds,
     UserRole? role,
+    DateTime? registrationDate,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -123,6 +126,7 @@ class UserModel {
       languages: languages ?? this.languages,
       classIds: classIds ?? this.classIds,
       role: role ?? this.role,
+      registrationDate: registrationDate ?? this.registrationDate,
     );
   }
 
@@ -155,6 +159,9 @@ class UserModel {
       'languages': languages?.map((item) => item.toMap()).toList(),
       'classIds': classIds,
       'role': role?.name,
+      'registrationDate': registrationDate != null
+          ? Timestamp.fromDate(registrationDate!)
+          : null, // Tarih formatında saklama
     };
   }
 
@@ -221,6 +228,76 @@ class UserModel {
           map['classIds'] != null ? List<String>.from(map['classIds']) : [],
       role:
           map['role'] != null ? UserRoleExtension.fromName(map['role']) : null,
+      registrationDate: map['registrationDate'] != null
+          ? (map['registrationDate'] as Timestamp).toDate()
+          : null, // Tarih dönüşümü
+    );
+  }
+
+  factory UserModel.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    return UserModel(
+      id: doc.id,
+      profilePhotoUrl: data['profilePhotoUrl'],
+      firstName: data['firstName'],
+      lastName: data['lastName'],
+      phoneNumber: data['phoneNumber'],
+      birthDate: data['birthDate'] != null
+          ? (data['birthDate'] as Timestamp).toDate()
+          : null,
+      tcNo: data['tcNo'],
+      email: data['email'],
+      gender: data['gender'] != null ? Gender.values[data['gender']] : null,
+      militaryStatus: data['militaryStatus'] != null
+          ? MilitaryStatus.values[data['militaryStatus']]
+          : null,
+      disabilityStatus: data['disabilityStatus'] != null
+          ? DisabilityStatus.values[data['disabilityStatus']]
+          : null,
+      github: data['github'],
+      country: data['country'],
+      city: data['city'],
+      district: data['district'],
+      street: data['street'],
+      about: data['about'],
+      experiences: data['experiences'] != null
+          ? List<Experience>.from(
+              data['experiences'].map((item) => Experience.fromMap(item)))
+          : [],
+      education: data['education'] != null
+          ? List<Education>.from(
+              data['education'].map((item) => Education.fromMap(item)))
+          : [],
+      skills: data['skills'] != null
+          ? List<UserSkill>.from(
+              data['skills'].map((item) => UserSkill.fromMap(item)))
+          : [],
+      certificates: data['certificates'] != null
+          ? List<Certificate>.from(
+              data['certificates'].map((item) => Certificate.fromMap(item)))
+          : [],
+      communities: data['communities'] != null
+          ? List<Community>.from(
+              data['communities'].map((item) => Community.fromMap(item)))
+          : [],
+      projectsAwards: data['projectsAwards'] != null
+          ? List<ProjectAwards>.from(
+              data['projectsAwards'].map((item) => ProjectAwards.fromMap(item)))
+          : [],
+      socialMedia: data['socialMedia'] != null
+          ? List<SocialMedia>.from(
+              data['socialMedia'].map((item) => SocialMedia.fromMap(item)))
+          : [],
+      languages: data['languages'] != null
+          ? List<Languages>.from(
+              data['languages'].map((item) => Languages.fromMap(item)))
+          : [],
+      role: data['role'] != null ? UserRole.values[data['role']] : null,
+      classIds:
+          data['classIds'] != null ? List<String>.from(data['classIds']) : [],
+          registrationDate: data['registrationDate'] != null
+          ? (data['registrationDate'] as Timestamp).toDate()
+          : null, 
     );
   }
 }

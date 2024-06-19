@@ -7,6 +7,7 @@ import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/auth/auth_state.dart';
+import 'package:tobetoapp/screens/mainpage.dart';
 import 'package:tobetoapp/screens/user/platform.dart';
 import 'package:tobetoapp/screens/user/reset_password.dart';
 import 'package:tobetoapp/theme/constants/constants.dart';
@@ -73,7 +74,7 @@ class _AuthState extends State<Auth> {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Platform(),
+                  builder: (context) => const MainPage(),
                 ));
           } else if (state is Unauthenticated) {
             Navigator.of(context).pushReplacement(MaterialPageRoute(

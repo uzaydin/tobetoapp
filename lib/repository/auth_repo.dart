@@ -44,6 +44,7 @@ class AuthRepository {
         lastName: lastName,
         email: email,
         role: UserRole.student, // Varsayılan rol
+        registrationDate: DateTime.timestamp()
       );
       await _firestore.collection('users').doc(user.uid).set(userModel.toMap());
     }

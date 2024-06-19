@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/models/userModel.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 /* class LessonRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -107,6 +110,17 @@ class LessonRepository {
     await _firestore.collection('lessons').doc(id).delete();
   }
 
+  Future<void> updateLesson(LessonModel lesson) async {
+    try {
+      await _firestore
+          .collection('lessons')
+          .doc(lesson.id)
+          .update(lesson.toMap());
+    } catch (e) {
+      throw Exception('Error updating lesson: $e');
+    }
+  }
+
   Future<List<LessonModel>> getLessonsByTeacherId(String teacherId) async {
     try {
       final snapshot = await _firestore
@@ -161,4 +175,50 @@ class LessonRepository {
     }
     return students;
   }
+
+  // Admin, ClassManagement sayfasinda siniflara ait dersleri filtreleme icin kullaniyoruz
+  Future<List<LessonModel>> getLessonsForClass(String classId) async {
+    try {
+      final snapshot = await _firestore
+          .collection('lessons')
+          .where('classIds', arrayContains: classId)
+          .get();
+      if (snapshot.docs.isEmpty) {
+        return [];
+      }
+      return snapshot.docs
+          .map((doc) => LessonModel.fromMap(doc.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      throw Exception('Error getting lessons for class: $e');
+    }
+  }
+
+  Future<List<LessonModel>> getLesson() async {  // isim degisebilir Lessons yap
+    try {
+      final snapshot = await _firestore.collection('lessons').get();
+      if (snapshot.docs.isEmpty) {
+        return [];
+      }
+      return snapshot.docs
+          .map((doc) => LessonModel.fromMap(doc.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      throw Exception('Error getting lessons: $e');
+    }
+  }
+
+  // Admin Ders image ekleme
+  Future<String> uploadLessonImage(String lessonId, XFile imageFile) async {
+    try {
+      final ref = FirebaseStorage.instance.ref().child('lesson_images/$lessonId');
+      final uploadTask = ref.putFile(File(imageFile.path));
+      final snapshot = await uploadTask;
+      return await snapshot.ref.getDownloadURL();
+    } catch (e) {
+      throw Exception('Failed to upload image: $e');
+    }
+  }
+
+
 }

@@ -93,6 +93,42 @@ class LessonModel {
 
   factory LessonModel.fromJson(String source) =>
       LessonModel.fromMap(json.decode(source));
+
+  LessonModel copyWith({
+    String? id,
+    String? title,
+    String? image,
+    String? description,
+    String? category,
+    List<String>? classIds,
+    DateTime? startDate,
+    DateTime? endDate,
+    List<String>? videoIds,
+    Duration? estimatedTime,
+    bool? isLive,
+    List<String>? teacherIds,
+    List<String>? homeworkIds,
+    double? progress,
+    List<String>? liveSessions,
+  }) {
+    return LessonModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      image: image ?? this.image,
+      description: description ?? this.description,
+      category: category ?? this.category,
+      classIds: classIds ?? this.classIds,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      videoIds: videoIds ?? this.videoIds,
+      estimatedTime: estimatedTime ?? this.estimatedTime,
+      isLive: isLive ?? this.isLive,
+      teacherIds: teacherIds ?? this.teacherIds,
+      homeworkIds: homeworkIds ?? this.homeworkIds,
+      progress: progress ?? this.progress,
+      liveSessions: liveSessions ?? this.liveSessions,
+    );
+  }
 }
 
 class HomeworkModel {

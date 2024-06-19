@@ -9,6 +9,7 @@ import 'package:tobetoapp/bloc/user/user_event.dart';
 import 'package:tobetoapp/bloc/user/user_state.dart';
 import 'package:tobetoapp/models/userModel.dart';
 import 'package:tobetoapp/models/user_enum.dart';
+import 'package:tobetoapp/screens/admin/admin_panel.dart';
 
 import 'package:tobetoapp/screens/announcement_page.dart';
 import 'package:tobetoapp/screens/class_details_page.dart';
@@ -72,7 +73,7 @@ class _MainPageState extends State<MainPage> {
         ];
       case UserRole.admin:
         return [
-          _buildNavigator(0, const Scaffold()), // Admin için ana sayfa
+          _buildNavigator(0, const AdminPanel()), // Admin için ana sayfa
           _buildNavigator(
               1,
               AnnouncementsPage(
