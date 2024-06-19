@@ -29,7 +29,7 @@ class UserModel {
   List<SocialMedia>? socialMedia;
   List<Languages>? languages;
   UserRole? role;
-  List<String>? classIds; // Kullanıcının bir veya birden fazla sınıfı olabilir.
+  List<String>? classIds;
   DateTime? registrationDate;
 
   UserModel({
@@ -137,28 +137,47 @@ class UserModel {
       'firstName': firstName,
       'lastName': lastName,
       'phoneNumber': phoneNumber,
-      'birthDate': birthDate?.toIso8601String(),
+      'birthDate':
+          birthDate?.toIso8601String(), // Tarih string'e dönüştürülüyor
       'tcNo': tcNo,
       'email': email,
-      'gender': gender?.name,
-      'militaryStatus': militaryStatus?.name,
-      'disabilityStatus': disabilityStatus?.name,
+      'gender': gender?.name, // Enum tipi string'e dönüştürülüyor
+      'militaryStatus':
+          militaryStatus?.name, // Enum tipi string'e dönüştürülüyor
+      'disabilityStatus':
+          disabilityStatus?.name, // Enum tipi string'e dönüştürülüyor
       'github': github,
       'country': country,
       'city': city,
       'district': district,
       'street': street,
       'about': about,
-      'experiences': experiences?.map((e) => e.toMap()).toList(),
-      'education': education?.map((e) => e.toMap()).toList(),
-      'skills': skills?.map((e) => e.toMap()).toList(),
-      'certificates': certificates?.map((e) => e.toMap()).toList(),
-      'communities': communities?.map((e) => e.toMap()).toList(),
-      'projectsAwards': projectsAwards?.map((e) => e.toMap()).toList(),
-      'socialMedia': socialMedia?.map((item) => item.toMap()).toList(),
-      'languages': languages?.map((item) => item.toMap()).toList(),
+      'experiences': experiences
+          ?.map((e) => e.toMap())
+          .toList(), // Listeler map'e dönüştürülüyor
+      'education': education
+          ?.map((e) => e.toMap())
+          .toList(), // Listeler map'e dönüştürülüyor
+      'skills': skills
+          ?.map((e) => e.toMap())
+          .toList(), // Listeler map'e dönüştürülüyor
+      'certificates': certificates
+          ?.map((e) => e.toMap())
+          .toList(), // Listeler map'e dönüştürülüyor
+      'communities': communities
+          ?.map((e) => e.toMap())
+          .toList(), // Listeler map'e dönüştürülüyor
+      'projectsAwards': projectsAwards
+          ?.map((e) => e.toMap())
+          .toList(), // Listeler map'e dönüştürülüyor
+      'socialMedia': socialMedia
+          ?.map((item) => item.toMap())
+          .toList(), // Listeler map'e dönüştürülüyor
+      'languages': languages
+          ?.map((item) => item.toMap())
+          .toList(), // Listeler map'e dönüştürülüyor
       'classIds': classIds,
-      'role': role?.name,
+      'role': role?.name, // Enum tipi string'e dönüştürülüyor
       'registrationDate': registrationDate != null
           ? Timestamp.fromDate(registrationDate!)
           : null, // Tarih formatında saklama
@@ -174,19 +193,21 @@ class UserModel {
       phoneNumber: map['phoneNumber'],
       birthDate: map['birthDate'] != null
           ? (map['birthDate'] is Timestamp
-              ? (map['birthDate'] as Timestamp).toDate()
+              ? (map['birthDate'] as Timestamp).toDate() // Tarih dönüşümü
               : DateTime.parse(map['birthDate']))
           : null,
       tcNo: map['tcNo'],
       email: map['email'],
       gender: map['gender'] != null
-          ? GenderExtension.fromName(map['gender'])
+          ? GenderExtension.fromName(map['gender']) // Enum dönüşümü
           : null,
       militaryStatus: map['militaryStatus'] != null
-          ? MilitaryStatusExtension.fromName(map['militaryStatus'])
+          ? MilitaryStatusExtension.fromName(
+              map['militaryStatus']) // Enum dönüşümü
           : null,
       disabilityStatus: map['disabilityStatus'] != null
-          ? DisabilityStatusExtension.fromName(map['disabilityStatus'])
+          ? DisabilityStatusExtension.fromName(
+              map['disabilityStatus']) // Enum dönüşümü
           : null,
       github: map['github'],
       country: map['country'],
@@ -196,41 +217,48 @@ class UserModel {
       about: map['about'],
       experiences: map['experiences'] != null
           ? (map['experiences'] as List)
-              .map((item) => Experience.fromMap(item))
+              .map((item) => Experience.fromMap(item)) // Liste dönüşümü
               .toList()
           : null,
       education: map['education'] != null
           ? (map['education'] as List)
-              .map((item) => Education.fromMap(item))
+              .map((item) => Education.fromMap(item)) // Liste dönüşümü
               .toList()
           : null,
       skills: (map['skills'] as List<dynamic>?)
-          ?.map((e) => UserSkill.fromMap(e as Map<String, dynamic>))
+          ?.map((e) =>
+              UserSkill.fromMap(e as Map<String, dynamic>)) // Liste dönüşümü
           .toList(),
       certificates: (map['certificates'] as List<dynamic>?)
-          ?.map((e) => Certificate.fromMap(e as Map<String, dynamic>))
+          ?.map((e) =>
+              Certificate.fromMap(e as Map<String, dynamic>)) // Liste dönüşümü
           .toList(),
       communities: (map['communities'] as List<dynamic>?)
-          ?.map((e) => Community.fromMap(e as Map<String, dynamic>))
+          ?.map((e) =>
+              Community.fromMap(e as Map<String, dynamic>)) // Liste dönüşümü
           .toList(),
       projectsAwards: (map['projectsAwards'] as List<dynamic>?)
-          ?.map((e) => ProjectAwards.fromMap(e as Map<String, dynamic>))
+          ?.map((e) => ProjectAwards.fromMap(
+              e as Map<String, dynamic>)) // Liste dönüşümü
           .toList(),
       socialMedia: map['socialMedia'] != null
-          ? List<SocialMedia>.from(map['socialMedia'].map(
-              (item) => SocialMedia.fromMap(Map<String, dynamic>.from(item))))
+          ? List<SocialMedia>.from(map['socialMedia'].map((item) =>
+              SocialMedia.fromMap(
+                  Map<String, dynamic>.from(item)))) // Liste dönüşümü
           : null,
       languages: map['languages'] != null
-          ? List<Languages>.from(map['languages'].map(
-              (item) => Languages.fromMap(Map<String, dynamic>.from(item))))
+          ? List<Languages>.from(map['languages'].map((item) =>
+              Languages.fromMap(
+                  Map<String, dynamic>.from(item)))) // Liste dönüşümü
           : null,
       classIds:
           map['classIds'] != null ? List<String>.from(map['classIds']) : [],
-      role:
-          map['role'] != null ? UserRoleExtension.fromName(map['role']) : null,
+      role: map['role'] != null
+          ? UserRoleExtension.fromName(map['role'])
+          : null, // Enum dönüşümü
       registrationDate: map['registrationDate'] != null
-          ? (map['registrationDate'] as Timestamp).toDate()
-          : null, // Tarih dönüşümü
+          ? (map['registrationDate'] as Timestamp).toDate() // Tarih dönüşümü
+          : null,
     );
   }
 
@@ -247,12 +275,14 @@ class UserModel {
           : null,
       tcNo: data['tcNo'],
       email: data['email'],
-      gender: data['gender'] != null ? Gender.values[data['gender']] : null,
+      gender: data['gender'] != null
+          ? GenderExtension.fromName(data['gender'])
+          : null,
       militaryStatus: data['militaryStatus'] != null
-          ? MilitaryStatus.values[data['militaryStatus']]
+          ? MilitaryStatusExtension.fromName(data['militaryStatus'])
           : null,
       disabilityStatus: data['disabilityStatus'] != null
-          ? DisabilityStatus.values[data['disabilityStatus']]
+          ? DisabilityStatusExtension.fromName(data['disabilityStatus'])
           : null,
       github: data['github'],
       country: data['country'],
@@ -292,12 +322,14 @@ class UserModel {
           ? List<Languages>.from(
               data['languages'].map((item) => Languages.fromMap(item)))
           : [],
-      role: data['role'] != null ? UserRole.values[data['role']] : null,
       classIds:
           data['classIds'] != null ? List<String>.from(data['classIds']) : [],
-          registrationDate: data['registrationDate'] != null
+      role: data['role'] != null
+          ? UserRoleExtension.fromName(data['role'])
+          : null,
+      registrationDate: data['registrationDate'] != null
           ? (data['registrationDate'] as Timestamp).toDate()
-          : null, 
+          : null,
     );
   }
 }

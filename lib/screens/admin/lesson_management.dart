@@ -215,7 +215,6 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
 // Baska sayfaya tasinabilir.
 class LessonTile extends StatelessWidget {
   final LessonModel lesson;
-
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 

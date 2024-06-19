@@ -8,7 +8,6 @@ import 'package:tobetoapp/bloc/auth/auth_state.dart';
 import 'package:tobetoapp/screens/mainpage.dart';
 import 'package:tobetoapp/screens/password_reset.dart';
 
-
 class LoginOrSignUp extends StatefulWidget {
   const LoginOrSignUp({super.key});
 
@@ -51,8 +50,6 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
         .add(AuthLogin(email: _email.text, password: _password.text));
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,13 +60,13 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
             // Gösterge göster
             showDialog(
               context: context,
-              builder: (context) => const Center(child: CircularProgressIndicator()),
+              builder: (context) =>
+                  const Center(child: CircularProgressIndicator()),
               barrierDismissible: false,
             );
             Navigator.of(context).pop();
           }
           if (state is AuthFailure) {
-            print("GIRIS DENEMESSSSSSSSII : $state");
             // Hata mesajı göster
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Giriş yapılamadı: ${state.message}")),
@@ -95,7 +92,9 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 80),
-                  SvgPicture.network('https://tobeto.com/_next/static/media/tobeto-logo.29b55e1c.svg', height: 100), // Logo ekleyin
+                  SvgPicture.network(
+                      'https://tobeto.com/_next/static/media/tobeto-logo.29b55e1c.svg',
+                      height: 100), // Logo ekleyin
                   const SizedBox(height: 20),
                   const Text(
                     "Hoşgeldiniz",
@@ -114,7 +113,9 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
                   const SizedBox(height: 20),
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ResetPasswordPage(),));
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ResetPasswordPage(),
+                      ));
                     },
                     child: const Text(
                       "Şifremi Unuttum",
@@ -142,7 +143,8 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: !_registerPage ? Colors.grey.shade200 : Colors.grey.shade100,
+              color:
+                  !_registerPage ? Colors.grey.shade200 : Colors.grey.shade100,
               borderRadius: BorderRadius.circular(30),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -163,7 +165,8 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: _registerPage ? Colors.grey.shade200 : Colors.grey.shade100,
+              color:
+                  _registerPage ? Colors.grey.shade200 : Colors.grey.shade100,
               borderRadius: BorderRadius.circular(30),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -199,7 +202,8 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, IconData icon, String hintText,
+  Widget _buildTextField(
+      TextEditingController controller, IconData icon, String hintText,
       {bool obscureText = false}) {
     return TextField(
       controller: controller,
@@ -233,7 +237,9 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
 
   Widget _buildGoogleSignInButton() {
     return ElevatedButton.icon(
-      onPressed: (){context.read<AuthBloc>().add(AuthGoogleSignIn());},
+      onPressed: () {
+        context.read<AuthBloc>().add(AuthGoogleSignIn());
+      },
       //icon: Image.asset("lib/images/google.png"),
       label: const Text("Google ile Giriş Yap"),
       style: ElevatedButton.styleFrom(

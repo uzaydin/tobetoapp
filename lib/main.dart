@@ -111,9 +111,9 @@ class Home extends StatelessWidget {
               create: (context) => LiveSessionBloc(LessonLiveRepository()),
             ),
             BlocProvider<AdminBloc>(
-            create: (context) => AdminBloc(UserRepository(), ClassRepository(),
-                LessonRepository()),
-          ),
+              create: (context) => AdminBloc(
+                  UserRepository(), ClassRepository(), LessonRepository()),
+            ),
           ],
           child: const MyApp(),
         ));

@@ -70,18 +70,23 @@ class UserRepository {
   // Admin user management islemleri
 
    Future<List<UserModel>> fetchUsers() async {
-    try {
-      final snapshot = await _firestore.collection('users').get();
-      return snapshot.docs.map((doc) {
-        debugPrint("Fetched user doc: ${doc.data()}");
+  try {
+    final querySnapshot = await _firestore.collection('users').get();
+    final users = querySnapshot.docs.map((doc) {
+      try {
         return UserModel.fromFirestore(doc);
-      }).toList();
-    } catch (e) {
-      debugPrint("Error fetching users: $e");
-      rethrow;
-    }
-  }
+      } catch (e) {
+        print('Error parsing user document ${doc.id}: $e');
+        return null;
+      }
+    }).toList();
 
+    // Null değerleri filtrele
+    return users.whereType<UserModel>().toList();
+  } catch (e) {
+    throw Exception('Error getting users: $e');
+  }
+   }
   Future<void> updateUser(UserModel user) async {
     try {
       await _firestore.collection('users').doc(user.id).update(user.toMap());
