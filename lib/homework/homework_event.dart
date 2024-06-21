@@ -26,3 +26,14 @@ class LoadHomeworks extends HomeworkEvent {
 
   LoadHomeworks(this.lessonId);
 }
+
+class UploadHomework extends HomeworkEvent {
+  final String lessonId;
+  final String homeworkId;
+  final String filePath;
+
+  UploadHomework(
+      {required this.lessonId,
+      required this.homeworkId,
+      required this.filePath});
+}

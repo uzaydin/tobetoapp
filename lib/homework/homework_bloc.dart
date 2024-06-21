@@ -11,6 +11,7 @@ class HomeworkBloc extends Bloc<HomeworkEvent, HomeworkState> {
     on<UpdateHomework>(_onUpdateHomework);
     on<DeleteHomework>(_onDeleteHomework);
     on<LoadHomeworks>(_onLoadHomeworks);
+    on<UploadHomework>(_onUploadHomework);
   }
 
   Future<void> _onAddHomework(
@@ -55,6 +56,19 @@ class HomeworkBloc extends Bloc<HomeworkEvent, HomeworkState> {
     try {
       final homeworks = await _homeworkRepository.getHomeworks(event.lessonId);
       emit(HomeworkLoaded(homeworks));
+    } catch (e) {
+      emit(HomeworkFailure(e.toString()));
+    }
+  }
+
+  Future<void> _onUploadHomework(
+      UploadHomework event, Emitter<HomeworkState> emit) async {
+    emit(HomeworkLoading());
+    try {
+      await _homeworkRepository.uploadHomework(
+          event.lessonId, event.homeworkId, event.filePath);
+      add(LoadHomeworks(event.lessonId)); // Reload homeworks
+      emit(HomeworkSuccess());
     } catch (e) {
       emit(HomeworkFailure(e.toString()));
     }
