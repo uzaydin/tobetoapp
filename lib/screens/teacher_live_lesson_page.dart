@@ -220,7 +220,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                               DataColumn(label: Text('Veriliş Tarihi')),
                               DataColumn(label: Text('Son Teslim Tarihi')),
                               DataColumn(label: Text('Gönderen Sayısı')),
-                              DataColumn(label: Text('Ödev Dosyaları')),
+                              //DataColumn(label: Text('Ödev Dosyaları')),
                               DataColumn(label: Text('İşlem')),
                             ],
                             rows: homeworkState.homeworks.map((homework) {
@@ -236,7 +236,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                                         .studentSubmissions?.length
                                         .toString() ??
                                     '0')),
-                                DataCell(
+                                /*DataCell(
                                   GestureDetector(
                                     onTap: () {},
                                     child: const Text(
@@ -244,7 +244,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                                       style: TextStyle(color: Colors.blue),
                                     ),
                                   ),
-                                ),
+                                ),*/
                                 DataCell(Row(
                                   children: [
                                     TextButton(

@@ -1,16 +1,22 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
+import 'package:path/path.dart' as path;
 
 class HomeworkRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> addHomework(HomeworkModel homework) async {
     try {
       final newHomeworkRef = _firestore.collection('homeworks').doc();
       final teacherDoc = await _firestore
           .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .doc(_auth.currentUser?.uid)
           .get();
       final teacherName =
           '${teacherDoc.data()?['firstName']} ${teacherDoc.data()?['lastName']}';
@@ -71,5 +77,31 @@ class HomeworkRepository {
     } catch (e) {
       throw Exception('Error getting homeworks: $e');
     }
+  }
+
+  Future<void> uploadHomework(
+      String lessonId, String homeworkId, String filePath) async {
+    final user = _auth.currentUser;
+
+    if (user == null) {
+      throw Exception('User not authenticated');
+    }
+
+    final file = File(filePath);
+    final storageRef = _storage.ref().child(
+        'homework_submissions/$homeworkId/${user.uid}/${path.basename(file.path)}');
+    final uploadTask = storageRef.putFile(file);
+    await uploadTask.whenComplete(() => null);
+    final downloadUrl = await storageRef.getDownloadURL();
+
+    final submissionData = {
+      'uid': user.uid,
+      'submissionDate': DateTime.now(),
+      'fileUrl': downloadUrl,
+    };
+
+    await _firestore.collection('homeworks').doc(homeworkId).update({
+      'studentSubmissions': FieldValue.arrayUnion([submissionData]),
+    });
   }
 }

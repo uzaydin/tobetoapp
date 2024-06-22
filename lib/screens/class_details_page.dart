@@ -7,6 +7,7 @@ import 'package:tobetoapp/bloc/lessons/lesson_event.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/screens/lesson_details_and_video/lesson_details_page.dart';
+import 'package:tobetoapp/screens/student_live_lesson_page.dart';
 
 class ClassDetailPage extends StatefulWidget {
   final List<String>? classIds;
@@ -220,11 +221,11 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
 
   void _navigateToLessonPage(LessonModel lesson) {
     if (lesson.isLive ?? false) {
-      // Navigator.of(context).push(
-      //   MaterialPageRoute(
-      //     builder: (context) => LiveLessonPage(lesson: lesson),
-      //   ),
-      // );
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => StudentLiveLessonPage(lesson: lesson),
+        ),
+      );
     } else {
       Navigator.of(context).push(
         MaterialPageRoute(
