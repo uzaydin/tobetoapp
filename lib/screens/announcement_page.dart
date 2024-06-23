@@ -62,7 +62,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
       appBar: AppBar(
         title: const Text('Tobeto'),
         centerTitle: true,
-        actions: widget.role == UserRole.admin
+        actions: widget.role == UserRole.admin || widget.role == UserRole.teacher
             ? [
                 IconButton(
                   icon: const Icon(Icons.add),

@@ -17,6 +17,7 @@ class UserManagementPage extends StatefulWidget {
 class _UserManagementPageState extends State<UserManagementPage> {
   final TextEditingController _searchController = TextEditingController();
   List<UserModel> _filteredUsers = [];
+  bool _isSearching = false;
 
   @override
   void initState() {
@@ -49,20 +50,35 @@ class _UserManagementPageState extends State<UserManagementPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Kullanıcı Yönetimi'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              setState(() {
+                _isSearching = !_isSearching;
+              });
+            },
+          )
+        ],
+        bottom: _isSearching
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(56.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: const InputDecoration(
+                      hintText: 'Search by user name',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                  ),
+                ),
+              )
+            : null,
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                labelText: 'Search by name',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
-              ),
-            ),
-          ),
           Expanded(
             child: BlocBuilder<AdminBloc, AdminState>(
               builder: (context, state) {
