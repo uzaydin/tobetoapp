@@ -9,6 +9,11 @@ class AppConstants {
   static late double paddingLarge;
   static late double paddingXLarge;
 
+  static late double verticalPaddingSmall;
+  static late double verticalPaddingMedium;
+  static late double verticalPaddingLarge;
+  static late double verticalPaddingXLarge;
+
   static late double sizedBoxHeightSmall;
   static late double sizedBoxHeightMedium;
   static late double sizedBoxHeightLarge;
@@ -32,31 +37,39 @@ class AppConstants {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
 
-    // Padding and Margin
-    paddingSmall = screenWidth * 0.025;
-    paddingMedium = screenWidth * 0.04;
-    paddingLarge = screenWidth * 0.075;
-    paddingXLarge = screenWidth * 0.2;
+    // Horizontal Padding and Margin
+    paddingSmall = screenWidth * 0.025; // %2.5 of screen width
+    paddingMedium = screenWidth * 0.04; // %4 of screen width
+    paddingLarge = screenWidth * 0.075; // %7.5 of screen width
+    paddingXLarge = screenWidth * 0.2; // %20 of screen width
 
-    profileImageSize = screenWidth * 0.2;
+    // Vertical Padding and Margin
+    verticalPaddingSmall = screenHeight * 0.025; // %2.5 of screen height
+    verticalPaddingMedium = screenHeight * 0.04; // %4 of screen height
+    verticalPaddingLarge = screenHeight * 0.075; // %7.5 of screen height
+    verticalPaddingXLarge = screenHeight * 0.2; // %20 of screen height
 
-    sizedBoxHeightSmall = screenHeight * 0.02;
-    sizedBoxHeightMedium = screenHeight * 0.03;
-    sizedBoxHeightLarge = screenHeight * 0.04;
-    sizedBoxHeightXLarge = screenHeight * 0.05;
-    sizedBoxHeightXXLarge = screenHeight * 0.06;
+    profileImageSize = screenWidth * 0.2; // %20 of screen width
 
-    sizedBoxWidthSmall = screenWidth * 0.025;
-    sizedBoxWidthMedium = screenWidth * 0.05;
-    sizedBoxWidthLarge = screenWidth * 0.075;
-    sizedBoxWidthXLarge = screenWidth * 0.1;
-    sizedBoxWidthXXLarge = screenWidth * 0.2;
+    // SizedBox Heights
+    sizedBoxHeightSmall = screenHeight * 0.02; // %2 of screen height
+    sizedBoxHeightMedium = screenHeight * 0.03; // %3 of screen height
+    sizedBoxHeightLarge = screenHeight * 0.04; // %4 of screen height
+    sizedBoxHeightXLarge = screenHeight * 0.05; // %5 of screen height
+    sizedBoxHeightXXLarge = screenHeight * 0.06; // %6 of screen height
+
+    // SizedBox Widths
+    sizedBoxWidthSmall = screenWidth * 0.025; // %2.5 of screen width
+    sizedBoxWidthMedium = screenWidth * 0.05; // %5 of screen width
+    sizedBoxWidthLarge = screenWidth * 0.075; // %7.5 of screen width
+    sizedBoxWidthXLarge = screenWidth * 0.1; // %10 of screen width
+    sizedBoxWidthXXLarge = screenWidth * 0.2; // %20 of screen width
 
     // Border Radius
-    br8 = screenWidth * 0.02;
-    br10 = screenWidth * 0.025;
-    br16 = screenWidth * 0.04;
-    br20 = screenWidth * 0.05;
-    br30 = screenWidth * 0.075;
+    br8 = screenWidth * 0.02; // %2 of screen width
+    br10 = screenWidth * 0.025; // %2.5 of screen width
+    br16 = screenWidth * 0.04; // %4 of screen width
+    br20 = screenWidth * 0.05; // %5 of screen width
+    br30 = screenWidth * 0.075; // %7.5 of screen width
   }
 }

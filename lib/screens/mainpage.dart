@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(), // Admin ve student için ek bir sayfa
+    GlobalKey<NavigatorState>(), 
   ];
 
   // Kullanıcının rolüne göre sayfa listeleri oluşturma

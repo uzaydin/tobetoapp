@@ -53,82 +53,82 @@ class _LoginOrSignUpState extends State<LoginOrSignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is AuthLoading) {
-            // Gösterge göster
-            showDialog(
-              context: context,
-              builder: (context) =>
-                  const Center(child: CircularProgressIndicator()),
-              barrierDismissible: false,
-            );
-            Navigator.of(context).pop();
-          }
-          if (state is AuthFailure) {
-            // Hata mesajı göster
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Giriş yapılamadı: ${state.message}")),
-            );
-            Navigator.of(context).pop();
-          }
-          if (state is AuthSuccess) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const MainPage(),
-            ));
-          }
-          if (state is Unauthenticated) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const LoginOrSignUp(),
-            ));
-          }
-        },
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 80),
-                  SvgPicture.network(
+        backgroundColor: Colors.white,
+        body: BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is AuthLoading) {
+              showDialog(
+                context: context,
+                builder: (context) =>
+                    const Center(child: CircularProgressIndicator()),
+                barrierDismissible: false,
+              );
+            } else {
+              Navigator.of(context).pop();
+            }
+            if (state is AuthFailure) {
+              // Hata mesajı göster
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Giriş yapılamadı: ${state.message}")),
+              );
+            }
+            if (state is AuthSuccess) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const MainPage(),
+              ));
+            }
+            if (state is Unauthenticated) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const LoginOrSignUp(),
+              ));
+            }
+          },
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 80),
+                    SvgPicture.network(
                       'https://tobeto.com/_next/static/media/tobeto-logo.29b55e1c.svg',
-                      height: 100), // Logo ekleyin
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Hoşgeldiniz",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 20),
-                  _buildToggleButton(),
-                  const SizedBox(height: 20),
-                  _buildForm(),
-                  const SizedBox(height: 20),
-                  _buildSubmitButton(),
-                  const SizedBox(height: 20),
-                  const Text("Ya da"),
-                  const SizedBox(height: 20),
-                  _buildGoogleSignInButton(), // Google kayit butonu
-                  const SizedBox(height: 20),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ResetPasswordPage(),
-                      ));
-                    },
-                    child: const Text(
-                      "Şifremi Unuttum",
-                      style: TextStyle(decoration: TextDecoration.underline),
+                      height: 100,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Hoşgeldiniz",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildToggleButton(),
+                    const SizedBox(height: 20),
+                    _buildForm(),
+                    const SizedBox(height: 20),
+                    _buildSubmitButton(),
+                    const SizedBox(height: 20),
+                    const Text("Ya da"),
+                    const SizedBox(height: 20),
+                    _buildGoogleSignInButton(),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const ResetPasswordPage(),
+                        ));
+                      },
+                      child: const Text(
+                        "Şifremi Unuttum",
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _buildToggleButton() {

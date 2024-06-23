@@ -28,7 +28,6 @@ class Auth extends StatefulWidget {
 class _AuthState extends State<Auth> {
   bool _isPasswordVisible = false;
   bool _isLoginPage = true;
-  final passNotifier = ValueNotifier<PasswordStrength?>(null);
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _email = TextEditingController();
@@ -49,6 +48,8 @@ class _AuthState extends State<Auth> {
 
   @override
   Widget build(BuildContext context) {
+    AppConstants.init(context); // AppConstants'ı başlat
+
     return Scaffold(
       appBar: const CommonAppBar(),
       drawer: const DrawerManager(),
@@ -61,21 +62,22 @@ class _AuthState extends State<Auth> {
                   const Center(child: CircularProgressIndicator()),
               barrierDismissible: false,
             );
-            //Navigator.of(context).pop();
-          } else if (state is AuthFailure) {
-            print("Giriş Denemesi: $state");
+          } else {
+            Navigator.of(context).pop();
+          }
+          if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Giriş yapılamadı: ${state.message}")),
             );
-            Navigator.of(context).pop();
           } else if (state is AuthSuccess) {
             context.read<AuthProviderDrawer>().login();
             Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MainPage(),
-                ));
+              context,
+              MaterialPageRoute(
+                builder: (context) => const MainPage(),
+              ),
+            );
           } else if (state is Unauthenticated) {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => const Auth(),
@@ -85,7 +87,7 @@ class _AuthState extends State<Auth> {
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
             horizontal: AppConstants.paddingMedium,
-            vertical: AppConstants.paddingXLarge,
+            vertical: AppConstants.verticalPaddingMedium,
           ),
           child: Form(
             key: _formKey,
@@ -108,7 +110,7 @@ class _AuthState extends State<Auth> {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(height: AppConstants.sizedBoxHeightMedium),
+                      SizedBox(height: AppConstants.sizedBoxHeightSmall),
                       SizedBox(
                         width: AppConstants.screenWidth * 0.6,
                         height: AppConstants.screenHeight * 0.1,
@@ -117,7 +119,7 @@ class _AuthState extends State<Auth> {
                           fit: BoxFit.contain,
                         ),
                       ),
-                      SizedBox(height: AppConstants.sizedBoxHeightMedium),
+                      SizedBox(height: AppConstants.sizedBoxHeightSmall),
                       Text("Hoşgeldiniz",
                           style: Theme.of(context)
                               .textTheme
@@ -134,8 +136,7 @@ class _AuthState extends State<Auth> {
                         ],
                         activeBgColor: const [Colors.white],
                         inactiveBgColor: Colors.grey[200],
-                        inactiveFgColor:
-                            const Color.fromARGB(255, 120, 98, 180),
+                        inactiveFgColor: const Color.fromARGB(255, 120, 98, 180),
                         initialLabelIndex: _isLoginPage ? 0 : 1,
                         totalSwitches: 2,
                         labels: const ["Giriş Yap", "Kayıt Ol"],
@@ -146,22 +147,48 @@ class _AuthState extends State<Auth> {
                         },
                       ),
                       SizedBox(height: AppConstants.sizedBoxHeightXLarge),
+                      if (!_isLoginPage) ...[
+                        TextFormField(
+                          controller: _name,
+                          decoration: InputDecoration(
+                            labelText: "Ad",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(AppConstants.br20),
+                            ),
+                            prefixIcon: const Icon(Icons.assignment_ind_rounded),
+                          ),
+                          autocorrect: false,
+                          validator: (value) => validation(value, "Lütfen adınızı giriniz."),
+                        ),
+                        SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                        TextFormField(
+                          controller: _lastName,
+                          decoration: InputDecoration(
+                            labelText: "Soyad",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(AppConstants.br20),
+                            ),
+                            prefixIcon: const Icon(Icons.assignment_ind_rounded),
+                          ),
+                          autocorrect: false,
+                          validator: (value) => validation(value, "Lütfen soyadınızı giriniz."),
+                        ),
+                        SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                      ],
                       TextFormField(
                         controller: _email,
                         decoration: InputDecoration(
                           labelText: "E-Posta",
                           border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(AppConstants.br20),
+                            borderRadius: BorderRadius.circular(AppConstants.br20),
                           ),
                           prefixIcon: const Icon(Icons.email),
                         ),
                         autocorrect: false,
                         keyboardType: TextInputType.emailAddress,
-                        validator: (value) => validation(
-                            value, "Lütfen bir e-posta adresi giriniz."),
+                        validator: (value) => validation(value, "Lütfen bir e-posta adresi giriniz."),
                       ),
-                      SizedBox(height: AppConstants.sizedBoxHeightMedium),
+                      SizedBox(height: AppConstants.sizedBoxHeightSmall),
                       TextFormField(
                         controller: _password,
                         decoration: InputDecoration(
@@ -175,34 +202,15 @@ class _AuthState extends State<Auth> {
                             },
                           ),
                           border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(AppConstants.br20),
+                            borderRadius: BorderRadius.circular(AppConstants.br20),
                           ),
                           prefixIcon: const Icon(Icons.lock_outline_rounded),
                         ),
                         autocorrect: false,
                         obscureText: !_isPasswordVisible,
-                        validator: (value) =>
-                            validation(value, "Lütfen bir şifre giriniz"),
-                        onChanged: (value) {
-                          setState(() {
-                            _password.text = value.trim();
-                          });
-                          /*
-                        if (!_isLoginPage) {
-                          passNotifier.value =
-                              PasswordStrength.calculate(text: value);
-                        }
-                      },                                      
-                       */
-                        },
+                        validator: (value) => validation(value, "Lütfen bir şifre giriniz"),
                       ),
-                      //SizedBox(height: AppConstants.sizedBoxHeightMedium),
-                      //if (!_isLoginPage)
-                      //PasswordStrengthChecker(strength: passNotifier),
-
-                      SizedBox(height: AppConstants.sizedBoxHeightMedium),
-
+                      SizedBox(height: AppConstants.sizedBoxHeightSmall),
                       if (!_isLoginPage) ...[
                         TextFormField(
                           controller: _confirmPassword,
@@ -217,8 +225,7 @@ class _AuthState extends State<Auth> {
                               },
                             ),
                             border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.circular(AppConstants.br20),
+                              borderRadius: BorderRadius.circular(AppConstants.br20),
                             ),
                             prefixIcon: const Icon(Icons.lock_outline_rounded),
                           ),
@@ -234,39 +241,8 @@ class _AuthState extends State<Auth> {
                             return null;
                           },
                         ),
-                        SizedBox(height: AppConstants.sizedBoxHeightMedium),
-                        TextFormField(
-                          controller: _name,
-                          decoration: InputDecoration(
-                            labelText: "Ad",
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.circular(AppConstants.br20),
-                            ),
-                            prefixIcon:
-                                const Icon(Icons.assignment_ind_rounded),
-                          ),
-                          autocorrect: false,
-                          validator: (value) =>
-                              validation(value, "Lütfen adınızı giriniz."),
-                        ),
-                        SizedBox(height: AppConstants.sizedBoxHeightMedium),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: "Soyad",
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.circular(AppConstants.br20),
-                            ),
-                            prefixIcon:
-                                const Icon(Icons.assignment_ind_rounded),
-                          ),
-                          autocorrect: false,
-                          validator: (value) =>
-                              validation(value, "Lütfen soyadınızı giriniz."),
-                        ),
+                        SizedBox(height: AppConstants.sizedBoxHeightSmall),
                       ],
-                      SizedBox(height: AppConstants.sizedBoxHeightMedium),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -274,12 +250,11 @@ class _AuthState extends State<Auth> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.tobetoMoru,
                             shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(AppConstants.br20),
+                              borderRadius: BorderRadius.circular(AppConstants.br20),
                             ),
                             padding: EdgeInsets.symmetric(
-                              horizontal: AppConstants.screenWidth * 0.2,
-                              vertical: AppConstants.screenHeight * 0.025,
+                              horizontal: AppConstants.paddingXLarge,
+                              vertical: AppConstants.verticalPaddingSmall,
                             ),
                           ),
                           child: Text(
@@ -288,8 +263,27 @@ class _AuthState extends State<Auth> {
                           ),
                         ),
                       ),
-                      SizedBox(height: AppConstants.sizedBoxHeightMedium),
+                      SizedBox(height: AppConstants.sizedBoxHeightSmall),
                       if (_isLoginPage) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 2,
+                              width: 50,
+                              color: Colors.black,
+                            ),
+                            SizedBox(width: AppConstants.sizedBoxWidthSmall),
+                            const Text("Ya da"),
+                            SizedBox(width: AppConstants.sizedBoxWidthSmall),
+                            Container(
+                              height: 2,
+                              width: 50,
+                              color: Colors.black,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: AppConstants.sizedBoxHeightSmall),
                         GestureDetector(
                           onTap: () {
                             context.read<AuthBloc>().add(AuthGoogleSignIn());
@@ -297,39 +291,19 @@ class _AuthState extends State<Auth> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                height: 2,
-                                width: 50,
-                                color: Colors.black,
-                              ),
+                              const FaIcon(FontAwesomeIcons.google),
                               SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                              const Text("Ya da"),
-                              SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                              Container(
-                                height: 2,
-                                width: 50,
-                                color: Colors.black,
-                              ),
+                              const Text("Google ile Giriş Yap"),
                             ],
                           ),
                         ),
-                        SizedBox(height: AppConstants.sizedBoxHeightMedium),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            (const FaIcon(FontAwesomeIcons.google)),
-                            SizedBox(width: AppConstants.sizedBoxWidthMedium),
-                            const Text("Google ile Giriş Yap"),
-                          ],
-                        ),
-                        SizedBox(height: AppConstants.sizedBoxHeightMedium),
+                        SizedBox(height: AppConstants.sizedBoxHeightSmall),
                         TextButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ResetPassword()));
+                                    builder: (context) => const ResetPassword()));
                           },
                           child: const Text("Şifremi Unuttum"),
                         ),
@@ -337,7 +311,6 @@ class _AuthState extends State<Auth> {
                     ],
                   ),
                 ),
-                SizedBox(height: AppConstants.sizedBoxHeightLarge),
                 const CommonFooter(),
               ],
             ),

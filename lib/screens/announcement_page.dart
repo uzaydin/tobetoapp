@@ -4,10 +4,12 @@ import 'package:intl/intl.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_bloc.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_event.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_state.dart';
+import 'package:tobetoapp/models/announcement_model.dart';
 import 'package:tobetoapp/models/class_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/add_announcement.dart';
 import 'package:tobetoapp/screens/announcement_detail.dart';
+import 'package:tobetoapp/theme/constants/constants.dart';
 
 class AnnouncementsPage extends StatefulWidget {
   final UserRole? role;
@@ -29,8 +31,33 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
         .add(LoadAnnouncements(widget.classIds, widget.role));
   }
 
+  void _showAnnouncementDetails(BuildContext context, Announcements announcement) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: AlertDialog(
+            title: Text(announcement.title!),
+            content: Text(announcement.content!),
+            actions: [
+              TextButton(
+                child: const Text("Kapat"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // AppConstants'ı başlat
+    AppConstants.init(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tobeto'),
@@ -65,15 +92,14 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(AppConstants.paddingMedium),
                     child: Text(
                       "Duyurularım", // Banner içindeki yazı
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                         color: Colors.white,
-                        fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -92,6 +118,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                 } else if (state is AnnouncementOperationFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Operation Failed')));
+                      return;
                 }
               },
               builder: (context, state) {
@@ -111,41 +138,47 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                                 .format(announcement.createdAt!)
                             : 'No date';
                         return Card(
+                          color:Colors.grey[200],
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(AppConstants.br16),
                           ),
-                          child: InkWell(
+                          child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AnnouncementDetailPage(
-                                    announcement: announcement,
-                                  ),
-                                ),
-                              );
+                              _showAnnouncementDetails(context, announcement);
                             },
                             child: Padding(
-                              padding: const EdgeInsets.all(16.0),
+                              padding: EdgeInsets.all(AppConstants.paddingSmall),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    'Announcement',
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Duyuru',
+                                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        'İstanbul Kodluyor',
+                                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(height: 8.0),
+                                  
+                                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
                                   Text(
                                     announcement.title!,
-                                    style: const TextStyle(
-                                      fontSize: 18.0,
+                                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(height: 8.0),
+                                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -154,23 +187,16 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                                         children: [
                                           const Icon(Icons.calendar_today,
                                               size: 16.0),
-                                          const SizedBox(width: 4.0),
-                                          Text(formattedDate),
+                                          SizedBox(width: AppConstants.sizedBoxWidthSmall),
+                                          Text(formattedDate, style: TextStyle(color: Colors.black,fontSize: 15),),
                                         ],
                                       ),
                                       TextButton(
                                         onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AnnouncementDetailPage(
-                                                announcement: announcement,
-                                              ),
-                                            ),
-                                          );
+                                          _showAnnouncementDetails(
+                                              context, announcement);
                                         },
-                                        child: const Text('Details'),
+                                        child: const Text('Detaylar'),
                                       ),
                                       if (widget.role == UserRole.admin)
                                         IconButton(
@@ -198,7 +224,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                   return const Center(
                       child: Text('Failed to load announcements'));
                 } else {
-                  return const Center(
+                 return const Center(
                       child: Text('Failed to load announcements'));
                 }
               },

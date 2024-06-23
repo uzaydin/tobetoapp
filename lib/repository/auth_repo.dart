@@ -78,6 +78,7 @@ class AuthRepository {
           lastName: '',
           email: googleUser.email,
           role: UserRole.student, // default olarak student kaydı yapılıyor.
+          registrationDate: DateTime.timestamp()
         );
         await _firestore.collection("users").doc(user.uid).set(newUser.toMap());
       }
