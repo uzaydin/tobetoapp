@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tobetoapp/theme/constants/constants.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class InstitutionsCard extends StatelessWidget {
   final String title;

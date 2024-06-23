@@ -13,8 +13,8 @@ import 'package:tobetoapp/screens/guest/for_institutions.dart';
 import 'package:tobetoapp/screens/guest/calendar.dart';
 import 'package:tobetoapp/screens/lessons_category_screen.dart';
 import 'package:tobetoapp/screens/login_or_signup.dart';
-import 'package:tobetoapp/theme/constants/constants.dart';
-import 'package:tobetoapp/theme/theme_switcher.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
+import 'package:tobetoapp/utils/theme/theme_switcher.dart';
 import 'package:tobetoapp/widgets/drawer/drawer_items.dart';
 
 class CommonDrawer extends StatefulWidget {

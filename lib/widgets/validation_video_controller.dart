@@ -8,6 +8,17 @@ String? validation(String? value, String errorMessage) {
   return null;
 }
 
+// Password kontrol fonksiyonu
+String? validatePasswordConfirmation(String? value, TextEditingController passwordController) {
+  if (value == null || value.isEmpty) {
+    return "Lütfen bir şifreyi doğrulayın";
+  }
+  if (value != passwordController.text) {
+    return "Şifreler eşleşmiyor";
+  }
+  return null;
+}
+
 class VideoController with ChangeNotifier {
   late VideoPlayerController _controller;
   bool _isFullScreen = false;

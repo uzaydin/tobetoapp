@@ -5,7 +5,7 @@ import 'package:tobetoapp/bloc/auth/auth_state.dart';
 import 'package:tobetoapp/models/userModel.dart';
 import 'package:tobetoapp/repository/auth_repo.dart';
 import 'package:tobetoapp/repository/user_repository.dart';
-
+import 'package:tobetoapp/utils/firebase_auth_exception.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
@@ -58,11 +58,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final userModel = await _userRepository.getUserDetails(user.uid);
         _currentUser = userModel; // Kullanıcı bilgilerini bellekte saklama
         emit(AuthSuccess(id: user.uid, role: role));
-      } else {
-        emit(AuthFailure(message: 'Login failed'));
       }
     } catch (e) {
-      emit(AuthFailure(message: e.toString()));
+      final errorMessage = AuthException.handleException(e as Exception);
+      emit(AuthFailure(message: errorMessage));
     }
   }
 
@@ -80,11 +79,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final userModel = await _userRepository.getUserDetails(user.uid);
         _currentUser = userModel; // Kullanıcı bilgilerini bellekte saklama
         emit(AuthSuccess(id: user.uid, role: role));
-      } else {
-        emit(AuthFailure(message: 'Sign up failed'));
       }
     } catch (e) {
-      emit(AuthFailure(message: e.toString()));
+      final errorMessage = AuthException.handleException(e as Exception);
+      emit(AuthFailure(message: errorMessage));
     }
   }
 
@@ -95,11 +93,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (user != null) {
         final role = await _authRepository.getUserRole(user.uid);
         emit(AuthSuccess(id: user.uid, role: role));
-      } else {
-        emit(AuthFailure(message: 'Google Sign in failed'));
       }
     } catch (e) {
-      emit(AuthFailure(message: e.toString()));
+      final errorMessage = AuthException.handleException(e as Exception);
+      emit(AuthFailure(message: errorMessage));
     }
   }
 
@@ -128,4 +125,3 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 }
-

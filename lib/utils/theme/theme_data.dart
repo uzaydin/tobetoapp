@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tobetoapp/theme/dark/dark_theme.dart';
-import 'package:tobetoapp/theme/light/light_theme.dart';
+import 'package:tobetoapp/utils/theme/dark/dark_theme.dart';
+import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 
 // Color.fromARGB(255, 100, 39, 150)
 // const Color.fromARGB(255, 163, 77, 233)
