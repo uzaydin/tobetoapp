@@ -3,7 +3,7 @@ import 'package:tobetoapp/models/review_model.dart';
 import 'package:tobetoapp/repository/catalog/review_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tobetoapp/theme/light/light_theme.dart';
+import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 
 class ReviewsSection extends StatefulWidget {
   final String documentId;

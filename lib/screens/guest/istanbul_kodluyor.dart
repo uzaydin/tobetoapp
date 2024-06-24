@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tobetoapp/theme/light/light_theme.dart';
+import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class IstanbulKodluyor extends StatefulWidget {

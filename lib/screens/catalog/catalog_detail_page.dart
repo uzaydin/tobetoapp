@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tobetoapp/models/catalog_model.dart';
 import 'package:tobetoapp/screens/catalog/catalog_lesson_page.dart';
 import 'package:tobetoapp/screens/login_or_signup.dart';
-import 'package:tobetoapp/theme/light/light_theme.dart';
+import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/review_section.dart';
 
 class CatalogDetailPage extends StatelessWidget {
