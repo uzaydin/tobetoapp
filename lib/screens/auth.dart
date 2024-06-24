@@ -10,8 +10,8 @@ import 'package:tobetoapp/bloc/auth/auth_state.dart';
 import 'package:tobetoapp/screens/mainpage.dart';
 import 'package:tobetoapp/screens/user/platform.dart';
 import 'package:tobetoapp/screens/user/reset_password.dart';
-import 'package:tobetoapp/theme/constants/constants.dart';
-import 'package:tobetoapp/theme/light/light_theme.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
+import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
 import 'package:tobetoapp/widgets/password_suffix_icon.dart';
@@ -48,8 +48,6 @@ class _AuthState extends State<Auth> {
 
   @override
   Widget build(BuildContext context) {
-    AppConstants.init(context); // AppConstants'ı başlat
-
     return Scaffold(
       appBar: const CommonAppBar(),
       drawer: const DrawerManager(),
@@ -58,8 +56,16 @@ class _AuthState extends State<Auth> {
           if (state is AuthLoading) {
             showDialog(
               context: context,
-              builder: (context) =>
-                  const Center(child: CircularProgressIndicator()),
+              builder: (context) => const AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 20),
+                    Text("Giriş yapılıyor...")
+                  ],
+                ),
+              ),
               barrierDismissible: false,
             );
           } else {
@@ -67,7 +73,7 @@ class _AuthState extends State<Auth> {
           }
           if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Giriş yapılamadı: ${state.message}")),
+              SnackBar(content: Text(state.message)),
             );
           } else if (state is AuthSuccess) {
             context.read<AuthProviderDrawer>().login();
@@ -124,11 +130,11 @@ class _AuthState extends State<Auth> {
                           style: Theme.of(context)
                               .textTheme
                               .headlineLarge!
-                              .copyWith(fontWeight: FontWeight.w300)),
-                      SizedBox(height: AppConstants.sizedBoxHeightXLarge),
+                              .copyWith(fontWeight: FontWeight.w400)),
+                      SizedBox(height: AppConstants.sizedBoxHeightLarge),
                       ToggleSwitch(
                         minWidth: AppConstants.screenWidth * 0.35,
-                        minHeight: AppConstants.screenHeight * 0.08,
+                        minHeight: AppConstants.screenHeight * 0.06,
                         cornerRadius: AppConstants.br30,
                         activeBgColors: const [
                           [Color.fromARGB(255, 120, 98, 180)],
@@ -136,7 +142,8 @@ class _AuthState extends State<Auth> {
                         ],
                         activeBgColor: const [Colors.white],
                         inactiveBgColor: Colors.grey[200],
-                        inactiveFgColor: const Color.fromARGB(255, 120, 98, 180),
+                        inactiveFgColor:
+                            const Color.fromARGB(255, 120, 98, 180),
                         initialLabelIndex: _isLoginPage ? 0 : 1,
                         totalSwitches: 2,
                         labels: const ["Giriş Yap", "Kayıt Ol"],
@@ -146,19 +153,22 @@ class _AuthState extends State<Auth> {
                           });
                         },
                       ),
-                      SizedBox(height: AppConstants.sizedBoxHeightXLarge),
+                      SizedBox(height: AppConstants.sizedBoxHeightMedium),
                       if (!_isLoginPage) ...[
                         TextFormField(
                           controller: _name,
                           decoration: InputDecoration(
                             labelText: "Ad",
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppConstants.br20),
+                              borderRadius:
+                                  BorderRadius.circular(AppConstants.br20),
                             ),
-                            prefixIcon: const Icon(Icons.assignment_ind_rounded),
+                            prefixIcon:
+                                const Icon(Icons.assignment_ind_rounded),
                           ),
                           autocorrect: false,
-                          validator: (value) => validation(value, "Lütfen adınızı giriniz."),
+                          validator: (value) =>
+                              validation(value, "Lütfen adınızı giriniz."),
                         ),
                         SizedBox(height: AppConstants.sizedBoxHeightSmall),
                         TextFormField(
@@ -166,12 +176,15 @@ class _AuthState extends State<Auth> {
                           decoration: InputDecoration(
                             labelText: "Soyad",
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppConstants.br20),
+                              borderRadius:
+                                  BorderRadius.circular(AppConstants.br20),
                             ),
-                            prefixIcon: const Icon(Icons.assignment_ind_rounded),
+                            prefixIcon:
+                                const Icon(Icons.assignment_ind_rounded),
                           ),
                           autocorrect: false,
-                          validator: (value) => validation(value, "Lütfen soyadınızı giriniz."),
+                          validator: (value) =>
+                              validation(value, "Lütfen soyadınızı giriniz."),
                         ),
                         SizedBox(height: AppConstants.sizedBoxHeightSmall),
                       ],
@@ -180,13 +193,15 @@ class _AuthState extends State<Auth> {
                         decoration: InputDecoration(
                           labelText: "E-Posta",
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(AppConstants.br20),
+                            borderRadius:
+                                BorderRadius.circular(AppConstants.br20),
                           ),
                           prefixIcon: const Icon(Icons.email),
                         ),
                         autocorrect: false,
                         keyboardType: TextInputType.emailAddress,
-                        validator: (value) => validation(value, "Lütfen bir e-posta adresi giriniz."),
+                        validator: (value) => validation(
+                            value, "Lütfen bir e-posta adresi giriniz."),
                       ),
                       SizedBox(height: AppConstants.sizedBoxHeightSmall),
                       TextFormField(
@@ -202,13 +217,15 @@ class _AuthState extends State<Auth> {
                             },
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(AppConstants.br20),
+                            borderRadius:
+                                BorderRadius.circular(AppConstants.br20),
                           ),
                           prefixIcon: const Icon(Icons.lock_outline_rounded),
                         ),
                         autocorrect: false,
                         obscureText: !_isPasswordVisible,
-                        validator: (value) => validation(value, "Lütfen bir şifre giriniz"),
+                        validator: (value) =>
+                            validation(value, "Lütfen bir şifre giriniz"),
                       ),
                       SizedBox(height: AppConstants.sizedBoxHeightSmall),
                       if (!_isLoginPage) ...[
@@ -225,21 +242,15 @@ class _AuthState extends State<Auth> {
                               },
                             ),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppConstants.br20),
+                              borderRadius:
+                                  BorderRadius.circular(AppConstants.br20),
                             ),
                             prefixIcon: const Icon(Icons.lock_outline_rounded),
                           ),
                           autocorrect: false,
                           obscureText: !_isPasswordVisible,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Lütfen bir şifreyi doğrulayın";
-                            }
-                            if (value != _password.text) {
-                              return "Şifreler eşleşmiyor";
-                            }
-                            return null;
-                          },
+                          validator: (value) => validatePasswordConfirmation(
+                              value, _password), // Fonksiyon icerisine alindi
                         ),
                         SizedBox(height: AppConstants.sizedBoxHeightSmall),
                       ],
@@ -250,7 +261,8 @@ class _AuthState extends State<Auth> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.tobetoMoru,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(AppConstants.br20),
+                              borderRadius:
+                                  BorderRadius.circular(AppConstants.br20),
                             ),
                             padding: EdgeInsets.symmetric(
                               horizontal: AppConstants.paddingXLarge,
@@ -303,7 +315,8 @@ class _AuthState extends State<Auth> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ResetPassword()));
+                                    builder: (context) =>
+                                        const ResetPassword()));
                           },
                           child: const Text("Şifremi Unuttum"),
                         ),

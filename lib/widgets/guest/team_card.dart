@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
-import 'package:tobetoapp/theme/constants/constants.dart';
-import 'package:tobetoapp/theme/light/light_theme.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
+import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TeamCard extends StatelessWidget {

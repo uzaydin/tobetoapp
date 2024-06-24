@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_bloc.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_event.dart';
-import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
-import 'package:tobetoapp/bloc/auth/auth_state.dart';
 import 'package:tobetoapp/bloc/class/class_bloc.dart';
 import 'package:tobetoapp/bloc/class/class_event.dart';
 import 'package:tobetoapp/bloc/class/class_state.dart';
@@ -13,8 +11,7 @@ import 'package:tobetoapp/bloc/user/user_state.dart';
 import 'package:tobetoapp/models/announcement_model.dart';
 import 'package:tobetoapp/models/class_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
-import 'package:tobetoapp/theme/constants/constants.dart';
-import 'package:tobetoapp/widgets/validation_video_controller.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class AddAnnouncementPage extends StatefulWidget {
   const AddAnnouncementPage({super.key});
@@ -113,7 +110,7 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
                               ),
                             ),
                           ),
-                          clearButtonProps: ClearButtonProps(
+                          clearButtonProps: const ClearButtonProps(
                             isVisible: true,
                           ),
                           selectedItems: _selectedClasses,

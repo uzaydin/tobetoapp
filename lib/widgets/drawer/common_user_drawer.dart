@@ -8,8 +8,8 @@ import 'package:tobetoapp/screens/homepage.dart';
 import 'package:tobetoapp/screens/user/catalog_user.dart';
 import 'package:tobetoapp/screens/user/assessment.dart';
 import 'package:tobetoapp/screens/user/profile.dart';
-import 'package:tobetoapp/theme/constants/constants.dart';
-import 'package:tobetoapp/theme/theme_switcher.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
+import 'package:tobetoapp/utils/theme/theme_switcher.dart';
 import 'package:tobetoapp/widgets/drawer/drawer_items.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 

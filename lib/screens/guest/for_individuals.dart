@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
-import 'package:tobetoapp/screens/guest/catalog_guest.dart';
-import 'package:tobetoapp/theme/constants/constants.dart';
-import 'package:tobetoapp/theme/light/light_theme.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
+import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
 

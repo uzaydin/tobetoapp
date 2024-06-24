@@ -5,11 +5,9 @@ import 'package:tobetoapp/bloc/announcements/announcement_bloc.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_event.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_state.dart';
 import 'package:tobetoapp/models/announcement_model.dart';
-import 'package:tobetoapp/models/class_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/add_announcement.dart';
-import 'package:tobetoapp/screens/announcement_detail.dart';
-import 'package:tobetoapp/theme/constants/constants.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class AnnouncementsPage extends StatefulWidget {
   final UserRole? role;
@@ -70,7 +68,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddAnnouncementPage(),
+                        builder: (context) => const AddAnnouncementPage(),
                       ),
                     );
                   },
@@ -188,7 +186,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                                           const Icon(Icons.calendar_today,
                                               size: 16.0),
                                           SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                                          Text(formattedDate, style: TextStyle(color: Colors.black,fontSize: 15),),
+                                          Text(formattedDate, style: const TextStyle(color: Colors.black,fontSize: 15),),
                                         ],
                                       ),
                                       TextButton(
