@@ -325,12 +325,10 @@ class _LessonLivePageState extends State<LessonLivePage> {
                         firstDate: DateTime.now(),
                         lastDate: DateTime(2100),
                       );
-                      if (picked != null) {
-                        setState(() {
-                          dueDate = picked;
-                        });
-                      }
-                    },
+                      setState(() {
+                        dueDate = picked;
+                      });
+                                        },
                   ),
                 ],
               ),
@@ -415,12 +413,10 @@ class _LessonLivePageState extends State<LessonLivePage> {
                         firstDate: DateTime.now(),
                         lastDate: DateTime(2100),
                       );
-                      if (picked != null) {
-                        setState(() {
-                          dueDate = picked;
-                        });
-                      }
-                    },
+                      setState(() {
+                        dueDate = picked;
+                      });
+                                        },
                   ),
                 ],
               ),

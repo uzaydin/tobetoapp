@@ -56,10 +56,8 @@ class FormFields {
                 firstDate: DateTime(1900),
                 lastDate: DateTime(2101),
               );
-              if (pickedDate != null) {
-                controller.text = "${pickedDate.toLocal()}".split(' ')[0];
-              }
-            }
+              controller.text = "${pickedDate!.toLocal()}".split(' ')[0];
+                        }
           : null,
       readOnly: true, // Make the field read-only to avoid manual input
       enabled: enabled, // Enable or disable the field

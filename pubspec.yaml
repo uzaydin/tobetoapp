@@ -38,6 +38,8 @@ dependencies:
   dropdown_search: ^5.0.6
   fl_chart: ^0.68.0
 
+  path: any
+  webview_flutter: ^4.8.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

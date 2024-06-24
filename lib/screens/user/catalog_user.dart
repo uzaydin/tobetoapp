@@ -1,22 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:tobetoapp/screens/lessons_category_screen.dart';
+import 'package:tobetoapp/screens/catalog/catalog_page.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-// }
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+}
 
-// class CatalogUser extends StatefulWidget {
-//   const CatalogUser({super.key});
+class CatalogUser extends StatefulWidget {
+  const CatalogUser({super.key});
 
-//   @override
-//   State<CatalogUser> createState() => _CatalogUserState();
-// }
+  @override
+  State<CatalogUser> createState() => _CatalogUserState();
+}
 
-// class _CatalogUserState extends State<CatalogUser> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const LessonsCategoryScreen();
-//   }
-// }
+class _CatalogUserState extends State<CatalogUser> {
+  @override
+  Widget build(BuildContext context) {
+    return const CatalogPage();
+  }
+}

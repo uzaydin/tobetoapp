@@ -57,26 +57,61 @@ class _NewsPageState extends State<NewsPage> {
       itemCount: newsList.length,
       itemBuilder: (context, index) {
         News news = newsList[index];
-        return ListTile(
-          leading: Image.network(
-            news.imageUrl,
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
+        return Card(
+          color: Theme.of(context).cardColor,  // Adapt card color to theme
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
-          title: Text(news.title),
-          subtitle: Text(news.publishedDate.toString()),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NewsDetailPage(news: news),
-              ),
-            );
-          },
+          elevation: 5,
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NewsDetailPage(news: news),
+                ),
+              );
+            },
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(15.0)),
+                  child: Image.network(
+                    news.imageUrl,
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        news.title,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).textTheme.headlineMedium?.color,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        news.publishedDate.toString(),
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.headlineLarge?.color,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
   }
 }
-

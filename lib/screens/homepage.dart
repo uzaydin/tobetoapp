@@ -12,6 +12,7 @@ import 'package:tobetoapp/widgets/common_footer.dart';
 import 'package:tobetoapp/widgets/guest/homepage_content.dart';
 import 'package:tobetoapp/widgets/guest/animated_avatar.dart';
 import 'package:tobetoapp/widgets/guest/animated_container.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -23,6 +24,8 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   late PageController _controller;
   int _currentPage = 0;
+  late WebViewController webViewController;
+  bool canGoBack = false;
 
   final List<Map<String, String>> _users = [
     {
@@ -53,6 +56,27 @@ class _HomepageState extends State<Homepage> {
     super.initState();
     _selectedIndex = Random().nextInt(_users.length);
     _controller = PageController();
+     webViewController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color.fromARGB(0, 255, 255, 255))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {},
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) async {
+            canGoBack = await webViewController.canGoBack();
+            setState(() {});
+          },
+          onWebResourceError: (WebResourceError error) {},
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.startsWith('')) {
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse('https://mediafiles.botpress.cloud/d1265f28-5638-4830-bb0c-86bd18db99bc/webchat/bot.html'));
   }
 
   void _onAvatarTap(int index) {
@@ -74,6 +98,46 @@ class _HomepageState extends State<Homepage> {
     _controller.dispose();
     super.dispose();
   }
+
+  void _showChatBotPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: ClipRRect( 
+          borderRadius: BorderRadius.circular(20.0), 
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).size.width * 0.9,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              color: AppColors.tobetoMoru,
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10.0,
+                  offset: Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: WebViewWidget(
+                    controller: webViewController,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -445,6 +509,14 @@ class _HomepageState extends State<Homepage> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+           _showChatBotPopup(context);
+  },
+       backgroundColor: AppColors.tobetoMoru,
+         child: const Icon(Icons.message),
+),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

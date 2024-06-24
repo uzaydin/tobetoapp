@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/main.dart';
 import 'package:tobetoapp/screens/auth.dart';
+import 'package:tobetoapp/screens/catalog/catalog_page.dart';
 import 'package:tobetoapp/screens/guest/in_the_press.dart';
 import 'package:tobetoapp/screens/guest/for_individuals.dart';
 import 'package:tobetoapp/screens/guest/blog.dart';
@@ -11,7 +12,6 @@ import 'package:tobetoapp/screens/guest/contact.dart';
 import 'package:tobetoapp/screens/guest/istanbul_kodluyor.dart';
 import 'package:tobetoapp/screens/guest/for_institutions.dart';
 import 'package:tobetoapp/screens/guest/calendar.dart';
-import 'package:tobetoapp/screens/lessons_category_screen.dart';
 import 'package:tobetoapp/screens/login_or_signup.dart';
 import 'package:tobetoapp/theme/constants/constants.dart';
 import 'package:tobetoapp/theme/theme_switcher.dart';
@@ -134,13 +134,12 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   onTap: () {
-                    /*
+                    
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                const LessonsCategoryScreen()));
-                                */
+                                const CatalogPage()));
                   },
                 ),
                 ExpansionPanelList(

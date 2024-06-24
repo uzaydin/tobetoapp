@@ -4,13 +4,12 @@ import 'package:tobetoapp/bloc/blog/blog_bloc.dart';
 import 'package:tobetoapp/bloc/blog/blog_event.dart';
 import 'package:tobetoapp/bloc/blog/blog_state.dart';
 import 'package:tobetoapp/models/blog_model.dart';
-import 'package:tobetoapp/screens/blog_detail_screen.dart';
+import 'package:tobetoapp/screens/blog_detail_page.dart';
 
 class BlogPage extends StatefulWidget {
   const BlogPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _BlogPageState createState() => _BlogPageState();
 }
 
@@ -57,23 +56,59 @@ class _BlogPageState extends State<BlogPage> {
       itemCount: blogList.length,
       itemBuilder: (context, index) {
         Blog blog = blogList[index];
-        return ListTile(
-          leading: Image.network(
-            blog.imageUrl,
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
+        return Card(
+          color: Theme.of(context).cardColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
-          title: Text(blog.title),
-          subtitle: Text(blog.publishedDate.toString()),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BlogDetailPage(blog: blog),
-              ),
-            );
-          },
+          elevation: 5,
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BlogDetailPage(blog: blog),
+                ),
+              );
+            },
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(15.0)),
+                  child: Image.network(
+                    blog.imageUrl,
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        blog.title,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).textTheme.headlineMedium?.color,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        blog.publishedDate.toString(),
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.headlineLarge?.color,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );

@@ -5,6 +5,7 @@ import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_bloc.dart';
 import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
+import 'package:tobetoapp/screens/catalog/catalog_page.dart';
 import 'package:tobetoapp/screens/user/formscreens/edit_profile_section_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -34,7 +35,18 @@ class _ProfileState extends State<Profile> {
               context.read<AuthBloc>().add(AuthLogOut()); // kaldirilabilir 
             },
           ),
-        ],
+         IconButton(
+    icon: const Icon(Icons.view_list), // Example icon, you can change as needed
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CatalogPage(),
+        ),
+      );
+    },
+  ),
+], 
       ),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
