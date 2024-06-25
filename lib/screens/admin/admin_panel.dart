@@ -42,6 +42,7 @@ class _AdminPanelState extends State<AdminPanel> {
         backgroundColor: AppColors.tobetoMoru,
         centerTitle: true,
       ),
+      drawer: const DrawerManager(),
       backgroundColor: Colors.grey[200], // Sayfanın arka plan rengi
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -74,7 +75,7 @@ class _AdminPanelState extends State<AdminPanel> {
             Flexible(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount:2,
+                  crossAxisCount: 2,
                   crossAxisSpacing: 16.0,
                   mainAxisSpacing: 16.0,
                   childAspectRatio:
@@ -115,7 +116,7 @@ class _AdminPanelState extends State<AdminPanel> {
                         icon: Icons.calendar_today,
                         label: 'Takvim Yönetimi',
                         color: Colors.green[100]!,
-                        page: const CalendarPage(),
+                        page: const AddEventPage(),
                       );
                     default:
                       return Container();
