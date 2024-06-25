@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_bloc.dart';
 import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
@@ -34,11 +36,11 @@ class _ProfileState extends State<Profile> {
             IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () {
-                //context.read<AuthBloc>().add(AuthLogOut()); // kaldirilabilir
                 final authProvider =
                     Provider.of<AuthProviderDrawer>(context, listen: false);
-                authProvider.logout(context);
-                // drawer için değiştirdim. admin ve teacher bu sayfadan çıkış yaparsa daha iyi. Kaldırılmasın.
+                authProvider.logout();
+                context.read<AuthBloc>().add(AuthLogOut());
+                
               },
             ),
             IconButton(
