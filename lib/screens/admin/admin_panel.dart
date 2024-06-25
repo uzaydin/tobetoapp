@@ -5,9 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/admin/admin_bloc.dart';
 import 'package:tobetoapp/bloc/admin/admin_event.dart';
 import 'package:tobetoapp/bloc/admin/admin_state.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/screens/admin/class_management.dart';
 import 'package:tobetoapp/screens/admin/lesson_management.dart';
 import 'package:tobetoapp/screens/admin/user_management.dart';
+import 'package:tobetoapp/screens/calendar/add_event.dart';
 import 'package:tobetoapp/screens/calendar/calendar_page.dart';
 
 class AdminPanel extends StatefulWidget {
@@ -38,6 +40,7 @@ class _AdminPanelState extends State<AdminPanel> {
         backgroundColor: Colors.purple,
         centerTitle: true,
       ),
+      drawer: const DrawerManager(),
       body: SizedBox(
         height: 400,
         child: Column(
@@ -108,7 +111,7 @@ class _AdminPanelState extends State<AdminPanel> {
                         .push(MaterialPageRoute(
                           builder: (context) => BlocProvider.value(
                             value: context.read<AdminBloc>(),
-                            child: const CalendarPage(),
+                            child: const AddEventPage(),
                           ),
                         ))
                         .then((_) => _refreshChartData());

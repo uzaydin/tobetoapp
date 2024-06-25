@@ -1,53 +1,101 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
-import 'package:tobetoapp/bloc/auth/auth_event.dart';
+import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/repository/auth_repo.dart';
 import 'package:tobetoapp/widgets/drawer/common_drawer.dart';
 import 'package:tobetoapp/widgets/drawer/common_user_drawer.dart';
+import 'package:tobetoapp/widgets/drawer/teacher_admin_drawer.dart';
 
 class AuthProviderDrawer extends ChangeNotifier {
-  bool _isLoggedIn = false;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  bool get isLoggedIn => _isLoggedIn;
+  User? _user;
+  UserModel? _userModel;
+  String? _userRole;
+
+  User? get user => _user;
+  UserModel? get userModel => _userModel;
+  String? get userRole => _userRole;
+
+  bool get isLoggedIn => _user != null;
 
   AuthProviderDrawer() {
-    _loadLoginStatus();
-  }
-
-  Future<void> _loadLoginStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-    notifyListeners();
+    _user = _firebaseAuth.currentUser;
+    if (_user != null) {
+      _loadUserDetails();
+    }
   }
 
   Future<void> login() async {
-    _isLoggedIn = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isLoggedIn', true);
+    _user = _firebaseAuth.currentUser;
+
+    if (_user != null) {
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(_user!.uid).get();
+      if (userDoc.exists) {
+        _userModel = UserModel.fromMap(userDoc.data() as Map<String, dynamic>);
+        _userRole = _userModel?.role.toString();
+      }
+    }
     notifyListeners();
   }
 
-  Future<void> logout(BuildContext context) async {
-    _isLoggedIn = false;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isLoggedIn', false);
-    BlocProvider.of<AuthBloc>(context).add(AuthLogOut());
+  Future<void> _loadUserDetails() async {
+    final userDoc = await _firestore.collection('users').doc(_user!.uid).get();
+    if (userDoc.exists) {
+      _userModel = UserModel.fromMap(userDoc.data() as Map<String, dynamic>);
+      _userRole = _userModel?.role.toString();
+    }
+    notifyListeners();
+  }
+
+  Future<void> logout() async {
+    await _firebaseAuth.signOut();
+    _user = null;
+    _userModel = null;
+    _userRole = null;
     notifyListeners();
   }
 }
 
 class DrawerManager extends StatelessWidget {
-  const DrawerManager({super.key});
+  const DrawerManager({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProviderDrawer>(context, listen: true);
-    final drawer = authProvider.isLoggedIn
-        ? const CommonUserDrawer()
-        : const CommonDrawer();
+    final authRepository = AuthRepository();
+    final user = authRepository.getCurrentUser();
 
-    return drawer;
+    return Consumer<AuthProviderDrawer>(
+      builder: (context, authProvider, _) {
+        if (!authProvider.isLoggedIn) {
+          return const CommonDrawer();
+        } else {
+          return FutureBuilder<String?>(
+            future: authRepository.getUserRole(user!.uid),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else {
+                final userRole = snapshot.data ?? 'student';
+
+                switch (userRole) {
+                  case 'teacher':
+                  case 'admin':
+                    return const TeacherAdminDrawer();
+                  case 'student':
+                  default:
+                    return const CommonUserDrawer();
+                }
+              }
+            },
+          );
+        }
+      },
+    );
   }
 }
