@@ -17,7 +17,6 @@ import 'package:tobetoapp/screens/class_details_page.dart';
 import 'package:tobetoapp/screens/favorites_page.dart';
 import 'package:tobetoapp/screens/homepage.dart';
 
-import 'package:tobetoapp/screens/login_or_signup.dart';
 import 'package:tobetoapp/screens/profile/profile_page.dart';
 import 'package:tobetoapp/screens/teacher_lesson_page.dart';
 
