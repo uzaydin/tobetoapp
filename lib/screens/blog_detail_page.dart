@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:tobetoapp/models/news_model.dart';
+import 'package:tobetoapp/models/blog_model.dart';
 
-class NewsDetailPage extends StatelessWidget {
-  final News news;
+class BlogDetailPage extends StatelessWidget {
+  final Blog blog;
 
-  const NewsDetailPage({super.key, required this.news});
+  const BlogDetailPage({super.key, required this.blog});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(news.title),
+        title: Text(blog.title),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -21,7 +21,7 @@ class NewsDetailPage extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: Image.network(
-                  news.imageUrl,
+                  blog.imageUrl,
                   width: double.infinity,
                   height: 200,
                   fit: BoxFit.cover,
@@ -29,7 +29,7 @@ class NewsDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                news.title,
+                blog.title,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -38,7 +38,7 @@ class NewsDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Yayınlanma Tarihi: ${news.publishedDate}',
+                'Yayınlanma Tarihi: ${blog.publishedDate}',
                 style: TextStyle(
                   fontSize: 16,
                   color: Theme.of(context).textTheme.headlineLarge?.color,
@@ -54,7 +54,7 @@ class NewsDetailPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    news.description,
+                    blog.description,
                     style: TextStyle(
                       fontSize: 18,
                       color: Theme.of(context).textTheme.headlineLarge?.color,

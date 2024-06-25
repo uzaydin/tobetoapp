@@ -8,6 +8,7 @@ import 'package:tobetoapp/bloc/admin/admin_state.dart';
 import 'package:tobetoapp/screens/admin/class_management.dart';
 import 'package:tobetoapp/screens/admin/lesson_management.dart';
 import 'package:tobetoapp/screens/admin/user_management.dart';
+import 'package:tobetoapp/screens/calendar/calendar_page.dart';
 
 class AdminPanel extends StatefulWidget {
   const AdminPanel({super.key});
@@ -20,7 +21,9 @@ class _AdminPanelState extends State<AdminPanel> {
   @override
   void initState() {
     super.initState();
-    context.read<AdminBloc>().add(LoadChartData()); // Yalnızca Chart için gerekli verileri yükle
+    context
+        .read<AdminBloc>()
+        .add(LoadChartData()); // Yalnızca Chart için gerekli verileri yükle
   }
 
   void _refreshChartData() {
@@ -99,6 +102,19 @@ class _AdminPanelState extends State<AdminPanel> {
                   },
                   child: const Text("Ders Yönetimi"),
                 ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                          builder: (context) => BlocProvider.value(
+                            value: context.read<AdminBloc>(),
+                            child: const CalendarPage(),
+                          ),
+                        ))
+                        .then((_) => _refreshChartData());
+                  },
+                  child: const Text("Takvim Yönetimi"),
+                ),
               ],
             ),
           ],
@@ -112,7 +128,10 @@ class AdminCharts extends StatelessWidget {
   final Map<String, int> classDistribution;
   final List<int> monthlyRegistrations;
 
-  AdminCharts({super.key, required this.classDistribution, required this.monthlyRegistrations});
+  AdminCharts(
+      {super.key,
+      required this.classDistribution,
+      required this.monthlyRegistrations});
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +160,9 @@ class AdminCharts extends StatelessWidget {
               barGroups: barGroups(monthlyRegistrations),
               gridData: const FlGridData(show: false),
               alignment: BarChartAlignment.spaceAround,
-              maxY: (monthlyRegistrations.reduce((a, b) => a > b ? a : b)).toDouble() + 1,
+              maxY: (monthlyRegistrations.reduce((a, b) => a > b ? a : b))
+                      .toDouble() +
+                  1,
             ),
           ),
         ],

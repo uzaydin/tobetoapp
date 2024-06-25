@@ -1,17 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:provider/provider.dart';
-import 'package:tobetoapp/screens/auth.dart';
-import 'package:tobetoapp/screens/guest/calendar.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+import 'package:tobetoapp/bloc/profile/profile_bloc.dart';
+import 'package:tobetoapp/bloc/profile/profile_event.dart';
+import 'package:tobetoapp/bloc/profile/profile_state.dart';
+import 'package:tobetoapp/screens/calendar/calendar_page.dart';
 import 'package:tobetoapp/screens/homepage.dart';
-import 'package:tobetoapp/screens/user/catalog_user.dart';
+import 'package:tobetoapp/screens/mainpage.dart';
 import 'package:tobetoapp/screens/user/assessment.dart';
 import 'package:tobetoapp/screens/user/profile.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
+import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/utils/theme/theme_switcher.dart';
-import 'package:tobetoapp/widgets/drawer/drawer_items.dart';
-import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 
 class CommonUserDrawer extends StatefulWidget {
   const CommonUserDrawer({super.key});
@@ -21,49 +23,10 @@ class CommonUserDrawer extends StatefulWidget {
 }
 
 class _CommonUserDrawerState extends State<CommonUserDrawer> {
-  String selectedOption = "";
-  bool isServicesExpanded = false;
-
-  String _displayName = '';
-  String _userFullName = '';
-  String _profilePhotoUrl = '';
-
   @override
   void initState() {
     super.initState();
-    _loadUserData();
-  }
-
-  Future<void> _loadUserData() async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        // Firestore'dan kullanıcı belgesini al
-        DocumentSnapshot doc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get();
-
-        var data = doc.data() as Map<String, dynamic>?;
-        setState(() {
-          _displayName = data != null && data.containsKey('firstName')
-              ? data['firstName']
-              : '';
-          _userFullName = data != null &&
-                  data.containsKey('firstName') &&
-                  data.containsKey('lastName')
-              ? '${data['firstName']} ${data['lastName']}'
-              : '';
-          _profilePhotoUrl = data != null && data.containsKey('profilePhotoUrl')
-              ? data['profilePhotoUrl']
-              : '';
-          print(
-              'User data loaded: $_displayName $_userFullName $_profilePhotoUrl');
-        });
-      }
-    } catch (e) {
-      print('Error fetching user data: $e');
-    }
+    context.read<ProfileBloc>().add(FetchUserDetails());
   }
 
   @override
@@ -101,14 +64,14 @@ class _CommonUserDrawerState extends State<CommonUserDrawer> {
               children: [
                 ListTile(
                   title: Text(
-                    "Anasayfa",
+                    "Platform",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Homepage()));
+                            builder: (context) => const MainPage()));
                   },
                 ),
                 ListTile(
@@ -158,7 +121,7 @@ class _CommonUserDrawerState extends State<CommonUserDrawer> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Calendar()));
+                            builder: (context) => const CalendarPage()));
                   },
                 ),
               ],
@@ -199,40 +162,48 @@ class _CommonUserDrawerState extends State<CommonUserDrawer> {
             ),
           ),
           SizedBox(height: AppConstants.sizedBoxHeightMedium),
-          ExpansionPanelList(
-            elevation: 0,
-            expandedHeaderPadding: EdgeInsets.zero,
-            expansionCallback: (int index, bool isExpanded) {
-              setState(() {
-                isServicesExpanded = !isServicesExpanded;
-              });
-            },
-            children: [
-              ExpansionPanel(
-                canTapOnHeader: true,
-                headerBuilder: (BuildContext context, bool isExpanded) {
-                  return Padding(
+          BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+              if (state is ProfileInitial || state is ProfileLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is ProfileLoaded) {
+                final user = state.user;
+                return Container(
+                  margin: EdgeInsets.all(AppConstants.paddingSmall),
+                  child: OutlineGradientButton(
                     padding: EdgeInsets.all(AppConstants.paddingMedium),
+                    strokeWidth: 3,
+                    radius: Radius.circular(AppConstants.br30),
+                    gradient: const LinearGradient(
+                      colors: [
+                        AppColors.tobetoMoru,
+                        Color.fromARGB(209, 255, 255, 255),
+                        Color.fromARGB(178, 255, 255, 255),
+                        AppColors.tobetoMoru,
+                      ],
+                      stops: [0.0, 0.5, 0.5, 1.0],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         CircleAvatar(
                           radius: 30,
-                          backgroundImage: _profilePhotoUrl.isNotEmpty
-                              ? NetworkImage(_profilePhotoUrl)
+                          backgroundImage: user.getProfilePhotoUrl().isNotEmpty
+                              ? NetworkImage(user.getProfilePhotoUrl())
                               : null,
-                          child: _profilePhotoUrl.isEmpty
+                          child: user.getProfilePhotoUrl().isEmpty
                               ? const Icon(Icons.person)
                               : null,
                         ),
-                        SizedBox(width: AppConstants.sizedBoxWidthMedium),
+                        SizedBox(height: AppConstants.sizedBoxHeightMedium),
                         Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Text(
-                                _userFullName.isEmpty
-                                    ? 'İsminiz'
-                                    : _userFullName,
+                                '${user.firstName ?? ''} ${user.lastName ?? ''}',
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
@@ -240,43 +211,40 @@ class _CommonUserDrawerState extends State<CommonUserDrawer> {
                         ),
                       ],
                     ),
-                  );
-                },
-                body: Column(
-                  children: [
-                    DrawerItem(
-                      title: "Profil Bilgileri",
-                      onTap: () {
-                        setState(() {
-                          selectedOption = "Profil Bilgileri";
-                        });
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Profile()));
-                      },
-                    ),
-                    DrawerItem(
-                      title: "Oturumu Kapat",
-                      onTap: () {
-                        setState(() {
-                          selectedOption = "Oturumu Kapat";
-                          final authProvider = Provider.of<AuthProviderDrawer>(
-                              context,
-                              listen: false);
-                          authProvider.logout();
-                        });
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Auth()));
-                      },
-                    ),
-                  ],
+                  ),
+                );
+              } else {
+                return const Center(child: Text('Error loading profile data'));
+              }
+            },
+          ),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: AppConstants.screenWidth * 0.05),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Çıkış Yap",
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                isExpanded: isServicesExpanded,
-              ),
-            ],
+                const SizedBox(width: 5),
+                IconButton(
+                  onPressed: () {
+                    final authProvider =
+                        Provider.of<AuthProviderDrawer>(context, listen: false);
+                    authProvider.logout(context);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Homepage()));
+                  },
+                  icon: const Icon(Icons.logout),
+                  color: AppColors.tobetoMoru,
+                ),
+              ],
+            ),
           ),
           SizedBox(height: AppConstants.sizedBoxHeightMedium),
           Text(

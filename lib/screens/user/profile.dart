@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_bloc.dart';
 import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
+import 'package:tobetoapp/screens/catalog/catalog_page.dart';
 import 'package:tobetoapp/screens/user/formscreens/edit_profile_section_page.dart';
 
 class Profile extends StatefulWidget {
@@ -30,11 +33,28 @@ class _ProfileState extends State<Profile> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
-              context.read<AuthBloc>().add(AuthLogOut()); // kaldirilabilir 
+              //context.read<AuthBloc>().add(AuthLogOut()); // kaldirilabilir
+              final authProvider =
+                  Provider.of<AuthProviderDrawer>(context, listen: false);
+              authProvider.logout(context);
+              // drawer için değiştirdim. admin ve teacher bu sayfadan çıkış yaparsa daha iyi. Kaldırılmasın.
+            },
+          ),
+          IconButton(
+            icon: const Icon(
+                Icons.view_list), // Example icon, you can change as needed
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CatalogPage(),
+                ),
+              );
             },
           ),
         ],
       ),
+      drawer: const DrawerManager(),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state is ProfileInitial || state is ProfileLoading) {

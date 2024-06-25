@@ -2,14 +2,20 @@ import 'package:tobetoapp/models/catalog_model.dart';
 
 abstract class CatalogState {}
 
-class CatalogInitial extends CatalogState {}
+class CatalogsLoading extends CatalogState {}
 
-class CatalogLoading extends CatalogState {}
+class CatalogsLoaded extends CatalogState {
+  final List<CatalogModel> catalogs;
 
-class CatalogLoaded extends CatalogState {
-  final List<Catalog> catalogs;
-
-  CatalogLoaded({required this.catalogs});
+  CatalogsLoaded(this.catalogs);
 }
 
-class CatalogError extends CatalogState {}
+class CatalogOperationSuccess extends CatalogState {}
+
+class CatalogOperationFailure extends CatalogState {
+  final String error;
+
+  CatalogOperationFailure(this.error);
+}
+
+

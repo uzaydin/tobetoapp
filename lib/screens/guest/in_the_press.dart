@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobetoapp/screens/newspage.dart';
 
 class InThePress extends StatefulWidget {
   const InThePress({super.key});
@@ -10,6 +11,6 @@ class InThePress extends StatefulWidget {
 class _InThePressState extends State<InThePress> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const NewsPage();
   }
 }
