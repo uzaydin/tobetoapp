@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:tobetoapp/bloc/competency_test/competency_test_bloc.dart';
+import 'package:tobetoapp/bloc/competency_test/competency_test_event.dart';
+import 'package:tobetoapp/bloc/competency_test/competency_test_state.dart';
 import 'package:tobetoapp/bloc/exam/exam_bloc.dart';
 import 'package:tobetoapp/bloc/exam/exam_event.dart';
 import 'package:tobetoapp/bloc/exam/exam_state.dart';
 import 'package:tobetoapp/repository/exam_repository.dart';
+import 'package:tobetoapp/screens/competency_test_result_page.dart';
+import 'package:tobetoapp/widgets/user/competency_test_dialog.dart';
 import 'package:tobetoapp/widgets/user/exam_dialog.dart';
 import 'package:tobetoapp/widgets/user/result_dialog.dart';
 
@@ -17,6 +21,12 @@ class Assessment extends StatefulWidget {
 
 class _AssessmentState extends State<Assessment> {
   @override
+  void initState() {
+    super.initState();
+    context.read<CompetencyTestBloc>().add(FetchCompetencyTestResult());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -28,30 +38,8 @@ class _AssessmentState extends State<Assessment> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            RichText(
-              text: const TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Yetkinlik',
-                    style: TextStyle(color: Colors.purple, fontSize: 18),
-                  ),
-                  TextSpan(
-                    text: 'lerini ücretsiz ölç, ',
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                  TextSpan(
-                    text: 'bilgi',
-                    style: TextStyle(color: Colors.purple, fontSize: 18),
-                  ),
-                  TextSpan(
-                    text: 'lerini test et.',
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            _buildHeader(),
+            _buildIntroText(),
+            _buildHeader(context),
             _buildSoftwareTestSection(),
             _buildSubjectList(),
             const SizedBox(height: 20),
@@ -62,18 +50,43 @@ class _AssessmentState extends State<Assessment> {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildIntroText() {
+    return RichText(
+      text: const TextSpan(
+        children: [
+          TextSpan(
+            text: 'Yetkinlik',
+            style: TextStyle(color: Colors.purple, fontSize: 18),
+          ),
+          TextSpan(
+            text: 'lerini ücretsiz ölç, ',
+            style: TextStyle(color: Colors.black, fontSize: 18),
+          ),
+          TextSpan(
+            text: 'bilgi',
+            style: TextStyle(color: Colors.purple, fontSize: 18),
+          ),
+          TextSpan(
+            text: 'lerini test et.',
+            style: TextStyle(color: Colors.black, fontSize: 18),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
             topRight: Radius.circular(20),
             bottomRight: Radius.circular(20),
             bottomLeft: Radius.circular(20),
           ),
           gradient: LinearGradient(
-            colors: [HexColor("#dda1fa"), HexColor("#3c0b8c")],
+            colors: [Color(0xFFdda1fa), Color(0xFF3c0b8c)],
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
           ),
@@ -100,20 +113,52 @@ class _AssessmentState extends State<Assessment> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: HexColor("#9933ff"),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                ),
-              ),
-              onPressed: () {
-                // Button press action
+            BlocBuilder<CompetencyTestBloc, CompetencyTestState>(
+              builder: (context, state) {
+                if (state is CompetencyTestLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is CompetencyTestResultFetched) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF9933ff),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CompetencyTestResultPage(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Raporu Görüntüle',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
+                } else {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF9933ff),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const CompetencyTestInfoDialog(),
+                      );
+                    },
+                    child: const Text(
+                      'Başla',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
+                }
               },
-              child: const Text(
-                'Başla',
-                style: TextStyle(color: Colors.white),
-              ),
             ),
           ],
         ),
@@ -125,14 +170,14 @@ class _AssessmentState extends State<Assessment> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
             topRight: Radius.circular(20),
             bottomRight: Radius.circular(20),
             bottomLeft: Radius.circular(20),
           ),
           gradient: LinearGradient(
-            colors: [HexColor("#b59ef9"), HexColor("#1d0b8c")],
+            colors: [Color(0xFFb59ef9), Color(0xFF1d0b8c)],
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
           ),
@@ -200,8 +245,8 @@ class _AssessmentState extends State<Assessment> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      gradient: LinearGradient(
-                        colors: [const Color(0xFF8A2387), HexColor("#1d0b8c")],
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF8A2387), Color(0xFF1d0b8c)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -335,13 +380,13 @@ class _AssessmentState extends State<Assessment> {
           const SizedBox(height: 30),
           Container(
             padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                   bottomLeft: Radius.circular(20)),
               gradient: LinearGradient(
-                colors: [HexColor("#ac1eeb"), HexColor("#6e6cf5")],
+                colors: [Color(0xFFac1eeb), Color(0xFF6e6cf5)],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
@@ -372,13 +417,13 @@ class _AssessmentState extends State<Assessment> {
           const SizedBox(height: 30),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                   bottomLeft: Radius.circular(20)),
               gradient: LinearGradient(
-                colors: [HexColor("#ac1eeb"), HexColor("#6e6cf5")],
+                colors: [Color(0xFFac1eeb), Color(0xFF6e6cf5)],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
