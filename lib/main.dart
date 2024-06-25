@@ -8,6 +8,8 @@ import 'package:tobetoapp/bloc/announcements/announcement_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/blog/blog_bloc.dart';
+import 'package:tobetoapp/bloc/calendar_bloc/calendar_bloc.dart';
+import 'package:tobetoapp/bloc/calendar_bloc/calendar_event.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_bloc.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_favorites/catalog_favorite_bloc.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_video/catalog_video_bloc.dart';
@@ -36,6 +38,7 @@ import 'package:tobetoapp/repository/news_repository.dart';
 import 'package:tobetoapp/repository/profile_repository.dart';
 import 'package:tobetoapp/repository/user_repository.dart';
 import 'package:tobetoapp/screens/homepage.dart';
+import 'package:tobetoapp/services/event_service.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/theme_data.dart';
 import 'package:tobetoapp/utils/theme/theme_switcher.dart';
@@ -96,9 +99,9 @@ class Home extends StatelessWidget {
             BlocProvider(
               create: (context) => CatalogVideoBloc(CatalogVideoRepository()),
             ),
-                    BlocProvider(
-          create: (context) => CatalogFavoritesBloc(sharedPreferences),
-        ),
+            BlocProvider(
+              create: (context) => CatalogFavoritesBloc(sharedPreferences),
+            ),
             BlocProvider(
               create: (context) => LessonBloc(LessonRepository()),
             ),
@@ -125,6 +128,9 @@ class Home extends StatelessWidget {
               create: (context) => AdminBloc(
                   UserRepository(), ClassRepository(), LessonRepository()),
             ),
+            BlocProvider(
+                create: (context) =>
+                    CalendarBloc(EventService())..add(FetchEvents())),
           ],
           child: const MyApp(),
         ));
@@ -140,32 +146,18 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+class _MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.light;
   final ThemeService _themeService = ThemeService();
   @override
   void initState() {
     super.initState();
     _loadThemeMode();
-    WidgetsBinding.instance.addObserver(this);
-    // app kapatıldığında oturum da kapatılsın diye
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.detached) {
-      // Uygulama kapatıldığında oturumu kapat
-      final authProvider =
-          Provider.of<AuthProviderDrawer>(context, listen: false);
-      authProvider.logout();
-    }
   }
 
   Future<void> _loadThemeMode() async {

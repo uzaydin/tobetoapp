@@ -8,6 +8,7 @@ import 'package:tobetoapp/bloc/admin/admin_state.dart';
 import 'package:tobetoapp/screens/admin/class_management.dart';
 import 'package:tobetoapp/screens/admin/lesson_management.dart';
 import 'package:tobetoapp/screens/admin/user_management.dart';
+import 'package:tobetoapp/screens/calendar/calendar_page.dart';
 
 class AdminPanel extends StatefulWidget {
   const AdminPanel({super.key});
@@ -20,7 +21,9 @@ class _AdminPanelState extends State<AdminPanel> {
   @override
   void initState() {
     super.initState();
-    context.read<AdminBloc>().add(LoadChartData()); // Yalnızca Chart için gerekli verileri yükle
+    context
+        .read<AdminBloc>()
+        .add(LoadChartData()); // Yalnızca Chart için gerekli verileri yükle
   }
 
   void _refreshChartData() {
@@ -31,7 +34,7 @@ class _AdminPanelState extends State<AdminPanel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Panel'),
+        title: const Text('Admin Panel'),
         backgroundColor: Colors.purple,
         centerTitle: true,
       ),
@@ -43,7 +46,7 @@ class _AdminPanelState extends State<AdminPanel> {
               child: BlocBuilder<AdminBloc, AdminState>(
                 builder: (context, state) {
                   if (state is AdminLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (state is ChartDataLoaded) {
                     return AdminCharts(
                       classDistribution: state.classDistribution,
@@ -65,12 +68,12 @@ class _AdminPanelState extends State<AdminPanel> {
                         .push(MaterialPageRoute(
                           builder: (context) => BlocProvider.value(
                             value: context.read<AdminBloc>(),
-                            child: UserManagementPage(),
+                            child: const UserManagementPage(),
                           ),
                         ))
                         .then((_) => _refreshChartData());
                   },
-                  child: Text("Kullanıcı Yönetimi"),
+                  child: const Text("Kullanıcı Yönetimi"),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -78,12 +81,12 @@ class _AdminPanelState extends State<AdminPanel> {
                         .push(MaterialPageRoute(
                           builder: (context) => BlocProvider.value(
                             value: context.read<AdminBloc>(),
-                            child: ClassManagementPage(),
+                            child: const ClassManagementPage(),
                           ),
                         ))
                         .then((_) => _refreshChartData());
                   },
-                  child: Text("Sınıf Yönetimi"),
+                  child: const Text("Sınıf Yönetimi"),
                 ),
                 // Diğer butonlar için yer tutucu
                 ElevatedButton(
@@ -92,12 +95,25 @@ class _AdminPanelState extends State<AdminPanel> {
                         .push(MaterialPageRoute(
                           builder: (context) => BlocProvider.value(
                             value: context.read<AdminBloc>(),
-                            child: LessonManagementPage(),
+                            child: const LessonManagementPage(),
                           ),
                         ))
                         .then((_) => _refreshChartData());
                   },
-                  child: Text("Ders Yönetimi"),
+                  child: const Text("Ders Yönetimi"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                          builder: (context) => BlocProvider.value(
+                            value: context.read<AdminBloc>(),
+                            child: const CalendarPage(),
+                          ),
+                        ))
+                        .then((_) => _refreshChartData());
+                  },
+                  child: const Text("Takvim Yönetimi"),
                 ),
               ],
             ),
@@ -112,7 +128,10 @@ class AdminCharts extends StatelessWidget {
   final Map<String, int> classDistribution;
   final List<int> monthlyRegistrations;
 
-  AdminCharts({super.key, required this.classDistribution, required this.monthlyRegistrations});
+  AdminCharts(
+      {super.key,
+      required this.classDistribution,
+      required this.monthlyRegistrations});
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +160,9 @@ class AdminCharts extends StatelessWidget {
               barGroups: barGroups(monthlyRegistrations),
               gridData: const FlGridData(show: false),
               alignment: BarChartAlignment.spaceAround,
-              maxY: (monthlyRegistrations.reduce((a, b) => a > b ? a : b)).toDouble() + 1,
+              maxY: (monthlyRegistrations.reduce((a, b) => a > b ? a : b))
+                      .toDouble() +
+                  1,
             ),
           ),
         ],

@@ -8,7 +8,6 @@ import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/auth/auth_state.dart';
 import 'package:tobetoapp/screens/mainpage.dart';
-import 'package:tobetoapp/screens/user/platform.dart';
 import 'package:tobetoapp/screens/user/reset_password.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
