@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:tobetoapp/models/userModel.dart';
 
 abstract class ProfileEvent {}
@@ -23,7 +22,7 @@ class AddCertificate extends ProfileEvent {
 
 class RemoveCertificate extends ProfileEvent {
   final String certificateId;
-  final String fileUrl; // Add the file URL to the event
+  final String fileUrl;
 
   RemoveCertificate(this.certificateId, this.fileUrl);
 }
@@ -35,3 +34,12 @@ class ViewCertificate extends ProfileEvent {
 }
 
 class PickCertificate extends ProfileEvent {}
+
+class ChangePassword extends ProfileEvent {
+  final String oldPassword;
+  final String newPassword;
+
+  ChangePassword(this.oldPassword, this.newPassword);
+}
+
+class DeleteAccount extends ProfileEvent {}

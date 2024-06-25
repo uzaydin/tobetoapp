@@ -14,6 +14,7 @@ import 'package:tobetoapp/bloc/catalog/catalog_bloc.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_favorites/catalog_favorite_bloc.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_video/catalog_video_bloc.dart';
 import 'package:tobetoapp/bloc/class/class_bloc.dart';
+import 'package:tobetoapp/bloc/competency_test/competency_test_bloc.dart';
 import 'package:tobetoapp/bloc/exam/exam_bloc.dart';
 import 'package:tobetoapp/bloc/favorites/favorite_bloc.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_bloc.dart';
@@ -29,6 +30,7 @@ import 'package:tobetoapp/repository/blog_repository.dart';
 import 'package:tobetoapp/repository/catalog/catalog_repository.dart';
 import 'package:tobetoapp/repository/catalog/catalog_video_repository.dart';
 import 'package:tobetoapp/repository/class_repository.dart';
+import 'package:tobetoapp/repository/competency_test_repository.dart';
 import 'package:tobetoapp/repository/exam_repository.dart';
 import 'package:tobetoapp/repository/lessons/homework_repository.dart';
 import 'package:tobetoapp/repository/lessons/lesson_live_repository.dart';
@@ -117,6 +119,10 @@ class Home extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => ExamBloc(examRepository: ExamRepository()),
+            ),
+            BlocProvider(
+              create: (context) =>
+                  CompetencyTestBloc(repository: CompetencyTestRepository()),
             ),
             BlocProvider(
               create: (context) => HomeworkBloc(HomeworkRepository()),

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -141,5 +140,37 @@ class ProfileRepository {
       };
     }
     return null;
+  }
+
+  Future<void> changePassword(String oldPassword, String newPassword) async {
+    final user = _firebaseAuth.currentUser;
+    if (user != null) {
+      try {
+        AuthCredential credential = EmailAuthProvider.credential(
+          email: user.email!,
+          password: oldPassword,
+        );
+        await user.reauthenticateWithCredential(credential);
+        await user.updatePassword(newPassword);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'invalid-credential') {
+          throw Exception('Eski şifre yanlış');
+        } else {
+          throw Exception('Şifre değiştirme başarısız');
+        }
+      }
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    final user = _firebaseAuth.currentUser;
+    if (user != null) {
+      try {
+        await user.delete();
+        //await _firebaseAuth.signOut();
+      } catch (e) {
+        throw Exception('Hesap silme başarısız');
+      }
+    }
   }
 }

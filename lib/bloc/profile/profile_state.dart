@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:tobetoapp/models/userModel.dart';
 
 abstract class ProfileState {}
