@@ -12,11 +12,11 @@ import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/admin/admin_panel.dart';
 
 import 'package:tobetoapp/screens/announcement_page.dart';
+
 import 'package:tobetoapp/screens/class_details_page.dart';
 import 'package:tobetoapp/screens/favorites_page.dart';
 import 'package:tobetoapp/screens/homepage.dart';
 
-import 'package:tobetoapp/screens/login_or_signup.dart';
 import 'package:tobetoapp/screens/teacher_lesson_page.dart';
 import 'package:tobetoapp/screens/user/profile.dart';
 
@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(), 
+    GlobalKey<NavigatorState>(),
   ];
 
   // Kullanıcının rolüne göre sayfa listeleri oluşturma
@@ -172,23 +172,10 @@ class _MainPageState extends State<MainPage> {
           );
         } else {
           // Kullanici cikis yaptiktan sonra bottomNavigationBar iptal edildi.HomePage sayfasina yonlendiriyor direkt
-          return const Scaffold(body: Homepage()
-              // bottomNavigationBar: _buildBottomNavigationBarForNotLoggedInUser(),
-              );
+          return const Scaffold(body: Homepage());
         }
       },
     );
-  }
-
-  Widget _buildContentForNotLoggedInUser() {
-    switch (_selectedIndex) {
-      case 0:
-        return const Scaffold(); // Giriş yapmamış kullanıcılar için ana sayfa
-      case 1:
-        return const LoginOrSignUp(); // Bilgi sayfası
-      default:
-        return const Scaffold();
-    }
   }
 
   BottomNavigationBar _buildBottomNavigationBarForRole(UserRole role) {

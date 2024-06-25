@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tobetoapp/models/catalog_model.dart';
+import 'package:tobetoapp/screens/auth.dart';
 import 'package:tobetoapp/screens/catalog/catalog_lesson_page.dart';
-import 'package:tobetoapp/screens/login_or_signup.dart';
+
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/review_section.dart';
 
@@ -101,7 +102,7 @@ class CatalogDetailPage extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const LoginOrSignUp()),
+                              MaterialPageRoute(builder: (context) => const Auth()),
                             );
                           },
                           child: const Text('Giriş Yap', style: TextStyle(color: Colors.white)),

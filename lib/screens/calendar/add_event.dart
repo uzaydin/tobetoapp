@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
-import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
