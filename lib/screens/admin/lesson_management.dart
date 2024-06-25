@@ -5,6 +5,7 @@ import 'package:tobetoapp/bloc/admin/admin_event.dart';
 import 'package:tobetoapp/bloc/admin/admin_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/screens/admin/lesson_edit.dart';
+import 'package:tobetoapp/widgets/admin/lesson_tile.dart';
 
 class LessonManagementPage extends StatefulWidget {
   const LessonManagementPage({super.key});
@@ -48,7 +49,7 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lesson Management'),
+        title: const Text('Ders Yönetimi'),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -67,7 +68,7 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
                   child: TextField(
                     controller: _searchController,
                     decoration: const InputDecoration(
-                      hintText: 'Search by title',
+                      hintText: 'Ders başlığı giriniz',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.search),
                     ),
@@ -92,18 +93,27 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
                     itemCount: lessonsToDisplay.length,
                     itemBuilder: (context, index) {
                       final lesson = lessonsToDisplay[index];
-                      return LessonTile(
-                        lesson: lesson,
-                        onEdit: () =>
-                            _navigateToEditLessonPage(context, lesson.id!),
-                        onDelete: () =>
-                            _showDeleteLessonDialog(context, lesson.id!),
+                      return Column(
+                        children: [
+                          LessonTile(
+                            lesson: lesson,
+                            onEdit: () =>
+                                _navigateToEditLessonPage(context, lesson.id!),
+                            onDelete: () =>
+                                _showDeleteLessonDialog(context, lesson.id!),
+                          ),
+                          const Divider(
+                            thickness: 1, // Çizginin kalınlığı
+                            color: Colors.grey, // Çizginin rengi
+                          ),
+                        ],
                       );
                     },
                   );
                 } else if (state is AdminError) {
                   return Center(
-                      child: Text('Failed to load lessons: ${state.message}'));
+                      child: Text(
+                          'Dersler yüklenirken bir hata olustu. Lütfen tekrar deneyiniz.'));
                 } else {
                   return const Center(child: Text('No lessons found'));
                 }
@@ -144,17 +154,17 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Add Lesson'),
+          title: const Text('Ders ekle'),
           content: SingleChildScrollView(
             child: Column(
               children: [
                 TextField(
                   controller: titleController,
-                  decoration: const InputDecoration(labelText: 'Title'),
+                  decoration: const InputDecoration(labelText: 'Başlık'),
                 ),
                 TextField(
                   controller: descriptionController,
-                  decoration: const InputDecoration(labelText: 'Content'),
+                  decoration: const InputDecoration(labelText: 'İçerik'),
                 ),
               ],
             ),
@@ -164,7 +174,7 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child: const Text('İptal'),
             ),
             TextButton(
               onPressed: () {
@@ -176,7 +186,7 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
                 context.read<AdminBloc>().add(AddLesson(newLesson));
                 Navigator.pop(context);
               },
-              child: const Text('Add'),
+              child: const Text('Ekle'),
             ),
           ],
         );
@@ -189,21 +199,21 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Delete Lesson'),
-          content: const Text('Are you sure you want to delete this lesson?'),
+          title: const Text('Ders sil'),
+          content: const Text('Bu dersi silmek istediğinize emin misiniz ?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child: const Text('İptal'),
             ),
             TextButton(
               onPressed: () {
                 context.read<AdminBloc>().add(DeleteLesson(lessonId));
                 Navigator.pop(context);
               },
-              child: const Text('Delete'),
+              child: const Text('Sil'),
             ),
           ],
         );
@@ -212,37 +222,4 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
   }
 }
 
-// Baska sayfaya tasinabilir.
-class LessonTile extends StatelessWidget {
-  final LessonModel lesson;
-  final VoidCallback onEdit;
-  final VoidCallback onDelete;
 
-  const LessonTile({
-    super.key,
-    required this.lesson,
-    required this.onEdit,
-    required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(lesson.title!),
-      subtitle: Text(lesson.description!),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: onEdit,
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: onDelete,
-          ),
-        ],
-      ),
-    );
-  }
-}

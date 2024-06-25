@@ -5,6 +5,7 @@ import 'package:tobetoapp/bloc/admin/admin_event.dart';
 import 'package:tobetoapp/bloc/admin/admin_state.dart';
 import 'package:tobetoapp/models/class_model.dart';
 import 'package:tobetoapp/screens/admin/class_detail.dart';
+import 'package:tobetoapp/widgets/admin/class_tile.dart';
 
 class ClassManagementPage extends StatefulWidget {
   const ClassManagementPage({super.key});
@@ -48,7 +49,7 @@ class _ClassManagementPageState extends State<ClassManagementPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Class Management'),
+        title: const Text('Sınıf Yönetimi'),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -67,7 +68,7 @@ class _ClassManagementPageState extends State<ClassManagementPage> {
                   child: TextField(
                     controller: _searchController,
                     decoration: const InputDecoration(
-                      hintText: 'Search by class name',
+                      hintText: 'Sınıf ismi giriniz',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.search),
                     ),
@@ -92,23 +93,18 @@ class _ClassManagementPageState extends State<ClassManagementPage> {
                     itemCount: classesToDisplay.length,
                     itemBuilder: (context, index) {
                       final classModel = classesToDisplay[index];
-                      return ListTile(
-                        title: Text(classModel.name!),
-                        onTap: () =>
-                            _navigateToClassDetails(context, classModel.id!),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () =>
-                              _showEditClassDialog(context, classModel),
-                        ),
-                        onLongPress: () =>
-                            _showDeleteClassDialog(context, classModel.id!),
+                      return ClassTile(
+                        classModel: classModel,
+                        onDetailsPressed: _navigateToClassDetails,
+                        onEditPressed: _showEditClassDialog,
+                        onLongPress: _showDeleteClassDialog,
                       );
                     },
                   );
                 } else if (state is AdminError) {
-                  return Center(
-                      child: Text('Failed to load classes: ${state.message}'));
+                  return const Center(
+                      child: Text(
+                          'Sınıfları yüklerken bir problem olustu. Lütfen tekrar deneyiniz.'));
                 } else {
                   return const Center(child: Text('No classes found'));
                 }
@@ -129,14 +125,7 @@ class _ClassManagementPageState extends State<ClassManagementPage> {
       MaterialPageRoute(
         builder: (context) => BlocProvider.value(
           value: context.read<AdminBloc>(),
-          child: PopScope(
-            onPopInvoked: (popped) {
-              if (popped) {
-                context.read<AdminBloc>().add(LoadClasses());
-              }
-            },
-            child: ClassDetailsPage(classId: classId),
-          ),
+          child: ClassDetailsPage(classId: classId),
         ),
       ),
     );
@@ -148,17 +137,17 @@ class _ClassManagementPageState extends State<ClassManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Add Class'),
+          title: const Text('Sınıf ekle'),
           content: TextField(
             controller: classNameController,
-            decoration: const InputDecoration(hintText: 'Class Name'),
+            decoration: const InputDecoration(hintText: 'Sınıf ismi'),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child: const Text('İptal'),
             ),
             TextButton(
               onPressed: () {
@@ -168,7 +157,7 @@ class _ClassManagementPageState extends State<ClassManagementPage> {
                   context.read<AdminBloc>().add(AddClass(newClass));
                 }
               },
-              child: const Text('Add'),
+              child: const Text('Ekle'),
             ),
           ],
         );
@@ -182,17 +171,17 @@ class _ClassManagementPageState extends State<ClassManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Edit Class'),
+          title: const Text('Sınıf düzenle'),
           content: TextField(
             controller: classNameController,
-            decoration: const InputDecoration(hintText: 'Class Name'),
+            decoration: const InputDecoration(hintText: 'Sınıf ismi'),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child: const Text('İptal'),
             ),
             TextButton(
               onPressed: () {
@@ -203,7 +192,7 @@ class _ClassManagementPageState extends State<ClassManagementPage> {
                   context.read<AdminBloc>().add(UpdateClass(updatedClass));
                 }
               },
-              child: const Text('Update'),
+              child: const Text('Güncelle'),
             ),
           ],
         );
@@ -216,14 +205,14 @@ class _ClassManagementPageState extends State<ClassManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Delete Class'),
-          content: const Text('Are you sure you want to delete this class?'),
+          title: const Text('Sınıf sil'),
+          content: const Text('Bu sınıfı silmek istediğinize emin misiniz ?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child: const Text('İptal'),
             ),
             TextButton(
               onPressed: () {
@@ -232,7 +221,7 @@ class _ClassManagementPageState extends State<ClassManagementPage> {
                   context.read<AdminBloc>().add(DeleteClass(classId));
                 }
               },
-              child: const Text('Delete'),
+              child: const Text('Sil'),
             ),
           ],
         );

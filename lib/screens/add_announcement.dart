@@ -12,6 +12,7 @@ import 'package:tobetoapp/models/announcement_model.dart';
 import 'package:tobetoapp/models/class_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
+import 'package:tobetoapp/widgets/validation_video_controller.dart';
 
 class AddAnnouncementPage extends StatefulWidget {
   const AddAnnouncementPage({super.key});
@@ -36,12 +37,9 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
 
   @override
   Widget build(BuildContext context) {
-    // AppConstants'ı başlat
-    AppConstants.init(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Announcement'),
+        title: const Text('Duyuru ekle'),
       ),
       body: Padding(
         padding: EdgeInsets.all(AppConstants.paddingMedium),
@@ -53,25 +51,36 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
                 TextFormField(
                   controller: _titleController,
                   decoration: InputDecoration(
-                    labelText: 'Title',
+                    labelText: 'Başlık',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(AppConstants.br10),
                     ),
                   ),
                   validator: (value) =>
-                      validation(value, "Please enter a title."),
+                      validation(value, "Lütfen başlık giriniz."),
                 ),
                 SizedBox(height: AppConstants.sizedBoxHeightMedium),
-                TextFormField(
-                  controller: _contentController,
-                  decoration: InputDecoration(
-                    labelText: 'Content',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppConstants.br10),
+                Container(
+                  height: 100, // Sabit yükseklik
+                  child: TextFormField(
+                    controller: _contentController,
+                    maxLines: null, // Çok satırlı olmasını sağlar
+                    minLines: null, // Minimum satır sayısını belirler
+                    expands: true, // Alanın tamamını doldurur
+                    textAlignVertical:
+                        TextAlignVertical.top, // Metni yukarı hizalar
+                    decoration: InputDecoration(
+                      labelText: 'İçerik',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(AppConstants.br10),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 10.0), // İçerik dolgu ayarları
                     ),
+                    validator: (value) =>
+                        validation(value, "Lütfen içerik bilgisi giriniz."),
                   ),
-                  validator: (value) =>
-                      validation(value, "Please enter content."),
                 ),
                 SizedBox(height: AppConstants.sizedBoxHeightLarge),
                 BlocBuilder<ClassBloc, ClassState>(
@@ -103,7 +112,7 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
                           },
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
-                              labelText: "Select Classes",
+                              labelText: "Sınıf seç",
                               border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(AppConstants.br10),
@@ -133,14 +142,14 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
                   onPressed: _addAnnouncement,
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(
-                      horizontal: AppConstants.paddingLarge,
-                      vertical: AppConstants.sizedBoxHeightMedium,
+                      horizontal: AppConstants.paddingMedium,
+                      vertical: AppConstants.sizedBoxHeightSmall,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AppConstants.br10),
                     ),
                   ),
-                  child: const Text('Add Announcement'),
+                  child: const Text('Duyuru ekle'),
                 ),
               ],
             ),
@@ -151,29 +160,25 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
   }
 
   void _addAnnouncement() {
-    if (_formKey.currentState!.validate() && _selectedClasses.isNotEmpty) {
+    final userState = context.read<UserBloc>().state;
+    if (userState is UserLoaded) {
+      final userRole = userState.user.role;
+
       final announcement = Announcements(
         title: _titleController.text,
         content: _contentController.text,
         createdAt: DateTime.now(),
         classIds: _selectedClasses.map((classModel) => classModel.id!).toList(),
+        role: userRole?.toString().split('.').last,
       );
 
       context.read<AnnouncementBloc>().add(AddAnnouncement(announcement));
       Navigator.pop(context);
     } else {
-      if (_selectedClasses.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select at least one class')),
-        );
-      }
+      // Kullanıcı verileri yüklenememişse uygun bir hata mesajı gösterin
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User data not loaded.')),
+      );
     }
-  }
-
-  String? validation(String? value, String message) {
-    if (value == null || value.isEmpty) {
-      return message;
-    }
-    return null;
   }
 }

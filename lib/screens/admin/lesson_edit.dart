@@ -80,7 +80,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lesson Details'),
+        title: const Text('Ders Detayları'),
       ),
       body: BlocConsumer<AdminBloc, AdminState>(
         listener: (context, state) {
@@ -88,8 +88,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
             context.read<AdminBloc>().add(LoadLessonDetails(widget.lessonId));
           } else if (state is AdminError) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content: Text('Failed to upload image: ${state.message}')),
+              SnackBar(content: Text('Resim yüklerken bir hata meydana geldi')),
             );
           }
         },
@@ -141,7 +140,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                             : const SizedBox.shrink(),
                     ElevatedButton(
                       onPressed: _pickImage,
-                      child: const Text('Select Image'),
+                      child: const Text('Resim seç'),
                     ),
                     if (_imageFile != null)
                       ElevatedButton(
@@ -153,13 +152,13 @@ class _LessonEditPageState extends State<LessonEditPage> {
                                 ));
                           }
                         },
-                        child: const Text('Upload Image'),
+                        child: const Text('Resmi yükle'),
                       ),
                     const SizedBox(height: 10),
                     TextField(
                       controller: _titleController,
                       decoration: const InputDecoration(
-                        labelText: 'Title',
+                        labelText: 'Başlık',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -167,14 +166,14 @@ class _LessonEditPageState extends State<LessonEditPage> {
                     TextField(
                       controller: _descriptionController,
                       decoration: const InputDecoration(
-                        labelText: 'Description',
+                        labelText: 'Açıklama',
                         border: OutlineInputBorder(),
                       ),
                       maxLines: 3,
                     ),
                     const SizedBox(height: 10),
                     ListTile(
-                      title: const Text('Start Date'),
+                      title: const Text('Başlangıç tarihi'),
                       subtitle: Text(_formatDate(_startDate)),
                       trailing: const Icon(Icons.calendar_today),
                       onTap: () => _pickDate(context, _startDate, (date) {
@@ -184,7 +183,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                       }),
                     ),
                     ListTile(
-                      title: const Text('End Date'),
+                      title: const Text('Bitiş tarihi'),
                       subtitle: Text(_formatDate(_endDate)),
                       trailing: const Icon(Icons.calendar_today),
                       onTap: () => _pickDate(context, _endDate, (date) {
@@ -194,7 +193,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                       }),
                     ),
                     CheckboxListTile(
-                      title: const Text('Is Live'),
+                      title: const Text('Canlı Oturum'),
                       value: _isLive ?? false,
                       onChanged: (bool? value) {
                         setState(() {
@@ -204,7 +203,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      'Assign Teachers',
+                      'Eğitmen ata',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -230,7 +229,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                       },
                       dropdownDecoratorProps: const DropDownDecoratorProps(
                         dropdownSearchDecoration: InputDecoration(
-                          labelText: "Select Teachers",
+                          labelText: "Eğitmenleri seçiniz",
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -240,7 +239,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      'Assign Classes',
+                      'Sınıflara ata',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -265,7 +264,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                       },
                       dropdownDecoratorProps: const DropDownDecoratorProps(
                         dropdownSearchDecoration: InputDecoration(
-                          labelText: "Select Classes",
+                          labelText: "Sınıfları seçiniz",
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -291,7 +290,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                             .add(UpdateLesson(updatedLesson));
                         Navigator.pop(context);
                       },
-                      child: const Text('Save'),
+                      child: const Text('Kaydet'),
                     ),
                   ],
                 ),
@@ -299,7 +298,8 @@ class _LessonEditPageState extends State<LessonEditPage> {
             );
           } else if (state is AdminError) {
             return Center(
-                child: Text('Failed to load lesson details: ${state.message}'));
+                child: Text(
+                    'Ders detaylarını yüklerken bir hata meydana geldi.Lütfen tekrar deneyiniz'));
           } else {
             return const Center(child: Text('No lesson details found'));
           }

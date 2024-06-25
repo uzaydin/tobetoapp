@@ -186,15 +186,15 @@ class _MainPageState extends State<MainPage> {
         items = [
           const BottomNavigationBarItem(
             icon: Icon(Icons.class_),
-            label: 'Classes',
+            label: 'Sınıflar',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
-            label: 'Announcements',
+            label: 'Duyurular',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            label: 'Profile',
+            label: 'Profil',
           ),
         ];
         type = BottomNavigationBarType.fixed;
@@ -203,19 +203,19 @@ class _MainPageState extends State<MainPage> {
         items = [
           const BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'Education',
+            label: 'Eğitimler',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
-            label: 'Announcements',
+            label: 'Duyurular',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
-            label: 'Favorites',
+            label: 'Favoriler',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            label: 'Profile',
+            label: 'Profil',
           ),
         ];
         type = BottomNavigationBarType.fixed;
@@ -228,11 +228,11 @@ class _MainPageState extends State<MainPage> {
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
-            label: 'Announcements',
+            label: 'Duyurular',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            label: 'Profile',
+            label: 'Profil',
           ),
         ];
         type = BottomNavigationBarType.fixed;
@@ -245,11 +245,11 @@ class _MainPageState extends State<MainPage> {
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
-            label: 'Announcements',
+            label: 'Duyurular',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            label: 'Profile',
+            label: 'Profil',
           ),
         ];
     }
@@ -260,25 +260,4 @@ class _MainPageState extends State<MainPage> {
       items: items,
     );
   }
-
-  // BottomNavigationBar _buildBottomNavigationBarForNotLoggedInUser() {
-  //   return BottomNavigationBar(
-  //     currentIndex: _selectedIndex,
-  //     onTap: (index) {
-  //       setState(() {
-  //         _selectedIndex = index;
-  //       });
-  //     },
-  //     items: const <BottomNavigationBarItem>[
-  //       BottomNavigationBarItem(
-  //         icon: Icon(Icons.info),
-  //         label: 'Info',
-  //       ),
-  //       BottomNavigationBarItem(
-  //         icon: Icon(Icons.login),
-  //         label: 'Login',
-  //       ),
-  //     ],
-  //   );
-  // }
 }

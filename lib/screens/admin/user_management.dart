@@ -6,6 +6,7 @@ import 'package:tobetoapp/bloc/admin/admin_event.dart';
 import 'package:tobetoapp/bloc/admin/admin_state.dart';
 import 'package:tobetoapp/models/userModel.dart';
 import 'package:tobetoapp/models/user_enum.dart';
+import 'package:tobetoapp/widgets/admin/user_tile.dart';
 
 class UserManagementPage extends StatefulWidget {
   const UserManagementPage({super.key});
@@ -68,7 +69,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
                   child: TextField(
                     controller: _searchController,
                     decoration: const InputDecoration(
-                      hintText: 'Search by user name',
+                      hintText: 'İsim veya soyisim giriniz.',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.search),
                     ),
@@ -94,21 +95,21 @@ class _UserManagementPageState extends State<UserManagementPage> {
                     itemBuilder: (context, index) {
                       final user = usersToDisplay[index];
                       final userClassNames = user.classIds
-                              ?.map((id) => state.classNames[id] ?? 'Unknown')
+                              ?.map(
+                                  (id) => state.classNames[id] ?? 'Bilinmiyor')
                               .join(', ') ??
-                          'No class';
-
-                      return ListTile(
-                        title: Text('${user.firstName} ${user.lastName}'),
-                        subtitle: Text(
-                            'Email: ${user.email}\nRole: ${user.role?.name ?? ''}\nClass: $userClassNames'),
-                        onLongPress: () => _showUserActions(context, user),
+                          'Sınıfı yok';
+                      return UserTile(
+                        user: user,
+                        userClassNames: userClassNames,
+                        onLongPress: _showUserActions,
                       );
                     },
                   );
                 } else if (state is AdminError) {
-                  return Center(
-                      child: Text('Failed to load users: ${state.message}'));
+                  return const Center(
+                      child: Text(
+                          'Kişileri yüklerken bir sorun oluştu. Lütfen tekrar deneyin.'));
                 } else {
                   return const Center(child: Text('No users found'));
                 }
@@ -129,7 +130,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
           children: [
             ListTile(
               leading: const Icon(Icons.person_add),
-              title: const Text('Add/Remove Role'),
+              title: const Text('Rol ekle/çıkar'),
               onTap: () {
                 Navigator.pop(context);
                 _showRoleDialog(context, user);
@@ -137,7 +138,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
             ),
             ListTile(
               leading: const Icon(Icons.class_),
-              title: const Text('Add/Remove Class'),
+              title: const Text('Sınıf ekle/çıkar'),
               onTap: () {
                 Navigator.pop(context);
                 _showClassDialog(context, user);
@@ -145,7 +146,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
             ),
             ListTile(
               leading: const Icon(Icons.delete),
-              title: const Text('Delete User'),
+              title: const Text('Kişiyi sil'),
               onTap: () {
                 Navigator.pop(context);
                 _showDeleteDialog(context, user);
@@ -194,11 +195,11 @@ class _UserManagementPageState extends State<UserManagementPage> {
           builder: (context, state) {
             if (state is ClassNamesForUserLoaded) {
               return AlertDialog(
-                title: const Text('Add/Remove Class'),
+                title: const Text('Sınıf ekle/çıkar'),
                 content: DropdownSearch<String>.multiSelection(
                   items: state.classNames.values.toList(),
                   selectedItems: user.classIds
-                          ?.map((id) => state.classNames[id] ?? 'Unknown')
+                          ?.map((id) => state.classNames[id] ?? 'Bilinmiyor')
                           .toList() ??
                       [],
                   onChanged: (List<String> selectedItems) {
@@ -219,7 +220,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
                       context.read<AdminBloc>().add(
                           LoadUserData()); // UI'ı güncellemek için eklenen satır
                     },
-                    child: const Text('Close'),
+                    child: const Text('Kapat'),
                   ),
                 ],
               );
@@ -242,21 +243,21 @@ class _UserManagementPageState extends State<UserManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Delete User'),
-          content: const Text('Are you sure you want to delete this user?'),
+          title: const Text('Kişiyi sil'),
+          content: const Text('Bu kişiyi silmek istediğinize emin misiniz ?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child: const Text('İptal'),
             ),
             TextButton(
               onPressed: () {
                 context.read<AdminBloc>().add(DeleteUser(user.id!));
                 Navigator.pop(context);
               },
-              child: const Text('Delete'),
+              child: const Text('Sil'),
             ),
           ],
         );

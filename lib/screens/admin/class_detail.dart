@@ -45,9 +45,18 @@ class ClassDetailsPage extends StatelessWidget {
                             itemCount: state.users.length,
                             itemBuilder: (context, index) {
                               final user = state.users[index];
-                              return ListTile(
-                                title: Text('${user.firstName} ${user.lastName}'),
-                                subtitle: Text('Email: ${user.email}'),
+                              return Column(
+                                children: [
+                                  ListTile(
+                                    title: Text(
+                                        '${user.firstName} ${user.lastName}'),
+                                    subtitle: Text('Email: ${user.email}'),
+                                  ),
+                                  const Divider(
+                                    thickness: 1, // Çizginin kalınlığı
+                                    color: Colors.grey, // Çizginin rengi
+                                  ),
+                                ],
                               );
                             },
                           ),
@@ -55,9 +64,18 @@ class ClassDetailsPage extends StatelessWidget {
                             itemCount: state.lessons.length,
                             itemBuilder: (context, index) {
                               final lesson = state.lessons[index];
-                              return ListTile(
-                                title: Text(lesson.title!),
-                                subtitle: Text('Description: ${lesson.description}'),
+                              return Column(
+                                children: [
+                                  ListTile(
+                                    title: Text(lesson.title!),
+                                    subtitle: Text(
+                                        'Description: ${lesson.description}'),
+                                  ),
+                                  const Divider(
+                                    thickness: 1, // Çizginin kalınlığı
+                                    color: Colors.grey, // Çizginin rengi
+                                  ),
+                                ],
                               );
                             },
                           ),
@@ -68,7 +86,9 @@ class ClassDetailsPage extends StatelessWidget {
                 ),
               );
             } else if (state is AdminError) {
-              return Center(child: Text('Failed to load class details: ${state.message}'));
+              return Center(
+                  child:
+                      Text('Failed to load class details: ${state.message}'));
             } else {
               return const Center(child: Text('No class details found'));
             }
