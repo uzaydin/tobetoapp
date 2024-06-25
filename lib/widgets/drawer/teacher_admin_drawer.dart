@@ -40,18 +40,12 @@ class _TeacherAdminDrawerState extends State<TeacherAdminDrawer> {
             child: DrawerHeader(
               decoration: const BoxDecoration(),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: AppConstants.screenWidth * 0.5,
                     child: Image.asset('assets/logo/tobetologo.PNG',
                         fit: BoxFit.contain),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
                   ),
                 ],
               ),
@@ -65,7 +59,7 @@ class _TeacherAdminDrawerState extends State<TeacherAdminDrawer> {
                 ListTile(
                   title: Text(
                     "Profilim",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   onTap: () {
                     Navigator.push(
@@ -77,7 +71,7 @@ class _TeacherAdminDrawerState extends State<TeacherAdminDrawer> {
                 ListTile(
                   title: Text(
                     "Takvim",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   onTap: () {
                     Navigator.push(
@@ -103,7 +97,7 @@ class _TeacherAdminDrawerState extends State<TeacherAdminDrawer> {
                 children: [
                   Text(
                     "Tobeto",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(width: 5.0),
                   const Icon(Icons.home),
@@ -118,7 +112,7 @@ class _TeacherAdminDrawerState extends State<TeacherAdminDrawer> {
             child: ListTile(
               title: Text(
                 "Tema Değiştir",
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               trailing: const ThemeSwitcher(),
             ),
