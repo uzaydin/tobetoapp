@@ -10,7 +10,7 @@ import 'package:tobetoapp/widgets/user/form_fields.dart';
 class EditEducationPage extends StatefulWidget {
   final UserModel user;
 
-  EditEducationPage({required this.user});
+  const EditEducationPage({super.key, required this.user});
 
   @override
   _EditEducationPageState createState() => _EditEducationPageState();
@@ -78,13 +78,13 @@ class _EditEducationPageState extends State<EditEducationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Eğitim Hayatım Düzenle'),
+        title: const Text('Eğitim Hayatım Düzenle'),
       ),
       body: BlocConsumer<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoaded) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Eğitimler başarıyla güncellendi')),
+              const SnackBar(content: Text('Eğitimler başarıyla güncellendi')),
             );
           } else if (state is ProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -118,26 +118,26 @@ class _EditEducationPageState extends State<EditEducationPage> {
                             itemLabel: (item) => item.name,
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildTextField(
                             controller: _universityController,
                             label: 'Üniversite',
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildTextField(
                             controller: _departmentController,
                             label: 'Bölüm',
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildDateField(
                             controller: _startDateController,
                             label: 'Başlangıç Yılı',
                             isRequired: true,
                             context: context,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildDateField(
                             controller: _graduationDateController,
                             label: 'Mezuniyet Yılı',
@@ -145,9 +145,9 @@ class _EditEducationPageState extends State<EditEducationPage> {
                             isRequired: !_isStillStudying,
                             enabled: !_isStillStudying,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           CheckboxListTile(
-                            title: Text('Devam Ediyorum'),
+                            title: const Text('Devam Ediyorum'),
                             value: _isStillStudying,
                             onChanged: (bool? value) {
                               setState(() {
@@ -158,23 +158,23 @@ class _EditEducationPageState extends State<EditEducationPage> {
                               });
                             },
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: _submitForm,
-                            child: Text('Kaydet'),
+                            child: const Text('Kaydet'),
                           ),
-                          SizedBox(height: 16),
-                          Text('Eklenen Eğitimler',
+                          const SizedBox(height: 16),
+                          const Text('Eklenen Eğitimler',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ...state.user.education
                                   ?.map((education) => ListTile(
                                         title: Text(education.university ?? ''),
                                         subtitle:
                                             Text(education.department ?? ''),
                                         trailing: IconButton(
-                                          icon: Icon(Icons.delete,
+                                          icon: const Icon(Icons.delete,
                                               color: Colors.red),
                                           onPressed: () {
                                             _deleteEducation(education.id);
@@ -191,7 +191,7 @@ class _EditEducationPageState extends State<EditEducationPage> {
               ),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

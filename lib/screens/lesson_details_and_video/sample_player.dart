@@ -8,11 +8,11 @@ class SamplePlayer extends StatefulWidget {
   final Function(Duration) onTimeUpdate;
 
   const SamplePlayer({
-    Key? key,
+    super.key,
     required this.videoUrl,
     required this.onVideoComplete,
     required this.onTimeUpdate,
-  }) : super(key: key);
+  });
 
   @override
   _SamplePlayerState createState() => _SamplePlayerState();
@@ -42,7 +42,7 @@ class _SamplePlayerState extends State<SamplePlayer> {
     }
 
     // Her bir saniye geçtiğinde `onTimeUpdate` fonksiyonunu çağır
-    if (controller.value.position - _lastReportedPosition >= Duration(seconds: 1)) {
+    if (controller.value.position - _lastReportedPosition >= const Duration(seconds: 1)) {
       _lastReportedPosition = controller.value.position;
       widget.onTimeUpdate(_lastReportedPosition);
     }

@@ -11,7 +11,7 @@ import 'package:tobetoapp/widgets/user/form_fields.dart';
 class EditPersonalInfoPage extends StatefulWidget {
   final UserModel user;
 
-  EditPersonalInfoPage({required this.user});
+  const EditPersonalInfoPage({super.key, required this.user});
 
   @override
   _EditPersonalInfoPageState createState() => _EditPersonalInfoPageState();
@@ -95,13 +95,13 @@ class _EditPersonalInfoPageState extends State<EditPersonalInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kişisel Bilgilerim Düzenle'),
+        title: const Text('Kişisel Bilgilerim Düzenle'),
       ),
       body: BlocConsumer<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoaded) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Bilgiler başarıyla güncellendi')),
+              const SnackBar(content: Text('Bilgiler başarıyla güncellendi')),
             );
           } else if (state is ProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -109,7 +109,7 @@ class _EditPersonalInfoPageState extends State<EditPersonalInfoPage> {
             );
           } else if (state is ProfileImageUpdated) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Profil fotoğrafı başarıyla güncellendi')),
+              const SnackBar(content: Text('Profil fotoğrafı başarıyla güncellendi')),
             );
           }
         },
@@ -135,7 +135,7 @@ class _EditPersonalInfoPageState extends State<EditPersonalInfoPage> {
                                     as ImageProvider,
                             child: _selectedImage == null &&
                                     user.profilePhotoUrl == null
-                                ? Icon(Icons.person, size: 50)
+                                ? const Icon(Icons.person, size: 50)
                                 : null,
                           ),
                         ),
@@ -143,52 +143,52 @@ class _EditPersonalInfoPageState extends State<EditPersonalInfoPage> {
                           bottom: 0,
                           right: 0,
                           child: IconButton(
-                            icon: Icon(Icons.camera_alt, color: Colors.black),
+                            icon: const Icon(Icons.camera_alt, color: Colors.black),
                             onPressed: _pickImage,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildTextField(
                       controller: _firstNameController,
                       label: 'Adınız',
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildTextField(
                       controller: _lastNameController,
                       label: 'Soyadınız',
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildTextField(
                       controller: _phoneNumberController,
                       label: 'Telefon Numaranız',
                       keyboardType: TextInputType.phone,
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildDateField(
                       controller: _birthDateController,
                       label: 'Doğum Tarihiniz',
                       context: context,
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildTextField(
                       controller: _tcNoController,
                       label: 'TC Kimlik No',
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildTextField(
                       controller: _emailController,
                       label: 'E-posta',
                       keyboardType: TextInputType.emailAddress,
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildDropdownField<Gender>(
                       value: _selectedGender,
                       label: 'Cinsiyet',
@@ -201,7 +201,7 @@ class _EditPersonalInfoPageState extends State<EditPersonalInfoPage> {
                       itemLabel: (item) => item.name,
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildDropdownField<MilitaryStatus>(
                       value: _selectedMilitaryStatus,
                       label: 'Askerlik Durumu',
@@ -214,7 +214,7 @@ class _EditPersonalInfoPageState extends State<EditPersonalInfoPage> {
                       itemLabel: (item) => item.name,
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildDropdownField<DisabilityStatus>(
                       value: _selectedDisabilityStatus,
                       label: 'Engellilik Durumu',
@@ -227,52 +227,52 @@ class _EditPersonalInfoPageState extends State<EditPersonalInfoPage> {
                       itemLabel: (item) => item.name,
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildTextField(
                       controller: _githubController,
                       label: 'Github Adresi',
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildTextField(
                       controller: _countryController,
                       label: 'Ülke',
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildTextField(
                       controller: _cityController,
                       label: 'İl',
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildTextField(
                       controller: _districtController,
                       label: 'İlçe',
                       isRequired: true,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildTextField(
                       controller: _streetController,
                       label: 'Mahalle/Sokak',
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     FormFields.buildTextField(
                       controller: _aboutController,
                       label: 'Hakkımda',
                       keyboardType: TextInputType.multiline,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: _updateUserProfile,
-                      child: Text('Güncelle'),
+                      child: const Text('Güncelle'),
                     ),
                   ],
                 ),
               ),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

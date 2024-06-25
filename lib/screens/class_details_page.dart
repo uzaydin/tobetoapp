@@ -13,9 +13,9 @@ class ClassDetailPage extends StatefulWidget {
   final List<String>? classIds;
 
   const ClassDetailPage({
-    Key? key,
+    super.key,
     this.classIds,
-  }) : super(key: key);
+  });
 
   @override
   _ClassDetailPageState createState() => _ClassDetailPageState();
@@ -24,7 +24,7 @@ class ClassDetailPage extends StatefulWidget {
 class _ClassDetailPageState extends State<ClassDetailPage> {
   bool isListView = true;
 
-  TextEditingController _searchController =
+  final TextEditingController _searchController =
       TextEditingController(); // Arama çubuğu için controller
   List<LessonModel> _filteredLessons = []; // Filtrelenmiş dersler listesi
 
@@ -65,7 +65,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tobeto"),
+        title: const Text("Tobeto"),
         centerTitle: true,
         actions: [
           IconButton(
@@ -121,7 +121,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                prefixIcon: Icon(Icons.search), // Arama ikonu
+                prefixIcon: const Icon(Icons.search), // Arama ikonu
               ),
             ),
           ),
@@ -135,7 +135,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
 
   Widget _buildBody() {
     if (widget.classIds == null || widget.classIds!.isEmpty) {
-      return Center(
+      return const Center(
         child: Text("Henüz ders tanımlanmamıştır."),
       );
     }
@@ -143,13 +143,13 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
     return BlocBuilder<LessonBloc, LessonState>(
       builder: (context, state) {
         if (state is LessonsLoading) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (state is LessonsLoaded) {
           final lessonsToShow = _searchController.text.isEmpty
               ? state.lessons
               : _filteredLessons; // Arama çubuğunda metin varsa filtrelenmiş dersler gösterilir
           if (lessonsToShow.isEmpty) {
-            return Center(child: Text("Henüz ders tanımlanmamıştır"));
+            return const Center(child: Text("Henüz ders tanımlanmamıştır"));
           } else {
             return isListView
                 ? ListView.builder(
@@ -159,7 +159,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                     },
                   )
                 : GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                     ),
                     itemCount: lessonsToShow.length,
@@ -209,9 +209,9 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
             lesson.image != null
                 ? Image.network(lesson.image!)
                 : Container(height: 100, color: Colors.grey),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(lesson.title ?? "No title"),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(_formatDate(lesson.startDate)),
           ],
         ),

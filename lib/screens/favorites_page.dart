@@ -29,7 +29,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favorites'),
+        title: const Text('Favorites'),
       ),
       body: Column(
         children: [
@@ -72,11 +72,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
               },
               builder: (context, state) {
                 if (state is FavoritesLoading) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (state is FavoritesLoaded) {
                   final favoriteLessonIds = state.favoriteLessonIds;
                   if (favoriteLessonIds.isEmpty) {
-                    return Center(
+                    return const Center(
                         child: Text('Henuz favorılere ders eklenmemistir!'));
                   } else {
                     return ListView.builder(
@@ -89,7 +89,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return Center(child: CircularProgressIndicator());
+                              return const Center(child: CircularProgressIndicator());
                             } else if (snapshot.hasError) {
                               print(
                                   'Dersleri yuklerken hata olustu $lessonId: ${snapshot.error}');
@@ -126,7 +126,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                               );
                             } else {
                               print('ID ait ders bulunamamistir: $lessonId');
-                              return ListTile(
+                              return const ListTile(
                                 title: Text('Ders bulunamadi'),
                               );
                             }
@@ -138,7 +138,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 } else if (state is FavoritesError) {
                   return Center(child: Text('Error: ${state.message}'));
                 } else {
-                  return Center(child: Text('No favorites added'));
+                  return const Center(child: Text('No favorites added'));
                 }
               },
             ),

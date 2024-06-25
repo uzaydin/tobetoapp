@@ -182,7 +182,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 : const CommonDrawer();
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              title: 'Flutter Demo',
+              title: 'Tobeto',
               theme: AppThemes.light,
               darkTheme: AppThemes.dark,
               themeMode: _themeMode,

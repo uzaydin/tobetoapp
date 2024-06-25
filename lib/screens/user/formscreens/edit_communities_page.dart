@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class EditCommunitiesPage extends StatefulWidget {
   final UserModel user;
 
-  EditCommunitiesPage({required this.user});
+  const EditCommunitiesPage({super.key, required this.user});
 
   @override
   _EditCommunitiesPageState createState() => _EditCommunitiesPageState();
@@ -58,13 +58,13 @@ class _EditCommunitiesPageState extends State<EditCommunitiesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Üye Topluluklar Düzenle'),
+        title: const Text('Üye Topluluklar Düzenle'),
       ),
       body: BlocConsumer<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoaded) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Topluluklar başarıyla güncellendi')),
+              const SnackBar(content: Text('Topluluklar başarıyla güncellendi')),
             );
           } else if (state is ProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -88,22 +88,22 @@ class _EditCommunitiesPageState extends State<EditCommunitiesPage> {
                             label: 'Kulüp veya Topluluk Adı',
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildTextField(
                             controller: _positionController,
                             label: 'Ünvan veya Görev',
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: _submitForm,
-                            child: Text('Kaydet'),
+                            child: const Text('Kaydet'),
                           ),
-                          SizedBox(height: 16),
-                          Text('Eklenen Topluluklar',
+                          const SizedBox(height: 16),
+                          const Text('Eklenen Topluluklar',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ...state.user.communities
                                   ?.map((community) => ListTile(
                                         title:
@@ -111,7 +111,7 @@ class _EditCommunitiesPageState extends State<EditCommunitiesPage> {
                                         subtitle:
                                             Text(community.position ?? ''),
                                         trailing: IconButton(
-                                          icon: Icon(Icons.delete,
+                                          icon: const Icon(Icons.delete,
                                               color: Colors.red),
                                           onPressed: () {
                                             _deleteCommunity(community.id);
@@ -128,7 +128,7 @@ class _EditCommunitiesPageState extends State<EditCommunitiesPage> {
               ),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

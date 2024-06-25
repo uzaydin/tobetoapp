@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 
 class VideoRepository {
@@ -14,7 +12,7 @@ class VideoRepository {
           .get();
 
       return snapshot.docs
-          .map((doc) => Video.fromMap(doc.data() as Map<String, dynamic>))
+          .map((doc) => Video.fromMap(doc.data()))
           .toList();
     } catch (e) {
       throw Exception('Error fetching videos: $e');

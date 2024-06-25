@@ -49,10 +49,10 @@ class _UserManagementPageState extends State<UserManagementPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kullanıcı Yönetimi'),
+        title: const Text('Kullanıcı Yönetimi'),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {
               setState(() {
                 _isSearching = !_isSearching;
@@ -83,7 +83,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
             child: BlocBuilder<AdminBloc, AdminState>(
               builder: (context, state) {
                 if (state is AdminLoading) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (state is UsersDataLoaded) {
                   final usersToDisplay = _searchController.text.isEmpty
                       ? state.users
@@ -110,7 +110,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
                   return Center(
                       child: Text('Failed to load users: ${state.message}'));
                 } else {
-                  return Center(child: Text('No users found'));
+                  return const Center(child: Text('No users found'));
                 }
               },
             ),
@@ -128,24 +128,24 @@ class _UserManagementPageState extends State<UserManagementPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.person_add),
-              title: Text('Add/Remove Role'),
+              leading: const Icon(Icons.person_add),
+              title: const Text('Add/Remove Role'),
               onTap: () {
                 Navigator.pop(context);
                 _showRoleDialog(context, user);
               },
             ),
             ListTile(
-              leading: Icon(Icons.class_),
-              title: Text('Add/Remove Class'),
+              leading: const Icon(Icons.class_),
+              title: const Text('Add/Remove Class'),
               onTap: () {
                 Navigator.pop(context);
                 _showClassDialog(context, user);
               },
             ),
             ListTile(
-              leading: Icon(Icons.delete),
-              title: Text('Delete User'),
+              leading: const Icon(Icons.delete),
+              title: const Text('Delete User'),
               onTap: () {
                 Navigator.pop(context);
                 _showDeleteDialog(context, user);
@@ -162,7 +162,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Rol Ekle/Çıkar'),
+          title: const Text('Rol Ekle/Çıkar'),
           content: DropdownButtonFormField<UserRole>(
             value: user.role,
             onChanged: (newRole) {
@@ -194,7 +194,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
           builder: (context, state) {
             if (state is ClassNamesForUserLoaded) {
               return AlertDialog(
-                title: Text('Add/Remove Class'),
+                title: const Text('Add/Remove Class'),
                 content: DropdownSearch<String>.multiSelection(
                   items: state.classNames.values.toList(),
                   selectedItems: user.classIds
@@ -219,17 +219,17 @@ class _UserManagementPageState extends State<UserManagementPage> {
                       context.read<AdminBloc>().add(
                           LoadUserData()); // UI'ı güncellemek için eklenen satır
                     },
-                    child: Text('Close'),
+                    child: const Text('Close'),
                   ),
                 ],
               );
             } else if (state is AdminLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (state is AdminError) {
               return Center(
                   child: Text('Failed to load classes: ${state.message}'));
             } else {
-              return Center(child: Text('No classes found'));
+              return const Center(child: Text('No classes found'));
             }
           },
         );
@@ -242,21 +242,21 @@ class _UserManagementPageState extends State<UserManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Delete User'),
-          content: Text('Are you sure you want to delete this user?'),
+          title: const Text('Delete User'),
+          content: const Text('Are you sure you want to delete this user?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
                 context.read<AdminBloc>().add(DeleteUser(user.id!));
                 Navigator.pop(context);
               },
-              child: Text('Delete'),
+              child: const Text('Delete'),
             ),
           ],
         );

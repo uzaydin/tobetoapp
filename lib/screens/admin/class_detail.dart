@@ -21,18 +21,18 @@ class ClassDetailsPage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Class Details'),
+          title: const Text('Class Details'),
         ),
         body: BlocBuilder<AdminBloc, AdminState>(
           builder: (context, state) {
             if (state is AdminLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (state is ClassDetailsLoaded) {
               return DefaultTabController(
                 length: 2,
                 child: Column(
                   children: [
-                    TabBar(
+                    const TabBar(
                       tabs: [
                         Tab(text: 'Users'),
                         Tab(text: 'Lessons'),
@@ -70,7 +70,7 @@ class ClassDetailsPage extends StatelessWidget {
             } else if (state is AdminError) {
               return Center(child: Text('Failed to load class details: ${state.message}'));
             } else {
-              return Center(child: Text('No class details found'));
+              return const Center(child: Text('No class details found'));
             }
           },
         ),

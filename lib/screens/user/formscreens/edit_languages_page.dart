@@ -10,7 +10,7 @@ import 'package:tobetoapp/widgets/user/form_fields.dart';
 class EditLanguagesPage extends StatefulWidget {
   final UserModel user;
 
-  EditLanguagesPage({required this.user});
+  const EditLanguagesPage({super.key, required this.user});
 
   @override
   _EditLanguagesPageState createState() => _EditLanguagesPageState();
@@ -52,13 +52,13 @@ class _EditLanguagesPageState extends State<EditLanguagesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Yabancı Dillerim Düzenle'),
+        title: const Text('Yabancı Dillerim Düzenle'),
       ),
       body: BlocConsumer<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoaded) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Diller başarıyla güncellendi')),
+              const SnackBar(content: Text('Diller başarıyla güncellendi')),
             );
           } else if (state is ProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -89,7 +89,7 @@ class _EditLanguagesPageState extends State<EditLanguagesPage> {
                             itemLabel: (item) => item.name,
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildDropdownField<ProficiencyLevel>(
                             value: _selectedProficiencyLevel,
                             label: 'Seviye Seç',
@@ -102,16 +102,16 @@ class _EditLanguagesPageState extends State<EditLanguagesPage> {
                             itemLabel: (item) => item.name,
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: _submitForm,
-                            child: Text('Kaydet'),
+                            child: const Text('Kaydet'),
                           ),
-                          SizedBox(height: 16),
-                          Text('Eklenen Diller',
+                          const SizedBox(height: 16),
+                          const Text('Eklenen Diller',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ...state.user.languages
                                   ?.map((language) => ListTile(
                                         title:
@@ -119,7 +119,7 @@ class _EditLanguagesPageState extends State<EditLanguagesPage> {
                                         subtitle:
                                             Text(language.level?.name ?? ''),
                                         trailing: IconButton(
-                                          icon: Icon(Icons.delete,
+                                          icon: const Icon(Icons.delete,
                                               color: Colors.red),
                                           onPressed: () {
                                             _deleteLanguage(language.id);
@@ -136,7 +136,7 @@ class _EditLanguagesPageState extends State<EditLanguagesPage> {
               ),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

@@ -1,6 +1,6 @@
 
 import 'package:tobetoapp/models/announcement_model.dart';
-import 'package:tobetoapp/models/class_model.dart';
+
 import 'package:tobetoapp/models/user_enum.dart';
 
 abstract class AnnouncementEvent {}

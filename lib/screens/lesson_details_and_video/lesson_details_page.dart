@@ -111,7 +111,7 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Center(
+        title: const Center(
           child: Text(
             'Hakkında',
             textAlign: TextAlign.center,
@@ -125,44 +125,44 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
           children: [
             Row(
               children: [
-                Icon(Icons.calendar_today),
-                SizedBox(width: 8),
+                const Icon(Icons.calendar_today),
+                const SizedBox(width: 8),
                 Text(
                   'Başlangıç: ${startDate != null ? DateFormat('dd MMM yyyy').format(startDate) : 'Belirtilmemiş'}',
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: [
-                Icon(Icons.calendar_today,),
-                SizedBox(width: 8),
+                const Icon(Icons.calendar_today,),
+                const SizedBox(width: 8),
                 Text(
                   'Bitiş: ${endDate != null ? DateFormat('dd MMM yyyy').format(endDate) : 'Belirtilmemiş'}',
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: [
-                Icon(Icons.timer,),
-                SizedBox(width: 8),
+                const Icon(Icons.timer,),
+                const SizedBox(width: 8),
                 Text(
                   'Geçirdiğin Süre: ${spentTime.inHours} saat ${spentTime.inMinutes.remainder(60)} dakika',
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: [
-                Icon(Icons.video_library),
-                SizedBox(width: 8),
+                const Icon(Icons.video_library),
+                const SizedBox(width: 8),
                 Text(
                   'Video: $videoCount',
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ],
             ),
@@ -171,7 +171,7 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Kapat', style: TextStyle(color: Colors.blue)),
+            child: const Text('Kapat', style: TextStyle(color: Colors.blue)),
           ),
         ],
         backgroundColor: Colors.grey[200],
@@ -187,7 +187,7 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tobeto"),
+        title: const Text("Tobeto"),
         centerTitle: true,
       ),
       body: Padding(
@@ -210,7 +210,7 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
       children: [
         Text(
           widget.lesson.title ?? 'Başlık Yok',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         Row(
           children: [
@@ -228,11 +228,11 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
                     },
                   );
                 }
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               },
             ),
             IconButton(
-              icon: Icon(Icons.info),
+              icon: const Icon(Icons.info),
               onPressed: () {
                 final videoBloc = context.read<VideoBloc>();
                 if (videoBloc.state is VideosLoaded) {
@@ -268,7 +268,7 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildProgressIndicator(progress),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               if (_currentVideoUrl != null)
                 SamplePlayer(
                   key: ValueKey(_currentVideoUrl),
@@ -276,14 +276,14 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
                   onVideoComplete: _onVideoComplete,
                   onTimeUpdate: _onTimeUpdate,
                 ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Expanded(child: VideoListWidget(onVideoTap: _onVideoTap)),
             ],
           );
         } else if (state is VideoOperationFailure) {
           return Center(child: Text('Error: ${state.error}'));
         } else {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
@@ -301,7 +301,7 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
             ),
           ),
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Text('%${progress.toStringAsFixed(0)}'),
       ],
     );

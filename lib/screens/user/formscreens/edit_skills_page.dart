@@ -9,7 +9,7 @@ import 'package:tobetoapp/models/user_enum.dart';
 class EditSkillsPage extends StatefulWidget {
   final UserModel user;
 
-  EditSkillsPage({required this.user});
+  const EditSkillsPage({super.key, required this.user});
 
   @override
   _EditSkillsPageState createState() => _EditSkillsPageState();
@@ -45,7 +45,7 @@ class _EditSkillsPageState extends State<EditSkillsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Yetkinliklerim Düzenle'),
+        title: const Text('Yetkinliklerim Düzenle'),
       ),
       body: BlocConsumer<ProfileBloc, ProfileState>(
         listener: (context, state) {
@@ -54,7 +54,7 @@ class _EditSkillsPageState extends State<EditSkillsPage> {
               _currentSkills = List<UserSkill>.from(state.user.skills ?? []);
             });
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Yetkinlikler başarıyla güncellendi')),
+              const SnackBar(content: Text('Yetkinlikler başarıyla güncellendi')),
             );
           } else if (state is ProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -73,10 +73,10 @@ class _EditSkillsPageState extends State<EditSkillsPage> {
                     child: Expanded(
                       child: ListView(
                         children: [
-                          Text('Yetkinliklerim',
+                          const Text('Yetkinliklerim',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Wrap(
                             spacing: 8.0,
                             runSpacing: 4.0,
@@ -84,16 +84,16 @@ class _EditSkillsPageState extends State<EditSkillsPage> {
                               return Chip(
                                 label: Text(skill.skill?.name ?? ''),
                                 deleteIcon:
-                                    Icon(Icons.remove, color: Colors.red),
+                                    const Icon(Icons.remove, color: Colors.red),
                                 onDeleted: () => _removeSkill(skill.id),
                               );
                             }).toList(),
                           ),
-                          SizedBox(height: 16),
-                          Text('Yetkinlikler',
+                          const SizedBox(height: 16),
+                          const Text('Yetkinlikler',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Wrap(
                             spacing: 8.0,
                             runSpacing: 4.0,
@@ -105,7 +105,7 @@ class _EditSkillsPageState extends State<EditSkillsPage> {
                               return Chip(
                                 label: Text(skill.name),
                                 deleteIcon:
-                                    Icon(Icons.add, color: Colors.green),
+                                    const Icon(Icons.add, color: Colors.green),
                                 onDeleted: () => _addSkill(UserSkill(
                                     id: UniqueKey().toString(), skill: skill)),
                               );
@@ -119,11 +119,11 @@ class _EditSkillsPageState extends State<EditSkillsPage> {
               ),
             );
           } else if (state is ProfileLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (state is ProfileError) {
             return Center(child: Text('An error occurred: ${state.message}'));
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

@@ -10,7 +10,7 @@ import 'package:tobetoapp/widgets/user/form_fields.dart';
 class EditExperiencesPage extends StatefulWidget {
   final UserModel user;
 
-  EditExperiencesPage({required this.user});
+  const EditExperiencesPage({super.key, required this.user});
 
   @override
   _EditExperiencesPageState createState() => _EditExperiencesPageState();
@@ -88,13 +88,13 @@ class _EditExperiencesPageState extends State<EditExperiencesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Deneyimlerim Düzenle'),
+        title: const Text('Deneyimlerim Düzenle'),
       ),
       body: BlocConsumer<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoaded) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Deneyimler başarıyla güncellendi')),
+              const SnackBar(content: Text('Deneyimler başarıyla güncellendi')),
             );
           } else if (state is ProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -118,13 +118,13 @@ class _EditExperiencesPageState extends State<EditExperiencesPage> {
                             label: 'Kurum Adı',
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildTextField(
                             controller: _positionController,
                             label: 'Pozisyon',
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildDropdownField<ExperienceType>(
                             value: _selectedExperienceType,
                             label: 'Deneyim Türü',
@@ -137,35 +137,35 @@ class _EditExperiencesPageState extends State<EditExperiencesPage> {
                             itemLabel: (item) => item.name,
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildTextField(
                             controller: _sectorController,
                             label: 'Sektör',
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildTextField(
                             controller: _cityController,
                             label: 'Şehir',
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildDateField(
                             controller: _startDateController,
                             label: 'İş Başlangıcı',
                             isRequired: true,
                             context: context,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildDateField(
                             controller: _endDateController,
                             label: 'İş Bitişi',
                             context: context,
                             enabled: !_isStillWorking,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           CheckboxListTile(
-                            title: Text('Çalışmaya Devam Ediyorum'),
+                            title: const Text('Çalışmaya Devam Ediyorum'),
                             value: _isStillWorking,
                             onChanged: (bool? value) {
                               setState(() {
@@ -176,22 +176,22 @@ class _EditExperiencesPageState extends State<EditExperiencesPage> {
                               });
                             },
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildTextField(
                             controller: _descriptionController,
                             label: 'İş Açıklaması',
                             keyboardType: TextInputType.multiline,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: _submitForm,
-                            child: Text('Kaydet'),
+                            child: const Text('Kaydet'),
                           ),
-                          SizedBox(height: 16),
-                          Text('Eklenen Deneyimler',
+                          const SizedBox(height: 16),
+                          const Text('Eklenen Deneyimler',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ...state.user.experiences
                                   ?.map((experience) => ListTile(
                                         title:
@@ -199,7 +199,7 @@ class _EditExperiencesPageState extends State<EditExperiencesPage> {
                                         subtitle:
                                             Text(experience.position ?? ''),
                                         trailing: IconButton(
-                                          icon: Icon(Icons.delete,
+                                          icon: const Icon(Icons.delete,
                                               color: Colors.red),
                                           onPressed: () {
                                             _deleteExperience(experience.id);
@@ -216,7 +216,7 @@ class _EditExperiencesPageState extends State<EditExperiencesPage> {
               ),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

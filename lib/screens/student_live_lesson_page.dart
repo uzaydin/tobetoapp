@@ -1,13 +1,8 @@
-import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as path;
 
 import 'package:intl/intl.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_bloc.dart';
@@ -24,8 +19,7 @@ import 'package:tobetoapp/models/lesson_model.dart';
 class StudentLiveLessonPage extends StatefulWidget {
   final LessonModel lesson;
 
-  const StudentLiveLessonPage({Key? key, required this.lesson})
-      : super(key: key);
+  const StudentLiveLessonPage({super.key, required this.lesson});
 
   @override
   _StudentLiveLessonPageState createState() => _StudentLiveLessonPageState();
@@ -48,6 +42,7 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
 
   @override
   Widget build(BuildContext context) {
+    // POP SCOPE KULLANILACAK !
     return WillPopScope(
       onWillPop: () async {
         context.read<LessonBloc>().add(LoadLessons(widget.lesson.classIds));
@@ -290,6 +285,7 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
       return;
     }
 
+    
     context.read<HomeworkBloc>().add(UploadHomework(
           lessonId: widget.lesson.id!,
           homeworkId: homeworkId,

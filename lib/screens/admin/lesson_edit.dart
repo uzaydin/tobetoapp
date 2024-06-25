@@ -80,7 +80,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lesson Details'),
+        title: const Text('Lesson Details'),
       ),
       body: BlocConsumer<AdminBloc, AdminState>(
         listener: (context, state) {
@@ -95,7 +95,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
         },
         builder: (context, state) {
           if (state is AdminLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (state is LessonDetailsLoaded) {
             if (_titleController.text.isEmpty) {
               _titleController.text = state.lesson.title ?? '';
@@ -138,10 +138,10 @@ class _LessonEditPageState extends State<LessonEditPage> {
                                 _imageUrl!,
                                 height: 150,
                               )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                     ElevatedButton(
                       onPressed: _pickImage,
-                      child: Text('Select Image'),
+                      child: const Text('Select Image'),
                     ),
                     if (_imageFile != null)
                       ElevatedButton(
@@ -153,30 +153,30 @@ class _LessonEditPageState extends State<LessonEditPage> {
                                 ));
                           }
                         },
-                        child: Text('Upload Image'),
+                        child: const Text('Upload Image'),
                       ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextField(
                       controller: _titleController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Title',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextField(
                       controller: _descriptionController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Description',
                         border: OutlineInputBorder(),
                       ),
                       maxLines: 3,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ListTile(
-                      title: Text('Start Date'),
+                      title: const Text('Start Date'),
                       subtitle: Text(_formatDate(_startDate)),
-                      trailing: Icon(Icons.calendar_today),
+                      trailing: const Icon(Icons.calendar_today),
                       onTap: () => _pickDate(context, _startDate, (date) {
                         setState(() {
                           _startDate = date;
@@ -184,9 +184,9 @@ class _LessonEditPageState extends State<LessonEditPage> {
                       }),
                     ),
                     ListTile(
-                      title: Text('End Date'),
+                      title: const Text('End Date'),
                       subtitle: Text(_formatDate(_endDate)),
-                      trailing: Icon(Icons.calendar_today),
+                      trailing: const Icon(Icons.calendar_today),
                       onTap: () => _pickDate(context, _endDate, (date) {
                         setState(() {
                           _endDate = date;
@@ -194,7 +194,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                       }),
                     ),
                     CheckboxListTile(
-                      title: Text('Is Live'),
+                      title: const Text('Is Live'),
                       value: _isLive ?? false,
                       onChanged: (bool? value) {
                         setState(() {
@@ -202,13 +202,13 @@ class _LessonEditPageState extends State<LessonEditPage> {
                         });
                       },
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                       'Assign Teachers',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Divider(),
+                    const Divider(),
                     DropdownSearch<String>.multiSelection(
                       items: state.teachers
                           .map((teacher) =>
@@ -228,23 +228,23 @@ class _LessonEditPageState extends State<LessonEditPage> {
                               .toList();
                         });
                       },
-                      dropdownDecoratorProps: DropDownDecoratorProps(
+                      dropdownDecoratorProps: const DropDownDecoratorProps(
                         dropdownSearchDecoration: InputDecoration(
                           labelText: "Select Teachers",
                           border: OutlineInputBorder(),
                         ),
                       ),
-                      clearButtonProps: ClearButtonProps(
+                      clearButtonProps: const ClearButtonProps(
                         isVisible: true,
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                       'Assign Classes',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Divider(),
+                    const Divider(),
                     DropdownSearch<String>.multiSelection(
                       items: state.classes
                           .map((classModel) => classModel.name ?? '')
@@ -263,17 +263,17 @@ class _LessonEditPageState extends State<LessonEditPage> {
                               .toList();
                         });
                       },
-                      dropdownDecoratorProps: DropDownDecoratorProps(
+                      dropdownDecoratorProps: const DropDownDecoratorProps(
                         dropdownSearchDecoration: InputDecoration(
                           labelText: "Select Classes",
                           border: OutlineInputBorder(),
                         ),
                       ),
-                      clearButtonProps: ClearButtonProps(
+                      clearButtonProps: const ClearButtonProps(
                         isVisible: true,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
                         final updatedLesson = state.lesson.copyWith(
@@ -291,7 +291,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                             .add(UpdateLesson(updatedLesson));
                         Navigator.pop(context);
                       },
-                      child: Text('Save'),
+                      child: const Text('Save'),
                     ),
                   ],
                 ),
@@ -301,7 +301,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
             return Center(
                 child: Text('Failed to load lesson details: ${state.message}'));
           } else {
-            return Center(child: Text('No lesson details found'));
+            return const Center(child: Text('No lesson details found'));
           }
         },
       ),

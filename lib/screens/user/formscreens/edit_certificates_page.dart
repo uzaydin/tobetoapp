@@ -10,7 +10,7 @@ import 'package:tobetoapp/widgets/user/form_fields.dart';
 class EditCertificatesPage extends StatefulWidget {
   final UserModel user;
 
-  EditCertificatesPage({required this.user});
+  const EditCertificatesPage({super.key, required this.user});
 
   @override
   _EditCertificatesPageState createState() => _EditCertificatesPageState();
@@ -72,13 +72,13 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sertifikalarım Düzenle'),
+        title: const Text('Sertifikalarım Düzenle'),
       ),
       body: BlocConsumer<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoaded) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Sertifikalar başarıyla güncellendi')),
+              const SnackBar(content: Text('Sertifikalar başarıyla güncellendi')),
             );
           } else if (state is ProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -110,16 +110,16 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
                             label: 'Sertifika Adı',
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildDateField(
                             controller: _dateController,
                             label: 'Alınan Tarih',
                             isRequired: true,
                             context: context,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ElevatedButton.icon(
-                            icon: Icon(Icons.upload_file),
+                            icon: const Icon(Icons.upload_file),
                             label: Text(_selectedFile != null
                                 ? 'Dosya Seçildi'
                                 : 'Dosya Yükle'),
@@ -129,16 +129,16 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
                                   .add(PickCertificate());
                             },
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: _submitForm,
-                            child: Text('Kaydet'),
+                            child: const Text('Kaydet'),
                           ),
-                          SizedBox(height: 16),
-                          Text('Eklenen Sertifikalar',
+                          const SizedBox(height: 16),
+                          const Text('Eklenen Sertifikalar',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ...user.certificates
                                   ?.map((certificate) => ListTile(
                                         title: Text(certificate.name),
@@ -150,7 +150,7 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             IconButton(
-                                              icon: Icon(Icons.visibility,
+                                              icon: const Icon(Icons.visibility,
                                                   color: Colors.blue),
                                               onPressed: () {
                                                 _viewCertificate(
@@ -158,7 +158,7 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
                                               },
                                             ),
                                             IconButton(
-                                              icon: Icon(Icons.delete,
+                                              icon: const Icon(Icons.delete,
                                                   color: Colors.red),
                                               onPressed: () {
                                                 _deleteCertificate(
@@ -179,7 +179,7 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
               ),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

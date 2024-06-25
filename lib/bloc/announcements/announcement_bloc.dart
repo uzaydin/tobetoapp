@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tobetoapp/bloc/announcements/announcement_event.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_state.dart';
-import 'package:tobetoapp/models/announcement_model.dart';
-import 'package:tobetoapp/models/class_model.dart';
+
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/repository/announcements_repo.dart';
 

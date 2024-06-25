@@ -9,7 +9,7 @@ import 'package:tobetoapp/widgets/user/form_fields.dart';
 class EditProjectsAwardsPage extends StatefulWidget {
   final UserModel user;
 
-  EditProjectsAwardsPage({required this.user});
+  const EditProjectsAwardsPage({super.key, required this.user});
 
   @override
   _EditProjectsAwardsPageState createState() => _EditProjectsAwardsPageState();
@@ -59,13 +59,13 @@ class _EditProjectsAwardsPageState extends State<EditProjectsAwardsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Projeler ve Ödüller Düzenle'),
+        title: const Text('Projeler ve Ödüller Düzenle'),
       ),
       body: BlocConsumer<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoaded) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                   content: Text('Projeler ve ödüller başarıyla güncellendi')),
             );
           } else if (state is ProfileError) {
@@ -90,22 +90,22 @@ class _EditProjectsAwardsPageState extends State<EditProjectsAwardsPage> {
                             label: 'Proje veya Ödül Adı',
                             isRequired: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           FormFields.buildDateField(
                             controller: _dateController,
                             label: 'Tarih',
                             context: context,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: _submitForm,
-                            child: Text('Kaydet'),
+                            child: const Text('Kaydet'),
                           ),
-                          SizedBox(height: 16),
-                          Text('Eklenen Projeler ve Ödüller',
+                          const SizedBox(height: 16),
+                          const Text('Eklenen Projeler ve Ödüller',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ...state.user.projectsAwards
                                   ?.map((projectAward) => ListTile(
                                         title: Text(
@@ -116,7 +116,7 @@ class _EditProjectsAwardsPageState extends State<EditProjectsAwardsPage> {
                                                 .first ??
                                             ''),
                                         trailing: IconButton(
-                                          icon: Icon(Icons.delete,
+                                          icon: const Icon(Icons.delete,
                                               color: Colors.red),
                                           onPressed: () {
                                             _deleteProjectAward(
@@ -134,7 +134,7 @@ class _EditProjectsAwardsPageState extends State<EditProjectsAwardsPage> {
               ),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
