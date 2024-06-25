@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,11 +41,11 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
 
   @override
   Widget build(BuildContext context) {
-    // POP SCOPE KULLANILACAK !
-    return WillPopScope(
-      onWillPop: () async {
-        context.read<LessonBloc>().add(LoadLessons(widget.lesson.classIds));
-        return true;
+    return PopScope(
+      onPopInvoked: (popped) {
+        if (popped) {
+          context.read<LessonBloc>().add(LoadLessons(widget.lesson.classIds));
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -285,7 +284,6 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
       return;
     }
 
-    
     context.read<HomeworkBloc>().add(UploadHomework(
           lessonId: widget.lesson.id!,
           homeworkId: homeworkId,

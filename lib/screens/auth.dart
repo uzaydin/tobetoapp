@@ -60,7 +60,7 @@ class _AuthState extends State<Auth> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     CircularProgressIndicator(),
-                    SizedBox(height: 20),
+                    SizedBox(height: 25),
                     Text("Giriş yapılıyor...")
                   ],
                 ),

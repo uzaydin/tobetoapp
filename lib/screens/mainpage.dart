@@ -19,6 +19,7 @@ import 'package:tobetoapp/screens/homepage.dart';
 
 import 'package:tobetoapp/screens/profile/profile_page.dart';
 import 'package:tobetoapp/screens/teacher_lesson_page.dart';
+import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 
 // Bottom Navigation Bar sayfasi
 
@@ -128,53 +129,60 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is Unauthenticated) {
-          setState(() {
-            _selectedIndex = 0;
-          });
-        } else if (state is AuthSuccess) {
-          context
-              .read<UserBloc>()
-              .add(FetchUser(state.id!)); // Kullanıcı bilgilerini getir
-        }
-      },
-      builder: (context, state) {
-        if (state is AuthLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is AuthSuccess) {
-          return BlocBuilder<UserBloc, UserState>(
-            builder: (context, userState) {
-              if (userState is UserLoaded) {
-                final pages =
-                    _buildNavigators(userState.user); // Sayfa listesini oluştur
-                return Scaffold(
-                  body: IndexedStack(
-                    index: _selectedIndex,
-                    children: pages,
-                  ),
-                  bottomNavigationBar: _buildBottomNavigationBarForRole(
-                      userState.user.role!), // Rol tabanlı BottomNavigationBar
-                );
-              } else if (userState is UserLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (userState is UserError) {
-                return Center(
-                    child:
-                        Text('Failed to load user data: ${userState.message}'));
-              } else {
-                return const Center(child: Text('Failed to load user data'));
-              }
-            },
-          );
-        } else {
-          // Kullanici cikis yaptiktan sonra bottomNavigationBar iptal edildi.HomePage sayfasina yonlendiriyor direkt
-          return const Scaffold(body: Homepage());
-        }
-      },
+    return Theme(
+      data: ThemeData(
+        splashColor: AppColors.tobetoMoru.withOpacity(0.2),
+        highlightColor: AppColors.tobetoMoru.withOpacity(0.1),
+      ),
+      child: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is Unauthenticated) {
+            setState(() {
+              _selectedIndex = 0;
+            });
+          } else if (state is AuthSuccess) {
+            context
+                .read<UserBloc>()
+                .add(FetchUser(state.id!)); // Kullanıcı bilgilerini getir
+          }
+        },
+        builder: (context, state) {
+          if (state is AuthLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is AuthSuccess) {
+            return BlocBuilder<UserBloc, UserState>(
+              builder: (context, userState) {
+                if (userState is UserLoaded) {
+                  final pages = _buildNavigators(
+                      userState.user); // Sayfa listesini oluştur
+                  return Scaffold(
+                    body: IndexedStack(
+                      index: _selectedIndex,
+                      children: pages,
+                    ),
+                    bottomNavigationBar: _buildBottomNavigationBarForRole(
+                        userState
+                            .user.role!), // Rol tabanlı BottomNavigationBar
+                  );
+                } else if (userState is UserLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (userState is UserError) {
+                  return Center(
+                      child: Text(
+                          'Failed to load user data: ${userState.message}'));
+                } else {
+                  return const Center(child: Text('Failed to load user data'));
+                }
+              },
+            );
+          } else {
+            // Kullanici cikis yaptiktan sonra bottomNavigationBar iptal edildi.HomePage sayfasina yonlendiriyor direkt
+            return const Scaffold(body: Homepage());
+          }
+        },
+      ),
     );
   }
 
@@ -258,6 +266,10 @@ class _MainPageState extends State<MainPage> {
       type: type,
       onTap: _onItemTapped,
       items: items,
+      selectedItemColor: Colors.purple, // Seçilen öğenin rengi
+      unselectedItemColor: Colors.grey, // Seçilmeyen öğelerin rengi
+      backgroundColor: Colors.white, // Arkaplan rengi
+      showUnselectedLabels: false, // Seçilmeyen öğelerin etiketlerini göster
     );
   }
 }

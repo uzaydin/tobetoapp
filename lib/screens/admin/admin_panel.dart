@@ -40,6 +40,7 @@ class _AdminPanelState extends State<AdminPanel> {
         backgroundColor: AppColors.tobetoMoru,
         centerTitle: true,
       ),
+      backgroundColor: Colors.grey[200], // Sayfanın arka plan rengi
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppConstants.paddingMedium,
@@ -49,7 +50,7 @@ class _AdminPanelState extends State<AdminPanel> {
           children: [
             SizedBox(height: AppConstants.sizedBoxHeightSmall),
             SizedBox(
-              height: AppConstants.screenHeight * 0.3,
+              //height: AppConstants.screenHeight * 0.4,
               child: BlocBuilder<AdminBloc, AdminState>(
                 builder: (context, state) {
                   if (state is AdminLoading) {
@@ -69,32 +70,55 @@ class _AdminPanelState extends State<AdminPanel> {
             ),
             SizedBox(height: AppConstants.screenHeight * 0.02),
             Flexible(
-              child: Column(
-                children: [
-                  _buildButton(
-                    context,
-                    "Kullanıcı Yönetimi",
-                    const UserManagementPage(),
-                  ),
-                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
-                  _buildButton(
-                    context,
-                    "Sınıf Yönetimi",
-                    const ClassManagementPage(),
-                  ),
-                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
-                  _buildButton(
-                    context,
-                    "Ders Yönetimi",
-                    const LessonManagementPage(),
-                  ),
-                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
-                  _buildButton(
-                    context,
-                    "Takvim Yönetimi",
-                    const CalendarPage(),
-                  ),
-                ],
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount:2,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                  childAspectRatio:
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? 1.5
+                          : 1.5,
+                ),
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  switch (index) {
+                    case 0:
+                      return _buildDashboardCard(
+                        context,
+                        icon: Icons.person,
+                        label: 'Kullanıcı Yönetimi',
+                        color: Colors.blue[100]!,
+                        page: const UserManagementPage(),
+                      );
+                    case 1:
+                      return _buildDashboardCard(
+                        context,
+                        icon: Icons.class_,
+                        label: 'Sınıf Yönetimi',
+                        color: Colors.orange[100]!,
+                        page: const ClassManagementPage(),
+                      );
+                    case 2:
+                      return _buildDashboardCard(
+                        context,
+                        icon: Icons.book,
+                        label: 'Ders Yönetimi',
+                        color: Colors.pink[100]!,
+                        page: const LessonManagementPage(),
+                      );
+                    case 3:
+                      return _buildDashboardCard(
+                        context,
+                        icon: Icons.calendar_today,
+                        label: 'Takvim Yönetimi',
+                        color: Colors.green[100]!,
+                        page: const CalendarPage(),
+                      );
+                    default:
+                      return Container();
+                  }
+                },
               ),
             ),
           ],
@@ -103,27 +127,50 @@ class _AdminPanelState extends State<AdminPanel> {
     );
   }
 
-  Widget _buildButton(BuildContext context, String title, Widget page) {
-    return Container(
-      width: double.infinity, // Butonun genişliğini tam ekran yapar
-      height: 50, // Butonun yüksekliğini ayarlar
-      margin: const EdgeInsets.symmetric(
-          vertical: 2), // Butonlar arasında boşluk ekler
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(
-                builder: (context) => BlocProvider.value(
-                  value: context.read<AdminBloc>(),
-                  child: page,
-                ),
-              ))
-              .then((_) => _refreshChartData());
-        },
-        style: ElevatedButton.styleFrom(
-          textStyle: Theme.of(context).textTheme.titleMedium,
+  Widget _buildDashboardCard(BuildContext context,
+      {required IconData icon,
+      required String label,
+      required Color color,
+      required Widget page}) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(
+              builder: (context) => BlocProvider.value(
+                value: context.read<AdminBloc>(),
+                child: page,
+              ),
+            ))
+            .then((_) => _refreshChartData());
+      },
+      child: Card(
+        color: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
         ),
-        child: Text(title),
+        elevation: 4,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: AppConstants.screenWidth * 0.1,
+                color: Colors.black,
+              ),
+              SizedBox(height: AppConstants.screenHeight * 0.01),
+              Text(
+                label,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: AppConstants.screenWidth * 0.035,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

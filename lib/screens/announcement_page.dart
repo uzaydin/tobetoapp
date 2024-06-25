@@ -111,26 +111,29 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
               ],
             ),
           ),
+          
+          // Suanlık kalsın belkı değiştirilebilir
+          // BlocConsumer<AnnouncementBloc, AnnouncementState>(
+          //     listener: (context, state) {
+          //       if (state is AnnouncementOperationSuccess) {
+          //         ScaffoldMessenger.of(context).showSnackBar(
+          //             const SnackBar(content: Text('Operation Successful')));
+          //       } else if (state is AnnouncementOperationFailure) {
+          //         ScaffoldMessenger.of(context).showSnackBar(
+          //             const SnackBar(content: Text('Operation Failed')));
+          //         return;
+          //       }
+          //     },
           // Duyurular Listesi
           Expanded(
-            child: BlocConsumer<AnnouncementBloc, AnnouncementState>(
-              listener: (context, state) {
-                if (state is AnnouncementOperationSuccess) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Operation Successful')));
-                } else if (state is AnnouncementOperationFailure) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Operation Failed')));
-                  return;
-                }
-              },
+            child: BlocBuilder<AnnouncementBloc, AnnouncementState>(
               builder: (context, state) {
                 if (state is AnnouncementsLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is AnnouncementsLoaded) {
                   if (state.announcements.isEmpty) {
                     return const Center(
-                        child: Text('No announcements available.'));
+                        child: Text('Henüz bir duyuru eklenmemiştir.'));
                   } else {
                     return ListView.builder(
                       itemCount: state.announcements.length,

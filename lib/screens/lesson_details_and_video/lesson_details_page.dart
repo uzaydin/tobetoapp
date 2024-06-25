@@ -307,12 +307,12 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
     );
   }
 
-  Widget _buildVideoPlayer() {
-    return SamplePlayer(
-      key: ValueKey(_currentVideoUrl),
-      videoUrl: _currentVideoUrl!,
-      onVideoComplete: _onVideoComplete,
-      onTimeUpdate: _onTimeUpdate,
-    );
-  }
+  // Widget _buildVideoPlayer() {
+  //   return SamplePlayer(
+  //     key: ValueKey(_currentVideoUrl),
+  //     videoUrl: _currentVideoUrl!,
+  //     onVideoComplete: _onVideoComplete,
+  //     onTimeUpdate: _onTimeUpdate,
+  //   );
+  // }
 }

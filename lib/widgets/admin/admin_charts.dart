@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class AdminCharts extends StatefulWidget {
   final Map<String, int> classDistribution;
@@ -30,7 +31,7 @@ class _AdminChartsState extends State<AdminCharts> {
     return Column(
       children: [
         SizedBox(
-          height: 220,
+          height: AppConstants.screenHeight * 0.26,
           child: PageView.builder(
             controller: _pageController,
             itemCount: 2,
