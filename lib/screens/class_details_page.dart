@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_bloc.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_event.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_state.dart';
@@ -65,7 +66,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tobeto"),
+        title: const Text("Tobeto"),
         centerTitle: true,
         actions: [
           IconButton(
@@ -79,6 +80,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
           ),
         ],
       ),
+      drawer: const DrawerManager(),
       body: Column(
         children: [
           // Banner

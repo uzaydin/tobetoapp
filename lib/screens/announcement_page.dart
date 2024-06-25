@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_bloc.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_event.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_state.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/models/announcement_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/add_announcement.dart';
@@ -29,7 +30,8 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
         .add(LoadAnnouncements(widget.classIds, widget.role));
   }
 
-  void _showAnnouncementDetails(BuildContext context, Announcements announcement) {
+  void _showAnnouncementDetails(
+      BuildContext context, Announcements announcement) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -60,22 +62,24 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
       appBar: AppBar(
         title: const Text('Tobeto'),
         centerTitle: true,
-        actions: widget.role == UserRole.admin || widget.role == UserRole.teacher
-            ? [
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AddAnnouncementPage(),
-                      ),
-                    );
-                  },
-                ),
-              ]
-            : null,
+        actions:
+            widget.role == UserRole.admin || widget.role == UserRole.teacher
+                ? [
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AddAnnouncementPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ]
+                : null,
       ),
+      drawer: const DrawerManager(),
       body: Column(
         children: [
           // Sabit Banner
@@ -96,10 +100,11 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                     padding: EdgeInsets.all(AppConstants.paddingMedium),
                     child: Text(
                       "Duyurularım", // Banner içindeki yazı
-                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style:
+                          Theme.of(context).textTheme.headlineMedium!.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                     ),
                   ),
                 ),
@@ -116,7 +121,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                 } else if (state is AnnouncementOperationFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Operation Failed')));
-                      return;
+                  return;
                 }
               },
               builder: (context, state) {
@@ -136,47 +141,60 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                                 .format(announcement.createdAt!)
                             : 'No date';
                         return Card(
-                          color:Colors.grey[200],
+                          color: Colors.grey[200],
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppConstants.br16),
+                            borderRadius:
+                                BorderRadius.circular(AppConstants.br16),
                           ),
                           child: GestureDetector(
                             onTap: () {
                               _showAnnouncementDetails(context, announcement);
                             },
                             child: Padding(
-                              padding: EdgeInsets.all(AppConstants.paddingSmall),
+                              padding:
+                                  EdgeInsets.all(AppConstants.paddingSmall),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         'Duyuru',
-                                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                                          color: Colors.green,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge!
+                                            .copyWith(
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                       ),
                                       Text(
                                         'İstanbul Kodluyor',
-                                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                                          color: Colors.green,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge!
+                                            .copyWith(
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                       ),
                                     ],
                                   ),
-                                  
-                                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                                  SizedBox(
+                                      height: AppConstants.sizedBoxHeightSmall),
                                   Text(
                                     announcement.title!,
-                                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                   ),
-                                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                                  SizedBox(
+                                      height: AppConstants.sizedBoxHeightSmall),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -185,8 +203,15 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                                         children: [
                                           const Icon(Icons.calendar_today,
                                               size: 16.0),
-                                          SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                                          Text(formattedDate, style: const TextStyle(color: Colors.black,fontSize: 15),),
+                                          SizedBox(
+                                              width: AppConstants
+                                                  .sizedBoxWidthSmall),
+                                          Text(
+                                            formattedDate,
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15),
+                                          ),
                                         ],
                                       ),
                                       TextButton(
@@ -222,7 +247,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                   return const Center(
                       child: Text('Failed to load announcements'));
                 } else {
-                 return const Center(
+                  return const Center(
                       child: Text('Failed to load announcements'));
                 }
               },
