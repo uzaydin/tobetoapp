@@ -95,6 +95,7 @@ flutter:
     - assets/ekip/kader_yavuz.jpg
     - assets/ekip/pelin_batir.png
     - assets/recaptcha/
+    - assets/images/
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
