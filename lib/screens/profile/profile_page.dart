@@ -29,7 +29,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(FetchUserDetails());
-         webViewController = WebViewController()
+    webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color.fromARGB(0, 255, 255, 255))
       ..setNavigationDelegate(
@@ -49,66 +49,55 @@ class _ProfileState extends State<Profile> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://mediafiles.botpress.cloud/d1265f28-5638-4830-bb0c-86bd18db99bc/webchat/bot.html'));
+      ..loadRequest(Uri.parse(
+          'https://mediafiles.botpress.cloud/d1265f28-5638-4830-bb0c-86bd18db99bc/webchat/bot.html'));
   }
 
-void _showChatBotPopup(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: ClipRRect( 
-          borderRadius: BorderRadius.circular(20.0), 
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            width: MediaQuery.of(context).size.width * 0.9,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              color: AppColors.tobetoMoru,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 10.0,
-                  offset: Offset(0, 10),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Expanded(
-                  child: WebViewWidget(
-                    controller: webViewController,
+  void _showChatBotPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              width: MediaQuery.of(context).size.width * 0.9,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: AppColors.tobetoMoru,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10.0,
+                    offset: Offset(0, 10),
                   ),
-                ),
-              ],
+                ],
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: WebViewWidget(
+                      controller: webViewController,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Profil'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                final authProvider =
-                    Provider.of<AuthProviderDrawer>(context, listen: false);
-                authProvider.logout();
-                context.read<AuthBloc>().add(AuthLogOut());
-                
-              },
-            ),
-          ],
         ),
         drawer: const DrawerManager(),
         body: BlocBuilder<ProfileBloc, ProfileState>(
@@ -226,7 +215,7 @@ void _showChatBotPopup(BuildContext context) {
                           'Tobeto Chat',
                           'assets/images/tobetochat.png',
                           () {
-                          _showChatBotPopup(context);
+                            _showChatBotPopup(context);
                           },
                         ),
                       ],

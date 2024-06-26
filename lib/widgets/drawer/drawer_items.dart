@@ -35,25 +35,4 @@ class DrawerItem extends StatelessWidget {
   }
 }
 
-/*
-class DrawerItemUser extends StatelessWidget {
-  final String title;
-  final VoidCallback onTap;
 
-  const DrawerItemUser({super.key, required this.title, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: ListTile(
-        title: Text(
-          title,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        onTap: onTap,
-      ),
-    );
-  }
-}
-*/

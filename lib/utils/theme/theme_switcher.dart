@@ -21,9 +21,12 @@ class _ThemeSwitcherState extends State<ThemeSwitcher> {
 
   Future<void> _loadThemeMode() async {
     final themeMode = await _themeService.getThemeMode();
-    setState(() {
-      _themeMode = themeMode;
-    });
+    if (mounted) {
+      //bir Flutter widget'ının State sınıfında, widget'ın hala widget ağacına monte edilmiş (mounted) olup olmadığını kontrol etmek için kullanılır.
+      setState(() {
+        _themeMode = themeMode;
+      });
+    }
   }
 
   void _toggleTheme() {
@@ -62,7 +65,9 @@ class ThemeService {
     await prefs.setInt(themeModeKey, themeMode.index);
   }
 
+/*
   ThemeMode currentThemeMode(ThemeMode? themeMode) {
     return themeMode ?? ThemeMode.system;
   }
+  */
 }

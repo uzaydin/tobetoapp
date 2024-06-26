@@ -56,7 +56,6 @@ class _CommonDrawerState extends State<CommonDrawer> {
             ),
           ),
           Padding(
-            //16
             padding: EdgeInsets.symmetric(
                 horizontal: AppConstants.screenWidth * 0.05),
             child: Column(

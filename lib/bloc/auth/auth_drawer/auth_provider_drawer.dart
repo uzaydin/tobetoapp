@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tobetoapp/models/userModel.dart';
 import 'package:tobetoapp/repository/auth_repo.dart';
+import 'package:tobetoapp/widgets/drawer/admin_drawer.dart';
 import 'package:tobetoapp/widgets/drawer/common_drawer.dart';
 import 'package:tobetoapp/widgets/drawer/common_user_drawer.dart';
-import 'package:tobetoapp/widgets/drawer/teacher_admin_drawer.dart';
+import 'package:tobetoapp/widgets/drawer/teacher_drawer.dart';
 
 class AuthProviderDrawer extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -80,13 +81,17 @@ class DrawerManager extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return const CommonDrawer();
+              } else if (!snapshot.hasData) {
+                return const CommonDrawer();
               } else {
-                final userRole = snapshot.data ?? 'student';
-
+                final userRole = snapshot.data;
                 switch (userRole) {
                   case 'teacher':
+                    return const TeacherDrawer();
                   case 'admin':
-                    return const TeacherAdminDrawer();
+                    return const AdminDrawer();
                   case 'student':
                   default:
                     return const CommonUserDrawer();
