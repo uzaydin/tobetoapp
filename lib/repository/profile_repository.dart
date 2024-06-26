@@ -162,15 +162,33 @@ class ProfileRepository {
     }
   }
 
-  Future<void> deleteAccount() async {
+  Future<void> deleteAccount(String currentPassword) async {
     final user = _firebaseAuth.currentUser;
     if (user != null) {
       try {
+        // kullanıcıyı doğrulama
+        final credential = EmailAuthProvider.credential(
+          email: user.email!,
+          password: currentPassword,
+        );
+
+        await user.reauthenticateWithCredential(credential);
         await user.delete();
-        //await _firebaseAuth.signOut();
       } catch (e) {
-        throw Exception('Hesap silme başarısız');
+        if (e is FirebaseAuthException) {
+          switch (e.code) {
+            case 'requires-recent-login':
+              throw Exception(
+                  'Kullanıcıyı silmeden önce yeniden giriş yapmanız gerekmektedir.');
+            default:
+              throw Exception('Hesap silme hatası: ${e.message}');
+          }
+        } else {
+          throw Exception('Bilinmeyen bir hata oluştu: ${e.toString()}');
+        }
       }
+    } else {
+      throw Exception('Kullanıcı oturumu açık değil.');
     }
   }
 }

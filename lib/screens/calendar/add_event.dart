@@ -29,23 +29,6 @@ class _AddEventPageState extends State<AddEventPage> {
   final educatorFocusNode = FocusNode();
 
   @override
-  void initState() {
-    super.initState();
-
-    educationFocusNode.addListener(() {
-      if (educationFocusNode.hasFocus) {
-        educationController.text = '';
-      }
-    });
-
-    educatorFocusNode.addListener(() {
-      if (educatorFocusNode.hasFocus) {
-        educatorController.text = '';
-      }
-    });
-  }
-
-  @override
   void dispose() {
     educationController.dispose();
     educatorController.dispose();

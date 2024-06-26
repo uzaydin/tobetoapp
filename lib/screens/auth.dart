@@ -25,6 +25,8 @@ class Auth extends StatefulWidget {
 
 class _AuthState extends State<Auth> {
   bool _isPasswordVisible = false;
+  bool _isRepeatPasswordVisible = false;
+
   bool _isLoginPage = true;
   final _formKey = GlobalKey<FormState>();
 
@@ -232,10 +234,11 @@ class _AuthState extends State<Auth> {
                           decoration: InputDecoration(
                             labelText: "Şifre Tekrar",
                             suffixIcon: PasswordSuffixIcon(
-                              isPasswordVisible: _isPasswordVisible,
+                              isPasswordVisible: _isRepeatPasswordVisible,
                               onToggleVisibility: () {
                                 setState(() {
-                                  _isPasswordVisible = !_isPasswordVisible;
+                                  _isRepeatPasswordVisible =
+                                      !_isRepeatPasswordVisible;
                                 });
                               },
                             ),
@@ -246,7 +249,7 @@ class _AuthState extends State<Auth> {
                             prefixIcon: const Icon(Icons.lock_outline_rounded),
                           ),
                           autocorrect: false,
-                          obscureText: !_isPasswordVisible,
+                          obscureText: !_isRepeatPasswordVisible,
                           validator: (value) => validatePasswordConfirmation(
                               value, _password), // Fonksiyon icerisine alindi
                         ),

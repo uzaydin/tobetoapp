@@ -42,4 +42,7 @@ class ChangePassword extends ProfileEvent {
   ChangePassword(this.oldPassword, this.newPassword);
 }
 
-class DeleteAccount extends ProfileEvent {}
+class DeleteAccount extends ProfileEvent {
+  final String currentPassword;
+  DeleteAccount(this.currentPassword);
+}
