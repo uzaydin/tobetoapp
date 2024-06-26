@@ -5,6 +5,8 @@ import 'package:tobetoapp/bloc/competency_test/competency_test_event.dart';
 import 'package:tobetoapp/bloc/competency_test/competency_test_state.dart';
 
 class CompetencyTestResultPage extends StatefulWidget {
+  const CompetencyTestResultPage({super.key});
+
   @override
   _CompetencyTestResultPageState createState() =>
       _CompetencyTestResultPageState();
@@ -28,7 +30,7 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
       body: BlocBuilder<CompetencyTestBloc, CompetencyTestState>(
         builder: (context, state) {
           if (state is CompetencyTestLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (state is CompetencyTestResultFetched) {
             return SingleChildScrollView(
               child: Padding(
@@ -36,7 +38,7 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Tobeto İşte Başarı Modeli',
                       style: TextStyle(
                         color: Color(0xFF9933ff),
@@ -45,8 +47,8 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 8),
-                    Text(
+                    const SizedBox(height: 8),
+                    const Text(
                       'Analiz Raporum',
                       style: TextStyle(
                         color: Colors.black,
@@ -55,12 +57,12 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Image.asset(
                       'lib/assets/images/competency_test_report.png',
                       fit: BoxFit.cover,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     ...state.result.scores.entries.map((entry) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -76,7 +78,7 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
                               child: Center(
                                 child: Text(
                                   entry.value.toStringAsFixed(1),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
@@ -84,11 +86,11 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 getCategoryName(entry.key),
-                                style: TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 16),
                               ),
                             ),
                           ],

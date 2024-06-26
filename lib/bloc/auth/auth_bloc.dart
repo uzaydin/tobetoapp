@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/auth/auth_state.dart';
-import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/repository/auth_repo.dart';
 import 'package:tobetoapp/repository/user_repository.dart';
 import 'package:tobetoapp/utils/firebase_auth_exception.dart';

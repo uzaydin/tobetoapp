@@ -22,18 +22,15 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     _classesSubscription?.cancel();
     _classesSubscription = _classRepository.getClassesStream().listen(
       (classes) {
-        print('Loaded classes: ${classes.length}');
         add(ClassUpdated(classes));
       },
       onError: (error) {
-        print('Error loading classes: $error');
         emit(ClassOperationFailure(error.toString()));
       },
     );
   }
 
   void _onClassesUpdated(ClassUpdated event, Emitter<ClassState> emit) {
-    print('Classes updated: ${event.classes.length}');
     emit(ClassesLoaded(event.classes));
   }
 

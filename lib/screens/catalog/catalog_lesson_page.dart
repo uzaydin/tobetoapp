@@ -248,80 +248,83 @@ class _CatalogLessonPageState extends State<CatalogLessonPage> {
     final videoCount = videos.length;
 
     showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Center(
-          child: Text(
-            'Hakkında',
-            textAlign: TextAlign.center,
-            style: TextStyle(color:Colors.black),
-            
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Center(
+            child: Text(
+              'Hakkında',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black),
+            ),
           ),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.calendar_today),
-                const SizedBox(width: 8),
-                Text(
-                  'Başlangıç: ${startDate != null ? DateFormat('dd MMM yyyy').format(startDate) : 'Belirtilmemiş'}',
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                const Icon(Icons.calendar_today,),
-                const SizedBox(width: 8),
-                Text(
-                  'Bitiş: ${endDate != null ? DateFormat('dd MMM yyyy').format(endDate) : 'Belirtilmemiş'}',
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                const Icon(Icons.timer,),
-                const SizedBox(width: 8),
-                Text(
-                  'Geçirdiğin Süre: ${spentTime.inHours} saat ${spentTime.inMinutes.remainder(60)} dakika',
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                const Icon(Icons.video_library),
-                const SizedBox(width: 8),
-                Text(
-                  'Video: $videoCount',
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ],
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.calendar_today),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Başlangıç: ${startDate != null ? DateFormat('dd MMM yyyy').format(startDate) : 'Belirtilmemiş'}',
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.calendar_today,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Bitiş: ${endDate != null ? DateFormat('dd MMM yyyy').format(endDate) : 'Belirtilmemiş'}',
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.timer,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Geçirdiğin Süre: ${spentTime.inHours} saat ${spentTime.inMinutes.remainder(60)} dakika',
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(Icons.video_library),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Video: $videoCount',
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Kapat', style: TextStyle(color: Colors.blue)),
             ),
           ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Kapat', style: TextStyle(color: Colors.blue)),
+          backgroundColor: Colors.grey[200],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
-        ],
-        backgroundColor: Colors.grey[200],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -357,8 +360,8 @@ class _CatalogLessonPageState extends State<CatalogLessonPage> {
             BlocBuilder<CatalogFavoritesBloc, CatalogFavoritesState>(
               builder: (context, state) {
                 if (state is FavoritesLoaded) {
-                  final isFavorite =
-                      state.favoriteCatalogIds.contains(widget.catalogId.catalogId);
+                  final isFavorite = state.favoriteCatalogIds
+                      .contains(widget.catalogId.catalogId);
                   return IconButton(
                     icon: Icon(
                       isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -446,15 +449,16 @@ class _CatalogLessonPageState extends State<CatalogLessonPage> {
       ],
     );
   }
+
   Widget _buildVideoPlayer() {
     return Column(
       children: [
         SamplePlayer(
-      key: ValueKey(_currentVideoUrl),
-      videoUrl: _currentVideoUrl!,
-      onVideoComplete: _onVideoComplete,
-      onTimeUpdate: _onTimeUpdate,
- ),
+          key: ValueKey(_currentVideoUrl),
+          videoUrl: _currentVideoUrl!,
+          onVideoComplete: _onVideoComplete,
+          onTimeUpdate: _onTimeUpdate,
+        ),
       ],
     );
   }

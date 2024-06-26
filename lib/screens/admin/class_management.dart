@@ -6,6 +6,7 @@ import 'package:tobetoapp/bloc/admin/admin_state.dart';
 import 'package:tobetoapp/models/class_model.dart';
 import 'package:tobetoapp/screens/admin/class_detail.dart';
 import 'package:tobetoapp/widgets/admin/class_tile.dart';
+import 'package:tobetoapp/widgets/search_bar.dart';
 
 class ClassManagementPage extends StatefulWidget {
   const ClassManagementPage({super.key});
@@ -65,14 +66,7 @@ class _ClassManagementPageState extends State<ClassManagementPage> {
                 preferredSize: const Size.fromHeight(56.0),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: const InputDecoration(
-                      hintText: 'Sınıf ismi giriniz',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                  ),
+                  child: SearchBarWidget(controller: _searchController, hintText: "Sınıf ismi giriniz",)
                 ),
               )
             : null,

@@ -7,7 +7,7 @@ import 'package:tobetoapp/bloc/lessons/lesson_bloc.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_event.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
-import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/repository/lessons/lesson_repository.dart';
 import 'package:tobetoapp/screens/teacher_live_lesson_page.dart';
 

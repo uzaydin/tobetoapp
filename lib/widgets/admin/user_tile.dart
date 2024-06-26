@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_model.dart';
 
 class UserTile extends StatelessWidget {
   final UserModel user;

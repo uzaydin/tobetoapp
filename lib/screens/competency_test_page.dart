@@ -7,6 +7,8 @@ import 'package:tobetoapp/models/competency_test_question.dart';
 import 'package:tobetoapp/screens/competency_test_result_page.dart';
 
 class CompetencyTestPage extends StatefulWidget {
+  const CompetencyTestPage({super.key});
+
   @override
   _CompetencyTestPageState createState() => _CompetencyTestPageState();
 }
@@ -52,14 +54,14 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => CompetencyTestResultPage(),
+                builder: (context) => const CompetencyTestResultPage(),
               ),
             );
           }
         },
         builder: (context, state) {
           if (state is CompetencyTestLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (state is CompetencyTestLoaded) {
             questions = state.questions;
             questions!.sort(
@@ -68,8 +70,8 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
 
             return Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
                     'Tobeto İşte Başarı Modeli',
                     style: TextStyle(
@@ -83,16 +85,16 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: LinearProgressIndicator(
                     value: (currentPage + 1) / totalPages,
-                    backgroundColor: Color(0xFFD8D8D8),
+                    backgroundColor: const Color(0xFFD8D8D8),
                     valueColor:
-                        AlwaysStoppedAnimation<Color>(Color(0xFF9933ff)),
+                        const AlwaysStoppedAnimation<Color>(Color(0xFF9933ff)),
                   ),
                 ),
                 Expanded(
                   child: PageView.builder(
                     controller: _pageController,
                     itemCount: totalPages,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     onPageChanged: (index) {
                       setState(() {
                         currentPage = index;
@@ -118,7 +120,7 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                               children: [
                                 Text(
                                   '${question.id}. ${question.text}',
-                                  style: TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -158,19 +160,19 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: Color(0xFF9933ff),
+                          foregroundColor: const Color(0xFF9933ff),
                           backgroundColor: Colors.white,
-                          side: BorderSide(color: Color(0xFF9933ff)),
+                          side: const BorderSide(color: Color(0xFF9933ff)),
                         ),
                         onPressed: currentPage == 0
                             ? null
                             : () {
                                 _pageController.previousPage(
-                                  duration: Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeInOut,
                                 );
                               },
-                        child: Text('Geri'),
+                        child: const Text('Geri'),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -182,7 +184,7 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                                           ? currentPage * 10 + 10
                                           : questions!.length))
                               ? Colors.white
-                              : Color(0xFF9933ff),
+                              : const Color(0xFF9933ff),
                           backgroundColor: areAllQuestionsAnswered(questions!
                                   .sublist(
                                       currentPage * 10,
@@ -190,7 +192,7 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                                               questions!.length)
                                           ? currentPage * 10 + 10
                                           : questions!.length))
-                              ? Color(0xFF9933ff)
+                              ? const Color(0xFF9933ff)
                               : Colors.white,
                           side: BorderSide(
                               color: areAllQuestionsAnswered(questions!.sublist(
@@ -199,7 +201,7 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                                               questions!.length)
                                           ? currentPage * 10 + 10
                                           : questions!.length))
-                                  ? Color(0xFF9933ff)
+                                  ? const Color(0xFF9933ff)
                                   : Colors.grey),
                         ),
                         onPressed: areAllQuestionsAnswered(questions!.sublist(
@@ -215,7 +217,7 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                                       .add(SaveResult(scores));
                                 } else {
                                   _pageController.nextPage(
-                                    duration: Duration(milliseconds: 300),
+                                    duration: const Duration(milliseconds: 300),
                                     curve: Curves.easeInOut,
                                   );
                                 }

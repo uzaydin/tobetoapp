@@ -43,18 +43,12 @@ class _CommonUserDrawerState extends State<CommonUserDrawer> {
             child: DrawerHeader(
               decoration: const BoxDecoration(),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: AppConstants.screenWidth * 0.5,
                     child: Image.asset('assets/logo/tobetologo.PNG',
                         fit: BoxFit.contain),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
                   ),
                 ],
               ),
@@ -107,7 +101,7 @@ class _CommonUserDrawerState extends State<CommonUserDrawer> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   onTap: () {
-                    Navigator.push(                     
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const CatalogUser()));

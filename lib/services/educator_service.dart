@@ -9,11 +9,11 @@ class EducatorService {
 
     try {
       QuerySnapshot querySnapshot = await _educatorsCollection.get();
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         educators.add(doc['name']);
-      });
+      }
     } catch (e) {
-      print("Hata: $e");
+      
     }
     return educators;
   }

@@ -7,7 +7,7 @@ import 'package:tobetoapp/bloc/auth/auth_state.dart';
 import 'package:tobetoapp/bloc/user/user_bloc.dart';
 import 'package:tobetoapp/bloc/user/user_event.dart';
 import 'package:tobetoapp/bloc/user/user_state.dart';
-import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/admin/admin_panel.dart';
 
@@ -211,7 +211,7 @@ class _MainPageState extends State<MainPage> {
         items = [
           const BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'Eğitimler',
+            label: 'Eğitimlerim',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.announcement),

@@ -8,6 +8,7 @@ import 'package:tobetoapp/bloc/favorites/favorite_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/repository/lessons/lesson_repository.dart';
 import 'package:tobetoapp/screens/lesson_details_and_video/lesson_details_page.dart';
+import 'package:tobetoapp/widgets/banner_widget.dart';
 
 class FavoritesPage extends StatefulWidget {
   const FavoritesPage({super.key});
@@ -30,38 +31,15 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorites'),
+        title: const Text('Favoriler'),
+        centerTitle: true,
       ),
       drawer: const DrawerManager(),
       body: Column(
         children: [
-          SizedBox(
-            width: double.infinity,
-            height: 150, // Banner yüksekliği
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: Image.asset(
-                    'assets/logo/general_banner.png', // Banner resmi
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      "Favorilerim", // Banner içindeki yazı
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          const BannerWidget(
+            imagePath: 'assets/logo/general_banner.png',
+            text: 'Favorilerim',
           ),
           Expanded(
             child: BlocConsumer<FavoritesBloc, FavoritesState>(
@@ -91,10 +69,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const Center(child: CircularProgressIndicator());
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             } else if (snapshot.hasError) {
-                              print(
-                                  'Dersleri yuklerken hata olustu $lessonId: ${snapshot.error}');
                               return ListTile(
                                 title: Text('Error: ${snapshot.error}'),
                               );
@@ -127,7 +104,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                 },
                               );
                             } else {
-                              print('ID ait ders bulunamamistir: $lessonId');
                               return const ListTile(
                                 title: Text('Ders bulunamadi'),
                               );

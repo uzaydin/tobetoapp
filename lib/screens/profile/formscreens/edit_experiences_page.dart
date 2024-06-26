@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:tobetoapp/bloc/profile/profile_bloc.dart';
 import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
-import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/profile/formscreens/form_helpers.dart';
 

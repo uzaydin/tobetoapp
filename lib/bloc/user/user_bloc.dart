@@ -13,12 +13,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Future<void> _onFetchUser(FetchUser event, Emitter<UserState> emit) async {
     emit(UserLoading());
     try {
-      print("Fetching user data for ID: ${event.userId}");
       final user = await _userRepository.getUserDetails(event.userId);
-      print("User data fetched successfully: $user");
       emit(UserLoaded(user));
     } catch (e) {
-      print("Error fetching user data: $e");
       emit(UserError(e.toString()));
     }
   }

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/repository/auth_repo.dart';
 import 'package:tobetoapp/widgets/drawer/admin_drawer.dart';
 import 'package:tobetoapp/widgets/drawer/common_drawer.dart';
@@ -63,7 +63,7 @@ class AuthProviderDrawer extends ChangeNotifier {
 }
 
 class DrawerManager extends StatelessWidget {
-  const DrawerManager({Key? key}) : super(key: key);
+  const DrawerManager({super.key});
 
   @override
   Widget build(BuildContext context) {

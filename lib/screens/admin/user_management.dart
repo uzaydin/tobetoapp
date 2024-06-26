@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/admin/admin_bloc.dart';
 import 'package:tobetoapp/bloc/admin/admin_event.dart';
 import 'package:tobetoapp/bloc/admin/admin_state.dart';
-import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/widgets/admin/user_tile.dart';
+import 'package:tobetoapp/widgets/search_bar.dart';
 
 class UserManagementPage extends StatefulWidget {
   const UserManagementPage({super.key});
@@ -65,16 +66,11 @@ class _UserManagementPageState extends State<UserManagementPage> {
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(56.0),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: const InputDecoration(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SearchBarWidget(
+                      controller: _searchController,
                       hintText: 'İsim veya soyisim giriniz.',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                  ),
-                ),
+                    )),
               )
             : null,
       ),

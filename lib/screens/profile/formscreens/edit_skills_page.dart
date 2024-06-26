@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/profile/profile_bloc.dart';
 import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
-import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 
 class EditSkillsPage extends StatefulWidget {

@@ -47,35 +47,35 @@ class CompetencyTestInfoDialog extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Bu konuda hiç ama hiç iyi değilim (--)',
                       textAlign: TextAlign.left,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Bu konuda pek iyi değilim (-)',
                       textAlign: TextAlign.left,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Bu konuda ortalama düzeydeyim, ne iyi ne kötü (0)',
                       textAlign: TextAlign.left,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Bu konuda iyiyim (+)',
                       textAlign: TextAlign.left,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Bu konuda çok ama çok iyiyim (++)',
                       textAlign: TextAlign.left,
@@ -97,7 +97,7 @@ class CompetencyTestInfoDialog extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF9933ff),
+                    backgroundColor: const Color(0xFF9933ff),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18.0),
                     ),
@@ -107,7 +107,7 @@ class CompetencyTestInfoDialog extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CompetencyTestPage(),
+                        builder: (context) => const CompetencyTestPage(),
                       ),
                     );
                   },

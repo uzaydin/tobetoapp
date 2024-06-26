@@ -76,10 +76,10 @@ class _AdminChartsState extends State<AdminCharts> {
           children: List.generate(2, (index) {
             return GestureDetector(
               onTap: () {
-                _pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
               },
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 4),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
                 width: 12,
                 height: 12,
                 decoration: BoxDecoration(
@@ -117,7 +117,7 @@ class _AdminChartsState extends State<AdminCharts> {
   );
 
   Widget getTitles(double value, TitleMeta meta) {
-    final style = TextStyle(
+    const style = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );

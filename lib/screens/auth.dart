@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
-import 'package:password_strength_checker/password_strength_checker.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';

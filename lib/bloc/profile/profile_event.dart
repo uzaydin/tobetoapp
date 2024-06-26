@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_model.dart';
 
 abstract class ProfileEvent {}
 

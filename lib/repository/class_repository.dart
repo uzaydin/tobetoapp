@@ -9,14 +9,11 @@ class ClassRepository {
 
   Stream<List<ClassModel>> getClassesStream() {
     return _firestore.collection('classes').snapshots().map((snapshot) {
-      print(
-          'Fetched classes from Firestore: ${snapshot.docs.length}'); // Future kullanilabilir.
+      // Future kullanilabilir.
       return snapshot.docs.map((doc) {
-        print('Class doc data: ${doc.data()}');
         return ClassModel.fromMap(doc.data());
       }).toList();
     }).handleError((error) {
-      print('Error in getClassesStream: $error');
       throw error;
     });
   }
@@ -26,11 +23,9 @@ class ClassRepository {
       final snapshot = await _firestore.collection('classes').get();
       //print('Fetched classes from Firestore: ${snapshot.docs.length}');
       return snapshot.docs.map((doc) {
-        print('Class doc data: ${doc.data()}');
         return ClassModel.fromMap(doc.data() as Map<String, dynamic>);
       }).toList();
     } catch (error) {
-      print('Error in getClasses: $error');
       throw error;
     }
   }
@@ -86,7 +81,6 @@ class ClassRepository {
         .doc(classId)
         .delete()
         .catchError((error) {
-      print('Error in deleteClass: $error');
       throw error;
     });
   }
