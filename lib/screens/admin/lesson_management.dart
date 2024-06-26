@@ -6,6 +6,7 @@ import 'package:tobetoapp/bloc/admin/admin_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/screens/admin/lesson_edit.dart';
 import 'package:tobetoapp/widgets/admin/lesson_tile.dart';
+import 'package:tobetoapp/widgets/search_bar.dart';
 
 class LessonManagementPage extends StatefulWidget {
   const LessonManagementPage({super.key});
@@ -64,16 +65,11 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(56.0),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: const InputDecoration(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SearchBarWidget(
+                      controller: _searchController,
                       hintText: 'Ders başlığı giriniz',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                  ),
-                ),
+                    )),
               )
             : null,
       ),
@@ -221,5 +217,3 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
     );
   }
 }
-
-

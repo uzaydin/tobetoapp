@@ -211,7 +211,7 @@ class _MainPageState extends State<MainPage> {
         items = [
           const BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'Eğitimler',
+            label: 'Eğitimlerim',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.announcement),

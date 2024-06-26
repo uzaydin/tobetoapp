@@ -61,7 +61,7 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
                 ),
                 SizedBox(height: AppConstants.sizedBoxHeightMedium),
                 SizedBox(
-                  height: 100, // Sabit yükseklik
+                  height: 100,
                   child: TextFormField(
                     controller: _contentController,
                     maxLines: null, // Çok satırlı olmasını sağlar

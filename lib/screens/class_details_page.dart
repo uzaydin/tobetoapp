@@ -9,6 +9,8 @@ import 'package:tobetoapp/bloc/lessons/lesson_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/screens/lesson_details_and_video/lesson_details_page.dart';
 import 'package:tobetoapp/screens/student_live_lesson_page.dart';
+import 'package:tobetoapp/widgets/banner_widget.dart';
+import 'package:tobetoapp/widgets/search_bar.dart';
 
 class ClassDetailPage extends StatefulWidget {
   final List<String>? classIds;
@@ -84,49 +86,17 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
       body: Column(
         children: [
           // Banner
-          SizedBox(
-            width: double.infinity,
-            height: 150, // Banner yüksekliği
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: Image.asset(
-                    'assets/logo/general_banner.png', // Banner resmi
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      "Eğitimlerim", // Banner içindeki yazı
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          const BannerWidget(
+            imagePath: 'assets/logo/general_banner.png',
+            text: 'Eğitimlerim',
           ),
           // Arama Çubuğu
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller:
-                  _searchController, // Arama çubuğu için controller atanıyor
-              decoration: InputDecoration(
-                hintText: 'Ders arayın...', // Placeholder metni
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                prefixIcon: const Icon(Icons.search), // Arama ikonu
-              ),
-            ),
-          ),
+              padding: const EdgeInsets.all(8.0),
+              child: SearchBarWidget(
+                controller: _searchController,
+                hintText: "Ders arayın...",
+              )),
           Expanded(
             child: _buildBody(), // Body bölümü
           ),
@@ -161,7 +131,8 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                     },
                   )
                 : GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                     ),
                     itemCount: lessonsToShow.length,
@@ -183,7 +154,12 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   Widget _buildLessonItem(LessonModel lesson) {
     return ListTile(
       leading: lesson.image != null
-          ? Image.network(lesson.image!)
+          ? Image.network(
+                  lesson.image!,
+                  fit: BoxFit.fill,
+                  width:120,
+                  height: double.infinity,
+                )
           : Container(width: 50, height: 50, color: Colors.grey),
       title: Text(lesson.title ?? "No title"),
       subtitle: Column(
@@ -200,26 +176,50 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   }
 
   Widget _buildLessonCard(LessonModel lesson) {
-    return GestureDetector(
-      onTap: () {
-        _navigateToLessonPage(lesson);
-      },
-      child: Card(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            lesson.image != null
-                ? Image.network(lesson.image!)
-                : Container(height: 100, color: Colors.grey),
-            const SizedBox(height: 10),
-            Text(lesson.title ?? "No title"),
-            const SizedBox(height: 10),
-            Text(_formatDate(lesson.startDate)),
-          ],
-        ),
+  return GestureDetector(
+    onTap: () {
+      _navigateToLessonPage(lesson);
+    },
+    child: Card(
+      margin: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          lesson.image != null
+              ? Image.network(
+                  lesson.image!,
+                  fit: BoxFit.fill,
+                  width: double.infinity,
+                  height: 100,
+                )
+              : Container(
+                  height: 150,
+                  width: double.infinity,
+                  color: Colors.grey,
+                  child: const Icon(Icons.image, size: 30),
+                ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              lesson.title ?? "No title",
+             
+            ),
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              _formatDate(lesson.startDate),
+         
+            ),
+          ),
+          const SizedBox(height: 10),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   void _navigateToLessonPage(LessonModel lesson) {
     if (lesson.isLive ?? false) {
