@@ -8,12 +8,12 @@ class ClassTile extends StatelessWidget {
   final Function(BuildContext, String) onLongPress;
 
   const ClassTile({
-    Key? key,
+    super.key,
     required this.classModel,
     required this.onDetailsPressed,
     required this.onEditPressed,
     required this.onLongPress,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

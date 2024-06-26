@@ -60,7 +60,7 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
                       validation(value, "Lütfen başlık giriniz."),
                 ),
                 SizedBox(height: AppConstants.sizedBoxHeightMedium),
-                Container(
+                SizedBox(
                   height: 100, // Sabit yükseklik
                   child: TextFormField(
                     controller: _contentController,
@@ -74,7 +74,7 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppConstants.br10),
                       ),
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                           vertical: 10.0,
                           horizontal: 10.0), // İçerik dolgu ayarları
                     ),

@@ -8,7 +8,7 @@ import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 class ReviewsSection extends StatefulWidget {
   final String documentId;
 
-  const ReviewsSection({Key? key, required this.documentId}) : super(key: key);
+  const ReviewsSection({super.key, required this.documentId});
 
   @override
   _ReviewsSectionState createState() => _ReviewsSectionState();

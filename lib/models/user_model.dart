@@ -355,7 +355,7 @@ class Experience {
     this.startDate,
     this.endDate,
     this.description,
-  }) : id = id ?? Uuid().v4();
+  }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
     return {
@@ -404,7 +404,7 @@ class Education {
     this.department,
     this.startDate,
     this.graduationYear,
-  }) : id = id ?? Uuid().v4();
+  }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
     return {
@@ -441,7 +441,7 @@ class UserSkill {
   UserSkill({
     String? id,
     this.skill,
-  }) : id = id ?? Uuid().v4();
+  }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
     return {
@@ -472,7 +472,7 @@ class Certificate {
     required this.date,
     required this.fileUrl,
     required this.fileType,
-  }) : id = id ?? Uuid().v4();
+  }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
     return {
@@ -520,7 +520,7 @@ class Community {
     String? id,
     this.communityName,
     this.position,
-  }) : id = id ?? Uuid().v4();
+  }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
     return {
@@ -548,7 +548,7 @@ class ProjectAwards {
     String? id,
     this.projectName,
     this.projectDate,
-  }) : id = id ?? Uuid().v4();
+  }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
     return {
@@ -578,7 +578,7 @@ class SocialMedia {
     String? id,
     this.platform,
     this.link,
-  }) : id = id ?? Uuid().v4();
+  }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
     return {
@@ -608,7 +608,7 @@ class Languages {
     String? id,
     this.language,
     this.level,
-  }) : id = id ?? Uuid().v4();
+  }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
     return {

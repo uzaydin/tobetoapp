@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_model.dart';
 
 class UserRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -8,13 +8,11 @@ class UserRepository {
     try {
       final snapshot = await _firestore.collection('users').doc(uid).get();
       if (snapshot.exists) {
-        print("User document found: ${snapshot.data()}");
         return UserModel.fromMap(snapshot.data() as Map<String, dynamic>);
       } else {
         throw Exception('User not found');
       }
     } catch (e) {
-      print("Error getting user details: $e");
       rethrow;
     }
   }
@@ -75,7 +73,6 @@ class UserRepository {
       try {
         return UserModel.fromFirestore(doc);
       } catch (e) {
-        print('Error parsing user document ${doc.id}: $e');
         return null;
       }
     }).toList();
@@ -90,7 +87,6 @@ class UserRepository {
     try {
       await _firestore.collection('users').doc(user.id).update(user.toMap());
     } catch (e) {
-      print("Error updating user: $e");
       rethrow;
     }
   }
@@ -100,7 +96,6 @@ class UserRepository {
     try {
       await _firestore.collection('users').doc(userId).delete();
     } catch (e) {
-      print("Error deleting user: $e");
       rethrow;
     }
   }

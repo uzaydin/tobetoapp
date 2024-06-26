@@ -93,8 +93,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                 ConnectionState.waiting) {
                               return const Center(child: CircularProgressIndicator());
                             } else if (snapshot.hasError) {
-                              print(
-                                  'Dersleri yuklerken hata olustu $lessonId: ${snapshot.error}');
                               return ListTile(
                                 title: Text('Error: ${snapshot.error}'),
                               );
@@ -127,7 +125,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                 },
                               );
                             } else {
-                              print('ID ait ders bulunamamistir: $lessonId');
                               return const ListTile(
                                 title: Text('Ders bulunamadi'),
                               );

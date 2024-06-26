@@ -60,7 +60,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
         });
       }
     } catch (e) {
-      print("Image pick failed: $e");
+
     }
   }
 
@@ -88,7 +88,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
             context.read<AdminBloc>().add(LoadLessonDetails(widget.lessonId));
           } else if (state is AdminError) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Resim yüklerken bir hata meydana geldi')),
+              const SnackBar(content: Text('Resim yüklerken bir hata meydana geldi')),
             );
           }
         },
@@ -102,24 +102,16 @@ class _LessonEditPageState extends State<LessonEditPage> {
             if (_descriptionController.text.isEmpty) {
               _descriptionController.text = state.lesson.description ?? '';
             }
-            if (_startDate == null) {
-              _startDate = state.lesson.startDate;
-            }
-            if (_endDate == null) {
-              _endDate = state.lesson.endDate;
-            }
-            if (_isLive == null) {
-              _isLive = state.lesson.isLive;
-            }
+            _startDate ??= state.lesson.startDate;
+            _endDate ??= state.lesson.endDate;
+            _isLive ??= state.lesson.isLive;
             if (_teacherIds.isEmpty) {
               _teacherIds = state.lesson.teacherIds ?? [];
             }
             if (_classIds.isEmpty) {
               _classIds = state.lesson.classIds ?? [];
             }
-            if (_imageUrl == null) {
-              _imageUrl = state.lesson.image;
-            }
+            _imageUrl ??= state.lesson.image;
 
             return Padding(
               padding: const EdgeInsets.all(16.0),
@@ -297,7 +289,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
               ),
             );
           } else if (state is AdminError) {
-            return Center(
+            return const Center(
                 child: Text(
                     'Ders detaylarını yüklerken bir hata meydana geldi.Lütfen tekrar deneyiniz'));
           } else {

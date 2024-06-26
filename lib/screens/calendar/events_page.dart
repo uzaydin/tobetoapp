@@ -58,7 +58,6 @@ class _EventsPageState extends State<EventsPage> {
         _educatorTrainings = educatorTrainings;
       });
     } catch (e) {
-      print('Error fetching data from Firestore: $e');
     }
   }
 

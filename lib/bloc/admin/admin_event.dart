@@ -1,7 +1,7 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:tobetoapp/models/class_model.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
-import 'package:tobetoapp/models/userModel.dart';
+import 'package:tobetoapp/models/user_model.dart';
 
 abstract class AdminEvent {}
 

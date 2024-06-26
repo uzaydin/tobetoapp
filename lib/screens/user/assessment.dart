@@ -129,7 +129,7 @@ class _AssessmentState extends State<Assessment> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CompetencyTestResultPage(),
+                          builder: (context) => const CompetencyTestResultPage(),
                         ),
                       );
                     },

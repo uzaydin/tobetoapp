@@ -111,7 +111,7 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
                     },
                   );
                 } else if (state is AdminError) {
-                  return Center(
+                  return const Center(
                       child: Text(
                           'Dersler yüklenirken bir hata olustu. Lütfen tekrar deneyiniz.'));
                 } else {

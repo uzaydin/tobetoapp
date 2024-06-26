@@ -45,7 +45,6 @@ class _CatalogFilterWidgetState extends State<CatalogFilterWidget> {
         setState(() {});
       }
     } catch (e) {
-      print('Dropdown verileri alınırken hata: $e');
     }
   }
 
@@ -170,7 +169,6 @@ class _CatalogFilterWidgetState extends State<CatalogFilterWidget> {
         Navigator.pop(context, filteredList);
       }
     } catch (e) {
-      print('Filtreler uygulanırken hata: $e');
     }
   }
 }

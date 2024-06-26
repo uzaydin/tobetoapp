@@ -96,7 +96,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               TextFormField(
                 controller: _newPasswordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Yeni Şifre*',
                   icon: Icon(Icons.lock),
                 ),
@@ -116,7 +116,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               TextFormField(
                 controller: _confirmPasswordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Yeni Şifre Tekrar*',
                   icon: Icon(Icons.lock),
                 ),
@@ -131,7 +131,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -143,7 +143,6 @@ class _SettingsPageState extends State<SettingsPage> {
                             _newPasswordController.text));
                       }
                     },
-                    child: Text('Şifre Değiştir'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: const Color(0xFF9933ff),
@@ -151,12 +150,12 @@ class _SettingsPageState extends State<SettingsPage> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                     ),
+                    child: const Text('Şifre Değiştir'),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       _showDeleteAccountDialog(context);
                     },
-                    child: Text('Üyeliği Sonlandır'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.red,
@@ -164,6 +163,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                     ),
+                    child: const Text('Üyeliği Sonlandır'),
                   ),
                 ],
               ),
@@ -174,11 +174,11 @@ class _SettingsPageState extends State<SettingsPage> {
                       content: Text(state.message),
                     ));
                   } else if (state is ProfileLoaded) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Şifre başarıyla değiştirildi'),
                     ));
                   } else if (state is ProfileInitial) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Hesap başarıyla silindi'),
                     ));
                   }
