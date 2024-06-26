@@ -8,10 +8,11 @@ import 'package:tobetoapp/bloc/profile/profile_bloc.dart';
 import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/models/user_enum.dart';
-import 'package:tobetoapp/screens/catalog/catalog_page.dart';
 import 'package:tobetoapp/screens/profile/edit_profile_section_page.dart';
 import 'package:tobetoapp/screens/profile/formscreens/edit_personal_info_page.dart';
 import 'package:tobetoapp/screens/profile/settings_page.dart';
+import 'package:tobetoapp/utils/theme/light/light_theme.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -21,11 +22,75 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  late WebViewController webViewController;
+  bool canGoBack = false;
+
   @override
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(FetchUserDetails());
+         webViewController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color.fromARGB(0, 255, 255, 255))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {},
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) async {
+            canGoBack = await webViewController.canGoBack();
+            setState(() {});
+          },
+          onWebResourceError: (WebResourceError error) {},
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.startsWith('')) {
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse('https://mediafiles.botpress.cloud/d1265f28-5638-4830-bb0c-86bd18db99bc/webchat/bot.html'));
   }
+
+void _showChatBotPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: ClipRRect( 
+          borderRadius: BorderRadius.circular(20.0), 
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).size.width * 0.9,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              color: AppColors.tobetoMoru,
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10.0,
+                  offset: Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: WebViewWidget(
+                    controller: webViewController,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +106,6 @@ class _ProfileState extends State<Profile> {
                 authProvider.logout();
                 context.read<AuthBloc>().add(AuthLogOut());
                 
-              },
-            ),
-            IconButton(
-              icon: const Icon(
-                  Icons.view_list), // Example icon, you can change as needed
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CatalogPage(),
-                  ),
-                );
               },
             ),
           ],
@@ -166,6 +219,14 @@ class _ProfileState extends State<Profile> {
                           'assets/images/iş_süreçleri.png',
                           () {
                             // Navigate to İş Süreçleri page
+                          },
+                        ),
+                        _buildFeatureCard(
+                          context,
+                          'Tobeto Chat',
+                          'assets/images/tobetochat.png',
+                          () {
+                          _showChatBotPopup(context);
                           },
                         ),
                       ],

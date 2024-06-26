@@ -13,6 +13,7 @@ import 'package:tobetoapp/screens/homepage.dart';
 import 'package:tobetoapp/screens/mainpage.dart';
 import 'package:tobetoapp/screens/profile/profile_page.dart';
 import 'package:tobetoapp/screens/user/assessment.dart';
+import 'package:tobetoapp/screens/user/catalog_user.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/utils/theme/theme_switcher.dart';
@@ -106,12 +107,10 @@ class _CommonUserDrawerState extends State<CommonUserDrawer> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   onTap: () {
-                    /*
                     Navigator.push(                     
                         context,
                         MaterialPageRoute(
                             builder: (context) => const CatalogUser()));
-                            */
                   },
                 ),
                 ListTile(
