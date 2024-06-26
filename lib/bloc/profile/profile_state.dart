@@ -33,3 +33,5 @@ class ProfileImageUpdated extends ProfileState {
 
   ProfileImageUpdated(this.user, this.imageUrl);
 }
+
+class ProfileDeleted extends ProfileState {}

@@ -116,10 +116,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   void _onDeleteAccount(DeleteAccount event, Emitter<ProfileState> emit) async {
     emit(ProfileLoading());
     try {
-      await profileRepository.deleteAccount();
-      emit(ProfileInitial());
+      await profileRepository.deleteAccount(event.currentPassword);
+      emit(ProfileDeleted());
     } catch (e) {
-      emit(ProfileError(e.toString()));
+      emit(ProfileError('Hesap silme hatası: ${e.toString()}'));
     }
   }
 }
