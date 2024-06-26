@@ -161,22 +161,21 @@ class _MyAppState extends State<MyApp> {
     _loadThemeMode();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   Future<void> _loadThemeMode() async {
     final themeMode = await _themeService.getThemeMode();
-    setState(() {
-      _themeMode = themeMode;
-    });
+    if (mounted) {
+      setState(() {
+        _themeMode = themeMode;
+      });
+    }
   }
 
   void setTheme(ThemeMode themeMode) {
-    setState(() {
-      _themeMode = themeMode;
-    });
+    if (mounted) {
+      setState(() {
+        _themeMode = themeMode;
+      });
+    }
   }
 
   @override

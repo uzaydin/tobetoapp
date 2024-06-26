@@ -11,18 +11,19 @@ import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/screens/calendar/calendar_page.dart';
 import 'package:tobetoapp/screens/homepage.dart';
 import 'package:tobetoapp/screens/profile/profile_page.dart';
+import 'package:tobetoapp/screens/teacher_lesson_page.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/utils/theme/theme_switcher.dart';
 
-class TeacherAdminDrawer extends StatefulWidget {
-  const TeacherAdminDrawer({super.key});
+class TeacherDrawer extends StatefulWidget {
+  const TeacherDrawer({super.key});
 
   @override
-  State<TeacherAdminDrawer> createState() => _TeacherAdminDrawerState();
+  State<TeacherDrawer> createState() => _TeacherDrawerState();
 }
 
-class _TeacherAdminDrawerState extends State<TeacherAdminDrawer> {
+class _TeacherDrawerState extends State<TeacherDrawer> {
   @override
   void initState() {
     super.initState();
@@ -56,6 +57,20 @@ class _TeacherAdminDrawerState extends State<TeacherAdminDrawer> {
                 horizontal: AppConstants.screenWidth * 0.05),
             child: Column(
               children: [
+                ListTile(
+                  title: Text(
+                    "Öğretmen Panel",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TeacherLessonPage(
+                                  teacherId: '',
+                                )));
+                  },
+                ),
                 ListTile(
                   title: Text(
                     "Profilim",
