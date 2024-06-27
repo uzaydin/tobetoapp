@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 
+import 'package:tobetoapp/screens/calendar/calendar_page.dart';
+
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
-import 'package:tobetoapp/widgets/common_app_bar.dart';
 
 class AddEventPage extends StatefulWidget {
   const AddEventPage({super.key});
@@ -129,7 +130,24 @@ class _AddEventPageState extends State<AddEventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBar(),
+      appBar: AppBar(
+        title: const Text("Etkinlik Ekle"),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back)),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CalendarPage()));
+              },
+              icon: const Icon(Icons.calendar_month)),
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.all(AppConstants.paddingMedium),
         child: Form(
@@ -155,14 +173,6 @@ class _AddEventPageState extends State<AddEventPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(
-                        "Etkinlik Ekle",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(color: AppColors.tobetoMoru),
-                        textAlign: TextAlign.center,
-                      ),
                       SizedBox(height: AppConstants.sizedBoxHeightMedium),
                       TextFormField(
                         controller: educationController,

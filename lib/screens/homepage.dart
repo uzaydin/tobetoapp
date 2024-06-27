@@ -1,9 +1,12 @@
 import 'dart:math';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:provider/provider.dart';
-import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
+
+import 'package:tobetoapp/services/student_comment_service.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/screens/auth.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
@@ -27,36 +30,17 @@ class _HomepageState extends State<Homepage> {
   late WebViewController webViewController;
   bool canGoBack = false;
 
-  final List<Map<String, String>> _users = [
-    {
-      'username': 'Zehra Temizel',
-      'comment':
-          'Tobeto ve İstanbul Kodluyor, kariyerim için çizmek istediğim rotayı belirlememde, harekete geçmemde ve işe başlamamda bana rehberlik etti. Programın ilk mezunlarından olarak İstanbul Kodluyor sürecinin bir parçası olmaktan mutluluk duyuyorum.'
-    },
-    {
-      'username': 'Zeynep Aşiyan Koşun',
-      'comment':
-          'Tobeto ve İstanbul Kodluyor Projesi, kariyerimde ksybolmuş hissettiğim bir dönemde karşıma çıktı ve gerçek bir pusula gibi yol gösterdi. Artık hangi yöne ilerleyeceğim konusunda daha eminim. Tobeto ailesine minnettarım, benim için gerçek bir destek ve ilham kaynağı oldular. İyi ki varsınız, Tobeto ailesi.'
-    },
-    {
-      'username': 'Hüseyin Oğuzhan Şan',
-      'comment':
-          'İnsanın yeterince istediği ve emek verdiği her şeyi başarabileceğine inanan bir ekibin liderliğindeki muhteşem oluşum. Üstelik paydaşları ilgili alandaki en iyi isimler ve organizasyonlar.'
-    },
-    {
-      'username': 'Atilla Güngör',
-      'comment':
-          'Tobeto\'daki .NET ve React Fullstack eğitimi, yazılım dünyasında daha sağlam adım atmamı sağlayan önemli bir deneyim oldu. Bu eğitimde hem teknik bilgi hem de pratik uygulama becerileri kazandım. Ayrıca, softskill eğitimleri sayesinde iletişim ve problem çözme yeteneklerim de gelişti. Tobeto ekibi her zaman yardımcı oldu ve sorularımı cevaplamak için ellerinden geleni yaptı. Bu süreçte aldığım destek sayesinde, şimdi daha güvenli bir şekilde yazılım geliştirme yolculuğuma devam edebiliyorum. Tobeto\'daki eğitim süreci, şimdi iş dünyasına hazır olduğumu hissettiriyor. Teşekkürler Tobeto!'
-    },
-  ];
-  late int _selectedIndex;
+  final StudentCommentService _userService = StudentCommentService();
+  List<Map<String, dynamic>> _users = [];
+  int _selectedIndex = -1;
 
   @override
   void initState() {
     super.initState();
-    _selectedIndex = Random().nextInt(_users.length);
+    _fetchStudentComments();
+
     _controller = PageController();
-     webViewController = WebViewController()
+    webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color.fromARGB(0, 255, 255, 255))
       ..setNavigationDelegate(
@@ -76,7 +60,17 @@ class _HomepageState extends State<Homepage> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://mediafiles.botpress.cloud/d1265f28-5638-4830-bb0c-86bd18db99bc/webchat/bot.html'));
+      ..loadRequest(Uri.parse(
+          'https://mediafiles.botpress.cloud/d1265f28-5638-4830-bb0c-86bd18db99bc/webchat/bot.html'));
+  }
+
+  //
+  Future<void> _fetchStudentComments() async {
+    List<Map<String, dynamic>> users = await _userService.getStudentComments();
+    setState(() {
+      _users = users;
+      _selectedIndex = Random().nextInt(_users.length);
+    });
   }
 
   void _onAvatarTap(int index) {
@@ -100,44 +94,44 @@ class _HomepageState extends State<Homepage> {
   }
 
   void _showChatBotPopup(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: ClipRRect( 
-          borderRadius: BorderRadius.circular(20.0), 
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            width: MediaQuery.of(context).size.width * 0.9,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              color: AppColors.tobetoMoru,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 10.0,
-                  offset: Offset(0, 10),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Expanded(
-                  child: WebViewWidget(
-                    controller: webViewController,
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              width: MediaQuery.of(context).size.width * 0.9,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: AppColors.tobetoMoru,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10.0,
+                    offset: Offset(0, 10),
                   ),
-                ),
-              ],
+                ],
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: WebViewWidget(
+                      controller: webViewController,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -388,6 +382,7 @@ class _HomepageState extends State<Homepage> {
                 SizedBox(height: AppConstants.sizedBoxHeightLarge),
                 const Divider(),
                 SizedBox(height: AppConstants.sizedBoxHeightLarge),
+                //
                 Padding(
                   padding: EdgeInsets.all(AppConstants.paddingMedium),
                   child: Column(
@@ -416,6 +411,7 @@ class _HomepageState extends State<Homepage> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: AnimatedAvatar(
                                   isSelected: _selectedIndex == index,
+                                  photoUrl: _users[index]['photoUrl'],
                                 ),
                               ),
                             );
@@ -423,7 +419,8 @@ class _HomepageState extends State<Homepage> {
                         ),
                       ),
                       SizedBox(height: AppConstants.sizedBoxHeightLarge),
-                      if (_selectedIndex != -1)
+                      if (_selectedIndex != -1 &&
+                          _selectedIndex < _users.length)
                         Container(
                           padding: EdgeInsets.all(AppConstants.paddingMedium),
                           decoration: BoxDecoration(
@@ -448,7 +445,7 @@ class _HomepageState extends State<Homepage> {
                           child: Column(
                             children: [
                               Text(
-                                _users[_selectedIndex]['username']!,
+                                _users[_selectedIndex]['username'],
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineSmall!
@@ -456,7 +453,7 @@ class _HomepageState extends State<Homepage> {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                _users[_selectedIndex]['comment']!,
+                                _users[_selectedIndex]['comment'],
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
@@ -511,12 +508,12 @@ class _HomepageState extends State<Homepage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-           _showChatBotPopup(context);
-  },
-       backgroundColor: AppColors.tobetoMoru,
-         child: const Icon(Icons.message),
-),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          _showChatBotPopup(context);
+        },
+        backgroundColor: AppColors.tobetoMoru,
+        child: const Icon(Icons.message),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

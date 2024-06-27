@@ -25,8 +25,8 @@ class DrawerItem extends StatelessWidget {
             title,
             style: Theme.of(context)
                 .textTheme
-                .bodySmall
-                ?.copyWith(color: Colors.white),
+                .labelLarge
+                ?.copyWith(color: Colors.white, fontWeight: FontWeight.w300),
             textAlign: TextAlign.center,
           ),
         ),
@@ -34,5 +34,3 @@ class DrawerItem extends StatelessWidget {
     );
   }
 }
-
-

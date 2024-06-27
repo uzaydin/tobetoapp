@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
+
 import 'package:tobetoapp/bloc/lessons/lesson_bloc.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_event.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_state.dart';
@@ -155,11 +156,11 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
     return ListTile(
       leading: lesson.image != null
           ? Image.network(
-                  lesson.image!,
-                  fit: BoxFit.fill,
-                  width:120,
-                  height: double.infinity,
-                )
+              lesson.image!,
+              fit: BoxFit.fill,
+              width: 120,
+              height: double.infinity,
+            )
           : Container(width: 50, height: 50, color: Colors.grey),
       title: Text(lesson.title ?? "No title"),
       subtitle: Column(
@@ -176,50 +177,48 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   }
 
   Widget _buildLessonCard(LessonModel lesson) {
-  return GestureDetector(
-    onTap: () {
-      _navigateToLessonPage(lesson);
-    },
-    child: Card(
-      margin: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          lesson.image != null
-              ? Image.network(
-                  lesson.image!,
-                  fit: BoxFit.fill,
-                  width: double.infinity,
-                  height: 100,
-                )
-              : Container(
-                  height: 150,
-                  width: double.infinity,
-                  color: Colors.grey,
-                  child: const Icon(Icons.image, size: 30),
-                ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              lesson.title ?? "No title",
-             
+    return GestureDetector(
+      onTap: () {
+        _navigateToLessonPage(lesson);
+      },
+      child: Card(
+        margin: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            lesson.image != null
+                ? Image.network(
+                    lesson.image!,
+                    fit: BoxFit.fill,
+                    width: double.infinity,
+                    height: 100,
+                  )
+                : Container(
+                    height: 150,
+                    width: double.infinity,
+                    color: Colors.grey,
+                    child: const Icon(Icons.image, size: 30),
+                  ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                lesson.title ?? "No title",
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              _formatDate(lesson.startDate),
-         
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                _formatDate(lesson.startDate),
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-        ],
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   void _navigateToLessonPage(LessonModel lesson) {
     if (lesson.isLive ?? false) {

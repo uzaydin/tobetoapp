@@ -4,8 +4,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 
-
-
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
@@ -31,7 +29,8 @@ class AuthRepository {
     return userCredential.user;
   }
 
-  Future<User?> signUp(String name, String lastName, String email, String password) async {
+  Future<User?> signUp(
+      String name, String lastName, String email, String password) async {
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -39,13 +38,12 @@ class AuthRepository {
     final user = userCredential.user;
     if (user != null) {
       final userModel = UserModel(
-        id: user.uid,
-        firstName: name,
-        lastName: lastName,
-        email: email,
-        role: UserRole.student, // Varsayılan rol
-        registrationDate: DateTime.timestamp()
-      );
+          id: user.uid,
+          firstName: name,
+          lastName: lastName,
+          email: email,
+          role: UserRole.student, // Varsayılan rol
+          registrationDate: DateTime.timestamp());
       await _firestore.collection('users').doc(user.uid).set(userModel.toMap());
     }
     return user;
@@ -59,7 +57,8 @@ class AuthRepository {
       return null;
     }
 
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
@@ -74,12 +73,11 @@ class AuthRepository {
       if (!userDoc.exists) {
         // Kullanıcı Firestore'da kayıtlı değilse yeni kayıt oluştur
         UserModel newUser = UserModel(
-          firstName: googleUser.displayName ?? '',
-          lastName: '',
-          email: googleUser.email,
-          role: UserRole.student, // default olarak student kaydı yapılıyor.
-          registrationDate: DateTime.timestamp()
-        );
+            firstName: googleUser.displayName ?? '',
+            lastName: '',
+            email: googleUser.email,
+            role: UserRole.student, // default olarak student kaydı yapılıyor.
+            registrationDate: DateTime.timestamp());
         await _firestore.collection("users").doc(user.uid).set(newUser.toMap());
       }
       return user;

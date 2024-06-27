@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
+
 import 'package:tobetoapp/bloc/favorites/favorite_bloc.dart';
 import 'package:tobetoapp/bloc/favorites/favorite_event.dart';
 import 'package:tobetoapp/bloc/favorites/favorite_state.dart';
