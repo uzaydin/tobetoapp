@@ -40,19 +40,19 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
     }
     initializeDateFormatting();
     _searchController
-        .addListener(_filterLessons); // Arama çubuğu dinleyici ekleniyor
+        .addListener(_filterLessons);
   }
 
   @override
   void dispose() {
-    _searchController.removeListener(_filterLessons); // Dinleyici kaldırılıyor
+    _searchController.removeListener(_filterLessons); 
     _searchController.dispose();
     super.dispose();
   }
 
   void _filterLessons() {
     final query = _searchController.text
-        .toLowerCase(); // Arama çubuğundaki metin küçük harfe dönüştürülüyor
+        .toLowerCase();
     final state = context.read<LessonBloc>().state;
     if (state is LessonsLoaded) {
       setState(() {
