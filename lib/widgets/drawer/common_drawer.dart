@@ -9,8 +9,8 @@ import 'package:tobetoapp/screens/guest/for_individuals.dart';
 import 'package:tobetoapp/screens/guest/blog.dart';
 import 'package:tobetoapp/screens/guest/about_us.dart';
 import 'package:tobetoapp/screens/guest/contact.dart';
-import 'package:tobetoapp/screens/guest/istanbul_kodluyor.dart';
 import 'package:tobetoapp/screens/guest/for_institutions.dart';
+import 'package:tobetoapp/screens/guest/istanbul_kodluyor.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/theme_switcher.dart';
 import 'package:tobetoapp/widgets/drawer/drawer_items.dart';
@@ -32,202 +32,13 @@ class _CommonDrawerState extends State<CommonDrawer> {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: <Widget>[
-          SizedBox(
-            height: AppConstants.screenHeight * 0.18,
-            child: DrawerHeader(
-              decoration: const BoxDecoration(),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: AppConstants.screenWidth * 0.5,
-                    child: Image.asset('assets/logo/tobetologo.PNG',
-                        fit: BoxFit.contain),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
+        children: [
+          _buildDrawerHeader(context),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: AppConstants.screenWidth * 0.05),
             child: Column(
-              children: [
-                ListTile(
-                  title: Text(
-                    "Biz Kimiz?",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AboutUs()));
-                  },
-                ),
-                ExpansionPanelList(
-                  elevation: 0,
-                  expandedHeaderPadding: EdgeInsets.zero,
-                  expansionCallback: (int index, bool isExpanded) {
-                    setState(() {
-                      _isServicesExpanded = !_isServicesExpanded;
-                    });
-                  },
-                  children: [
-                    ExpansionPanel(
-                      canTapOnHeader: true,
-                      headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: Text(
-                            "Neler Sunuyoruz?",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        );
-                      },
-                      body: Column(
-                        children: [
-                          DrawerItem(
-                            title: "Bireyler İçin",
-                            onTap: () {
-                              setState(() {
-                                selectedOption = "Bireyler İçin";
-                              });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ForIndividuals()));
-                            },
-                          ),
-                          DrawerItem(
-                            title: "Kurumlar İçin",
-                            onTap: () {
-                              setState(() {
-                                selectedOption = "Kurumlar İçin";
-                              });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ForInstitutions()));
-                            },
-                          ),
-                        ],
-                      ),
-                      isExpanded: _isServicesExpanded,
-                    ),
-                  ],
-                ),
-                ListTile(
-                  title: Text(
-                    "Eğitimlerimiz",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CatalogPage()));
-                  },
-                ),
-                ExpansionPanelList(
-                  elevation: 0,
-                  expandedHeaderPadding: EdgeInsets.zero,
-                  expansionCallback: (int index, bool isExpanded) {
-                    setState(() {
-                      _isActivitiesExpanded = !_isActivitiesExpanded;
-                    });
-                  },
-                  children: [
-                    ExpansionPanel(
-                      canTapOnHeader: true,
-                      headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: Text(
-                            "Tobeto'da Neler Oluyor?",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        );
-                      },
-                      body: Column(
-                        children: [
-                          DrawerItem(
-                            title: "Blog",
-                            onTap: () {
-                              setState(() {
-                                selectedOption = "Blog";
-                              });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Blog()));
-                            },
-                          ),
-                          DrawerItem(
-                            title: "Basında Biz",
-                            onTap: () {
-                              setState(() {
-                                selectedOption = "Basında Biz";
-                              });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const InThePress()));
-                            },
-                          ),
-                          DrawerItem(
-                            title: "Takvim",
-                            onTap: () {
-                              setState(() {
-                                selectedOption = "Takvim";
-                              });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CalendarPage()));
-                            },
-                          ),
-                          DrawerItem(
-                            title: "İstanbul Kodluyor",
-                            onTap: () {
-                              setState(() {
-                                selectedOption = "İstanbul Kodluyor";
-                              });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const IstanbulKodluyor()));
-                            },
-                          ),
-                        ],
-                      ),
-                      isExpanded: _isActivitiesExpanded,
-                    ),
-                  ],
-                ),
-                ListTile(
-                  title: Text(
-                    "İletişim",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Contact()));
-                  },
-                ),
-              ],
+              children: _buildDrawerItems(context),
             ),
           ),
           const Divider(),
@@ -235,16 +46,12 @@ class _CommonDrawerState extends State<CommonDrawer> {
             padding: EdgeInsets.symmetric(
                 horizontal: AppConstants.screenWidth * 0.05),
             child: ListTile(
-              title: Text(
-                "Tema Değiştir",
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
+              title: Text("Tema Değiştir",
+                  style: Theme.of(context).textTheme.bodySmall),
               trailing: const ThemeSwitcher(),
             ),
           ),
-          SizedBox(
-            height: AppConstants.sizedBoxHeightMedium,
-          ),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           Padding(
             padding: EdgeInsets.all(AppConstants.paddingMedium),
             child: TextButton(
@@ -259,14 +66,13 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 final authProvider =
                     Provider.of<AuthProviderDrawer>(context, listen: false);
                 authProvider.login();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Auth()));
+                _navigateTo(context, const Auth());
               },
               child: Text(
                 "Giriş Yap",
                 style: Theme.of(context)
                     .textTheme
-                    .bodySmall!
+                    .labelLarge!
                     .copyWith(color: Colors.white),
               ),
             ),
@@ -283,5 +89,118 @@ class _CommonDrawerState extends State<CommonDrawer> {
         ],
       ),
     );
+  }
+
+  Widget _buildDrawerHeader(BuildContext context) {
+    return SizedBox(
+      height: AppConstants.screenHeight * 0.18,
+      child: DrawerHeader(
+        decoration: const BoxDecoration(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: AppConstants.screenWidth * 0.5,
+              child: Image.asset('assets/logo/tobetologo.PNG',
+                  fit: BoxFit.contain),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildDrawerItems(BuildContext context) {
+    final TextStyle? drawerTextStyle = Theme.of(context).textTheme.bodySmall;
+    return [
+      ListTile(
+        title: Text("Biz Kimiz?", style: drawerTextStyle),
+        onTap: () => _navigateTo(context, const AboutUs()),
+      ),
+      _buildExpansionPanel(
+        context: context,
+        title: "Neler Sunuyoruz?",
+        isExpanded: _isServicesExpanded,
+        onExpansionChanged: (isExpanded) =>
+            setState(() => _isServicesExpanded = !_isServicesExpanded),
+        items: [
+          _buildDrawerItem(context, "Bireyler İçin", const ForIndividuals()),
+          _buildDrawerItem(context, "Kurumlar İçin", const ForInstitutions()),
+        ],
+      ),
+      ListTile(
+        title: Text("Eğitimlerimiz", style: drawerTextStyle),
+        onTap: () => _navigateTo(context, const CatalogPage()),
+      ),
+      _buildExpansionPanel(
+        context: context,
+        title: "Tobeto'da Neler Oluyor?",
+        isExpanded: _isActivitiesExpanded,
+        onExpansionChanged: (isExpanded) =>
+            setState(() => _isActivitiesExpanded = !_isActivitiesExpanded),
+        items: [
+          _buildDrawerItem(context, "Blog", const Blog()),
+          _buildDrawerItem(context, "Basında Biz", const InThePress()),
+          _buildDrawerItem(context, "Takvim", const CalendarPage()),
+          _buildDrawerItem(
+              context, "İstanbul Kodluyor", const IstanbulKodluyor()),
+        ],
+      ),
+      ListTile(
+        title: Text("İletişim", style: drawerTextStyle),
+        onTap: () => _navigateTo(context, const Contact()),
+      ),
+    ];
+  }
+
+  Widget _buildExpansionPanel({
+    required BuildContext context,
+    required String title,
+    required bool isExpanded,
+    required ValueChanged<bool> onExpansionChanged,
+    required List<Widget> items,
+  }) {
+    return ExpansionPanelList(
+      elevation: 0,
+      expandedHeaderPadding: EdgeInsets.zero,
+      expansionCallback: (int index, bool isExpanded) =>
+          onExpansionChanged(isExpanded),
+      children: [
+        ExpansionPanel(
+          canTapOnHeader: true,
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return ListTile(
+              title: Text(title, style: Theme.of(context).textTheme.bodySmall),
+            );
+          },
+          body: Column(children: items),
+          isExpanded: isExpanded,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDrawerItem(
+      BuildContext context, String title, Widget destination) {
+    return DrawerItem(
+      title: title,
+      onTap: () {
+        setState(() {
+          selectedOption = title;
+        });
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => destination));
+      },
+    );
+  }
+
+  void _navigateTo(BuildContext context, Widget page) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => page));
   }
 }

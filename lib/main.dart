@@ -7,6 +7,8 @@ import 'package:tobetoapp/bloc/admin/admin_bloc.dart';
 import 'package:tobetoapp/bloc/announcements/announcement_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
+import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/blog/blog_bloc.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_bloc.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_event.dart';
@@ -44,8 +46,7 @@ import 'package:tobetoapp/services/event_service.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/theme_data.dart';
 import 'package:tobetoapp/utils/theme/theme_switcher.dart';
-import 'package:tobetoapp/widgets/drawer/common_drawer.dart';
-import 'package:tobetoapp/widgets/drawer/common_user_drawer.dart';
+
 import 'package:tobetoapp/widgets/guest/animated_container.dart';
 import 'firebase_options.dart';
 
@@ -68,17 +69,20 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          ChangeNotifierProvider(create: (_) => AuthProviderDrawer()),
           Provider<CatalogRepository>(create: (_) => CatalogRepository()),
           Provider<SharedPreferences>.value(value: sharedPreferences),
           Provider<LessonRepository>(create: (_) => LessonRepository()),
           Provider<SharedPreferences>.value(value: sharedPreferences),
-          ChangeNotifierProvider(create: (_) => AuthProviderDrawer()),
           ChangeNotifierProvider(create: (_) => AnimationControllerExample()),
         ],
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (context) => AuthBloc(AuthRepository(), UserRepository()),
+              create: (context) => AuthBloc(
+                AuthRepository(),
+                UserRepository(),
+              ),
             ),
             BlocProvider(
               create: (context) => UserBloc(UserRepository()),
@@ -175,6 +179,7 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _themeMode = themeMode;
       });
+      _themeService.setThemeMode(themeMode);
     }
   }
 
@@ -185,9 +190,6 @@ class _MyAppState extends State<MyApp> {
         AppConstants.init(context);
         return Consumer<AuthProviderDrawer>(
           builder: (context, authProvider, _) {
-            final drawer = authProvider.isLoggedIn
-                ? const CommonUserDrawer()
-                : const CommonDrawer();
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Tobeto',
@@ -198,7 +200,7 @@ class _MyAppState extends State<MyApp> {
               builder: (context, child) {
                 return Scaffold(
                   body: child,
-                  drawer: drawer,
+                  drawer: const DrawerManager(),
                 );
               },
             );

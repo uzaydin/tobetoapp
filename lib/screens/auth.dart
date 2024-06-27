@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
 import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/auth/auth_state.dart';

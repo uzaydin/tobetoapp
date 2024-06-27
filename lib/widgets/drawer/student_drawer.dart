@@ -10,20 +10,22 @@ import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/screens/calendar/calendar_page.dart';
 import 'package:tobetoapp/screens/homepage.dart';
+import 'package:tobetoapp/screens/mainpage.dart';
 import 'package:tobetoapp/screens/profile/profile_page.dart';
-import 'package:tobetoapp/screens/teacher_lesson_page.dart';
+import 'package:tobetoapp/screens/user/assessment.dart';
+import 'package:tobetoapp/screens/user/catalog_user.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/utils/theme/theme_switcher.dart';
 
-class TeacherDrawer extends StatefulWidget {
-  const TeacherDrawer({super.key});
+class StudentDrawer extends StatefulWidget {
+  const StudentDrawer({super.key});
 
   @override
-  State<TeacherDrawer> createState() => _TeacherDrawerState();
+  State<StudentDrawer> createState() => _StudentDrawerState();
 }
 
-class _TeacherDrawerState extends State<TeacherDrawer> {
+class _StudentDrawerState extends State<StudentDrawer> {
   @override
   void initState() {
     super.initState();
@@ -42,9 +44,10 @@ class _TeacherDrawerState extends State<TeacherDrawer> {
                 horizontal: AppConstants.screenWidth * 0.05),
             child: Column(
               children: [
-                _buildListTile(context, "Öğretmen Panel",
-                    const TeacherLessonPage(teacherId: '')),
+                _buildListTile(context, "Platform", const MainPage()),
+                _buildListTile(context, "Değerlendirmeler", const Assessment()),
                 _buildListTile(context, "Profilim", const Profile()),
+                _buildListTile(context, "Katalog", const CatalogUser()),
                 _buildListTile(context, "Takvim", const CalendarPage()),
               ],
             ),
@@ -121,6 +124,12 @@ class _TeacherDrawerState extends State<TeacherDrawer> {
               width: AppConstants.screenWidth * 0.5,
               child: Image.asset('assets/logo/tobetologo.PNG',
                   fit: BoxFit.contain),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
           ],
         ),

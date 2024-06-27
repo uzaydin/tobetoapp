@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar.state.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_bloc.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_event.dart';
@@ -57,8 +58,7 @@ class _EventsPageState extends State<EventsPage> {
         _educators = educators;
         _educatorTrainings = educatorTrainings;
       });
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   @override

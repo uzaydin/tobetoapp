@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_favorites/catalog_favorite_bloc.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_favorites/catalog_favorite_event.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_favorites/catalog_favorite_state.dart';
@@ -23,7 +24,8 @@ class FavoritesPage extends StatefulWidget {
   State<FavoritesPage> createState() => _FavoritesPageState();
 }
 
-class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProviderStateMixin {
+class _FavoritesPageState extends State<FavoritesPage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -77,7 +79,8 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
     );
   }
 
-  Widget _buildFavoritesLessons(BuildContext context, LessonRepository lessonRepository) {
+  Widget _buildFavoritesLessons(
+      BuildContext context, LessonRepository lessonRepository) {
     return BlocBuilder<FavoritesBloc, FavoritesState>(
       builder: (context, favoritesState) {
         if (favoritesState is FavoritesLoading) {
@@ -101,26 +104,30 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                   } else if (snapshot.hasData) {
                     final lesson = snapshot.data!;
                     return ListTile(
-                      leading: lesson.image != null ? Image.network(lesson.image!) : null,
+                      leading: lesson.image != null
+                          ? Image.network(lesson.image!)
+                          : null,
                       title: Text(lesson.title ?? 'No title'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(lesson.description ?? 'No description'),
-                          Text(DateFormat('dd MMM yyyy, HH:mm').format(lesson.startDate!)),
+                          Text(DateFormat('dd MMM yyyy, HH:mm')
+                              .format(lesson.startDate!)),
                         ],
                       ),
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LessonDetailsPage(lesson: lesson),
+                            builder: (context) =>
+                                LessonDetailsPage(lesson: lesson),
                           ),
                         );
                       },
                     );
                   } else {
-                    return const SizedBox.shrink(); 
+                    return const SizedBox.shrink();
                   }
                 },
               );
@@ -133,7 +140,8 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
     );
   }
 
-  Widget _buildFavoritesCatalogs(BuildContext context, CatalogRepository catalogRepository) {
+  Widget _buildFavoritesCatalogs(
+      BuildContext context, CatalogRepository catalogRepository) {
     return BlocBuilder<CatalogFavoritesBloc, CatalogFavoritesState>(
       builder: (context, catalogFavoritesState) {
         if (catalogFavoritesState is CatalogFavoritesLoading) {
@@ -142,7 +150,8 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
           final favoriteCatalogIds = catalogFavoritesState.favoriteCatalogIds;
 
           if (favoriteCatalogIds.isEmpty) {
-            return const Center(child: Text('Favori katalog eğitimleriniz henüz boş!'));
+            return const Center(
+                child: Text('Favori katalog eğitimleriniz henüz boş!'));
           }
 
           return ListView(
@@ -157,20 +166,24 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                   } else if (snapshot.hasData) {
                     final catalog = snapshot.data!;
                     return ListTile(
-                      leading: catalog.imageUrl != null ? Image.network(catalog.imageUrl!) : null,
+                      leading: catalog.imageUrl != null
+                          ? Image.network(catalog.imageUrl!)
+                          : null,
                       title: Text(catalog.title ?? 'No title'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(catalog.content ?? 'No description'),
-                          Text(DateFormat('dd MMM yyyy, HH:mm').format(catalog.startDate!)),
+                          Text(DateFormat('dd MMM yyyy, HH:mm')
+                              .format(catalog.startDate!)),
                         ],
                       ),
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CatalogLessonPage(catalogId: catalog),
+                            builder: (context) =>
+                                CatalogLessonPage(catalogId: catalog),
                           ),
                         );
                       },
@@ -183,7 +196,8 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
             }).toList(),
           );
         } else {
-          return const Center(child: Text('Favori katalog eğitimleriniz henüz boş!'));
+          return const Center(
+              child: Text('Favori katalog eğitimleriniz henüz boş!'));
         }
       },
     );

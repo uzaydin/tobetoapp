@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:provider/provider.dart';
-import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
+
+import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
