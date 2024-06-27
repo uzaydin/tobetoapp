@@ -86,7 +86,7 @@ class _CatalogPageState extends State<CatalogPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CatalogDetailPage(catalogId: catalog ),
+                          builder: (context) => CatalogDetailPage(catalogId: catalog),
                         ),
                       );
                     },

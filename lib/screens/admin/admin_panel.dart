@@ -6,7 +6,7 @@ import 'package:tobetoapp/bloc/admin/admin_event.dart';
 import 'package:tobetoapp/bloc/admin/admin_state.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/screens/admin/class_management.dart';
-import 'package:tobetoapp/screens/admin/lesson_management.dart';
+import 'package:tobetoapp/screens/admin/lesson_and_catalog_management.dart';
 import 'package:tobetoapp/screens/admin/user_management.dart';
 import 'package:tobetoapp/screens/calendar/add_event.dart';
 
@@ -107,9 +107,9 @@ class _AdminPanelState extends State<AdminPanel> {
                       return _buildDashboardCard(
                         context,
                         icon: Icons.book,
-                        label: 'Ders Yönetimi',
+                        label: 'Ders/Katalog Yönetimi',
                         color: Colors.pink[100]!,
-                        page: const LessonManagementPage(),
+                        page: const LessonAndCatalogManagementPage(),
                       );
                     case 3:
                       return _buildDashboardCard(

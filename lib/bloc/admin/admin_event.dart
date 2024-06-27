@@ -1,4 +1,5 @@
 import 'package:image_picker/image_picker.dart';
+import 'package:tobetoapp/models/catalog_model.dart';
 import 'package:tobetoapp/models/class_model.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/models/user_model.dart';
@@ -94,4 +95,39 @@ class RemoveClassFromLesson extends AdminEvent {
   final String lessonId;
   final String classId;
   RemoveClassFromLesson(this.lessonId, this.classId);
+}
+
+
+//Katalog İşlemleri
+
+class LoadCatalogs extends AdminEvent {}
+
+class AddCatalog extends AdminEvent {
+  final CatalogModel newCatalog;
+  AddCatalog(this.newCatalog);
+}
+
+class UpdateCatalog extends AdminEvent {
+  final CatalogModel updatedCatalog;
+
+  UpdateCatalog(
+    this.updatedCatalog,
+  );
+}
+
+class UploadCatalogImage extends AdminEvent {
+  final String catalogId;
+  final XFile imageFile;
+
+  UploadCatalogImage({required this.catalogId, required this.imageFile});
+}
+
+class DeleteCatalog extends AdminEvent {
+  final String catalogId;
+  DeleteCatalog(this.catalogId);
+}
+
+class LoadCatalogDetails extends AdminEvent {
+  final String catalogId;
+  LoadCatalogDetails(this.catalogId);
 }
