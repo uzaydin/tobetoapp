@@ -39,19 +39,19 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
     }
     initializeDateFormatting();
     _searchController
-        .addListener(_filterLessons); // Arama çubuğu dinleyici ekleniyor
+        .addListener(_filterLessons);
   }
 
   @override
   void dispose() {
-    _searchController.removeListener(_filterLessons); // Dinleyici kaldırılıyor
+    _searchController.removeListener(_filterLessons); 
     _searchController.dispose();
     super.dispose();
   }
 
   void _filterLessons() {
     final query = _searchController.text
-        .toLowerCase(); // Arama çubuğundaki metin küçük harfe dönüştürülüyor
+        .toLowerCase();
     final state = context.read<LessonBloc>().state;
     if (state is LessonsLoaded) {
       setState(() {
@@ -155,11 +155,11 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
     return ListTile(
       leading: lesson.image != null
           ? Image.network(
-                  lesson.image!,
-                  fit: BoxFit.fill,
-                  width:120,
-                  height: double.infinity,
-                )
+              lesson.image!,
+              fit: BoxFit.fill,
+              width: 120,
+              height: double.infinity,
+            )
           : Container(width: 50, height: 50, color: Colors.grey),
       title: Text(lesson.title ?? "No title"),
       subtitle: Column(
@@ -176,50 +176,48 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   }
 
   Widget _buildLessonCard(LessonModel lesson) {
-  return GestureDetector(
-    onTap: () {
-      _navigateToLessonPage(lesson);
-    },
-    child: Card(
-      margin: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          lesson.image != null
-              ? Image.network(
-                  lesson.image!,
-                  fit: BoxFit.fill,
-                  width: double.infinity,
-                  height: 100,
-                )
-              : Container(
-                  height: 150,
-                  width: double.infinity,
-                  color: Colors.grey,
-                  child: const Icon(Icons.image, size: 30),
-                ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              lesson.title ?? "No title",
-             
+    return GestureDetector(
+      onTap: () {
+        _navigateToLessonPage(lesson);
+      },
+      child: Card(
+        margin: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            lesson.image != null
+                ? Image.network(
+                    lesson.image!,
+                    fit: BoxFit.fill,
+                    width: double.infinity,
+                    height: 100,
+                  )
+                : Container(
+                    height: 150,
+                    width: double.infinity,
+                    color: Colors.grey,
+                    child: const Icon(Icons.image, size: 30),
+                  ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                lesson.title ?? "No title",
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              _formatDate(lesson.startDate),
-         
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                _formatDate(lesson.startDate),
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-        ],
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   void _navigateToLessonPage(LessonModel lesson) {
     if (lesson.isLive ?? false) {

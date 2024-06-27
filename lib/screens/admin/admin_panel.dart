@@ -41,6 +41,7 @@ class _AdminPanelState extends State<AdminPanel> {
         title: const Text('Admin Panel'),
         backgroundColor: AppColors.tobetoMoru,
         centerTitle: true,
+        
       ),
       drawer: const DrawerManager(),
       backgroundColor: Colors.grey[200], // Sayfanın arka plan rengi

@@ -9,6 +9,7 @@ import 'package:tobetoapp/models/announcement_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/add_announcement.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
+import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/announcement_card.dart';
 import 'package:tobetoapp/widgets/banner_widget.dart';
 
@@ -36,12 +37,13 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tobeto'),
+        backgroundColor: AppColors.tobetoMoru,
         centerTitle: true,
         actions:
             widget.role == UserRole.admin || widget.role == UserRole.teacher
                 ? [
                     IconButton(
-                      icon: const Icon(Icons.add),
+                      icon: Icon(Icons.add_box_rounded,color: Colors.black54,),
                       onPressed: () {
                         Navigator.push(
                           context,
