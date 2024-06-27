@@ -10,6 +10,7 @@ import 'package:tobetoapp/bloc/lessons/lesson_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/screens/lesson_details_and_video/lesson_details_page.dart';
 import 'package:tobetoapp/screens/student_live_lesson_page.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/widgets/banner_widget.dart';
 import 'package:tobetoapp/widgets/search_bar.dart';
 
@@ -39,20 +40,18 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
       context.read<LessonBloc>().add(LoadLessons(widget.classIds));
     }
     initializeDateFormatting();
-    _searchController
-        .addListener(_filterLessons);
+    _searchController.addListener(_filterLessons);
   }
 
   @override
   void dispose() {
-    _searchController.removeListener(_filterLessons); 
+    _searchController.removeListener(_filterLessons);
     _searchController.dispose();
     super.dispose();
   }
 
   void _filterLessons() {
-    final query = _searchController.text
-        .toLowerCase();
+    final query = _searchController.text.toLowerCase();
     final state = context.read<LessonBloc>().state;
     if (state is LessonsLoaded) {
       setState(() {
@@ -69,8 +68,22 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tobeto"),
-        centerTitle: true,
+        title: Padding(
+          padding: EdgeInsets.all(AppConstants.verticalPaddingLarge),
+          child: Row(
+            children: [
+              Image.asset(
+                "assets/logo/tobeto.png",
+                width: 25,
+                height: 25,
+              ),
+              SizedBox(
+                width: AppConstants.sizedBoxWidthSmall,
+              ),
+              const Text('Eğitimler'),
+            ],
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(isListView ? Icons.grid_view : Icons.list),

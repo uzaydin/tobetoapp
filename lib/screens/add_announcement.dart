@@ -123,17 +123,22 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
                             isVisible: true,
                           ),
                           selectedItems: _selectedClasses,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Lütfen en az bir sınıf seçin.';
+                            }
+                            return null;
+                          },
                         );
                       } else {
                         return const Center(
-                            child: Text('User data not loaded.'));
+                            child: Text('Mevcut kullanıcı bilgisi alınamadı.'));
                       }
                     } else if (state is ClassOperationFailure) {
-                      return Center(
-                          child:
-                              Text('Failed to load classes: ${state.error}'));
+                      return const Center(
+                          child: Text('Sınıflar yüklenirken bir hata oluştu.'));
                     } else {
-                      return const Center(child: Text('No classes available.'));
+                      return const SizedBox.shrink();
                     }
                   },
                 ),
@@ -160,25 +165,27 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
   }
 
   void _addAnnouncement() {
-    final userState = context.read<UserBloc>().state;
-    if (userState is UserLoaded) {
-      final userRole = userState.user.role;
+    if (_formKey.currentState!.validate()) {
+      final userState = context.read<UserBloc>().state;
+      if (userState is UserLoaded) {
+        final userRole = userState.user.role;
 
-      final announcement = Announcements(
-        title: _titleController.text,
-        content: _contentController.text,
-        createdAt: DateTime.now(),
-        classIds: _selectedClasses.map((classModel) => classModel.id!).toList(),
-        role: userRole?.toString().split('.').last,
-      );
+        final announcement = Announcements(
+          title: _titleController.text,
+          content: _contentController.text,
+          createdAt: DateTime.now(),
+          classIds: _selectedClasses.map((classModel) => classModel.id!).toList(),
+          role: userRole?.toString().split('.').last,
+        );
 
-      context.read<AnnouncementBloc>().add(AddAnnouncement(announcement));
-      Navigator.pop(context);
-    } else {
-      // Kullanıcı verileri yüklenememişse uygun bir hata mesajı gösterin
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('User data not loaded.')),
-      );
+        context.read<AnnouncementBloc>().add(AddAnnouncement(announcement));
+        Navigator.pop(context);
+      } else {
+        // Kullanıcı verileri yüklenememişse uygun bir hata mesajı gösterin
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('User data not loaded.')),
+        );
+      }
     }
   }
 }

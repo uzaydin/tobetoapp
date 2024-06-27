@@ -42,7 +42,7 @@ class _TeacherDrawerState extends State<TeacherDrawer> {
                 horizontal: AppConstants.screenWidth * 0.05),
             child: Column(
               children: [
-                _buildListTile(context, "Öğretmen Panel",
+                _buildListTile(context, "Eğitmen Panel",
                     const TeacherLessonPage(teacherId: '')),
                 _buildListTile(context, "Profilim", const Profile()),
                 _buildListTile(context, "Takvim", const CalendarPage()),

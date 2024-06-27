@@ -38,14 +38,33 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tobeto'),
-        backgroundColor: AppColors.tobetoMoru,
+        title: Padding(
+          padding:EdgeInsets.all(AppConstants.verticalPaddingLarge),
+          child: Row(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/logo/tobeto.png",
+                width: 25,
+                height: 25,
+              ),
+              SizedBox(
+                width: AppConstants.sizedBoxWidthSmall,
+              ),
+              const Text('Duyurular'),
+            ],
+          ),
+        ),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         centerTitle: true,
         actions:
             widget.role == UserRole.admin || widget.role == UserRole.teacher
                 ? [
                     IconButton(
-                      icon: Icon(Icons.add_box_rounded,color: Colors.black54,),
+                      icon: Icon(
+                        Icons.add_box_rounded,
+                        color: Colors.black54,
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,

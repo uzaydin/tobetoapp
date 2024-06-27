@@ -15,6 +15,7 @@ import 'package:tobetoapp/repository/lessons/lesson_repository.dart';
 import 'package:tobetoapp/repository/catalog/catalog_repository.dart';
 import 'package:tobetoapp/screens/catalog/catalog_lesson_page.dart';
 import 'package:tobetoapp/screens/lesson_details_and_video/lesson_details_page.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/widgets/banner_widget.dart';
 
 class FavoritesPage extends StatefulWidget {
@@ -49,7 +50,23 @@ class _FavoritesPageState extends State<FavoritesPage>
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorilerim'),
+        title: Padding(
+          padding:EdgeInsets.all(AppConstants.verticalPaddingLarge),
+          child: Row(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/logo/tobeto.png",
+                width: 25,
+                height: 25,
+              ),
+              SizedBox(
+                width: AppConstants.sizedBoxWidthSmall,
+              ),
+              const Text('Favoriler'),
+            ],
+          ),
+        ),
       ),
       drawer: const DrawerManager(),
       body: Column(

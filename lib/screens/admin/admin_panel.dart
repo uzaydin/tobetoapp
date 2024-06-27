@@ -39,10 +39,24 @@ class _AdminPanelState extends State<AdminPanel> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Panel'),
-        backgroundColor: AppColors.tobetoMoru,
-        centerTitle: true,
-        
+        title: Padding(
+          padding:EdgeInsets.all(AppConstants.verticalPaddingLarge),
+          child: Row(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/logo/tobeto.png",
+                width: 25,
+                height: 25,
+              ),
+              SizedBox(
+                width: AppConstants.sizedBoxWidthSmall,
+              ),
+              const Text('Admin Panel'),
+            ],
+          ),
+        ),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       drawer: const DrawerManager(),
       backgroundColor: Colors.grey[200], // Sayfanın arka plan rengi
