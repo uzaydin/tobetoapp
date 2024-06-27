@@ -132,7 +132,7 @@ class Home extends StatelessWidget {
             ),
             BlocProvider<AdminBloc>(
               create: (context) => AdminBloc(
-                  UserRepository(), ClassRepository(), LessonRepository()),
+                  UserRepository(), ClassRepository(), LessonRepository(), CatalogRepository()),
             ),
             BlocProvider(
                 create: (context) =>

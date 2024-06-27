@@ -3,21 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/admin/admin_bloc.dart';
 import 'package:tobetoapp/bloc/admin/admin_event.dart';
 import 'package:tobetoapp/bloc/admin/admin_state.dart';
-import 'package:tobetoapp/models/lesson_model.dart';
-import 'package:tobetoapp/screens/admin/lesson_edit.dart';
-import 'package:tobetoapp/widgets/admin/lesson_tile.dart';
+import 'package:tobetoapp/models/catalog_model.dart';
+import 'package:tobetoapp/screens/admin/catalog_edit.dart';
+import 'package:tobetoapp/widgets/admin/catalog_tile.dart';
 import 'package:tobetoapp/widgets/search_bar.dart';
 
-class LessonManagementPage extends StatefulWidget {
-  const LessonManagementPage({super.key});
+class CatalogManagementPage extends StatefulWidget {
+  const CatalogManagementPage({super.key});
 
   @override
-  _LessonManagementPageState createState() => _LessonManagementPageState();
+  _CatalogManagementPageState createState() => _CatalogManagementPageState();
 }
 
-class _LessonManagementPageState extends State<LessonManagementPage> {
+class _CatalogManagementPageState extends State<CatalogManagementPage> {
   final TextEditingController _searchController = TextEditingController();
-  List<LessonModel> _filteredLessons = [];
+  List<CatalogModel> _filteredCatalogs = [];
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
   }
 
   void _loadData() {
-    context.read<AdminBloc>().add(LoadLessons());
+    context.read<AdminBloc>().add(LoadCatalogs());
   }
 
   void _onSearchChanged() {
@@ -35,9 +35,9 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
     final adminBlocState = context.read<AdminBloc>().state;
 
     setState(() {
-      if (adminBlocState is LessonsLoaded) {
-        _filteredLessons = adminBlocState.lessons.where((lesson) {
-          final title = lesson.title?.toLowerCase() ?? '';
+      if (adminBlocState is CatalogsLoaded) {
+        _filteredCatalogs = adminBlocState.catalogs.where((catalog) {
+          final title = catalog.title?.toLowerCase() ?? '';
           return title.contains(searchQuery);
         }).toList();
       }
@@ -59,7 +59,7 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
             padding: const EdgeInsets.all(8.0),
             child: SearchBarWidget(
               controller: _searchController,
-              hintText: 'Ders başlığı giriniz',
+              hintText: 'Eğitim başlığı giriniz',
             ),
           ),
           Expanded(
@@ -69,19 +69,19 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is AdminError) {
                   return const Center(child: Text('Yüklenirken bir hata oluştu. Lütfen tekrar deneyiniz.'));
-                } else if (state is LessonsLoaded) {
-                  final itemsToDisplay = _searchController.text.isEmpty ? state.lessons : _filteredLessons;
+                } else if (state is CatalogsLoaded) {
+                  final itemsToDisplay = _searchController.text.isEmpty ? state.catalogs : _filteredCatalogs;
 
                   return ListView.builder(
                     itemCount: itemsToDisplay.length,
                     itemBuilder: (context, index) {
-                      final lesson = itemsToDisplay[index];
+                      final catalog = itemsToDisplay[index];
                       return Column(
                         children: [
-                          LessonTile(
-                            lesson: lesson,
-                            onEdit: () => _navigateToEditLessonPage(context, lesson.id!),
-                            onDelete: () => _showDeleteLessonDialog(context, lesson.id!),
+                          CatalogTile(
+                            catalog: catalog,
+                            onEdit: () => _navigateToEditCatalogPage(context, catalog.catalogId!),
+                            onDelete: () => _showDeleteCatalogDialog(context, catalog.catalogId!),
                           ),
                           const Divider(
                             thickness: 1,
@@ -100,24 +100,24 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddLessonDialog(context),
+        onPressed: () => _showAddCatalogDialog(context),
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  void _navigateToEditLessonPage(BuildContext context, String lessonId) {
+  void _navigateToEditCatalogPage(BuildContext context, String catalogId) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => BlocProvider.value(
           value: context.read<AdminBloc>(),
-          child: LessonEditPage(lessonId: lessonId),
+          child: CatalogEditPage(catalogId: catalogId),
         ),
       ),
     );
   }
 
-  void _showAddLessonDialog(BuildContext context) {
+  void _showAddCatalogDialog(BuildContext context) {
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
 
@@ -125,7 +125,7 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Ders ekle'),
+          title: const Text('Katalog ekle'),
           content: SingleChildScrollView(
             child: Column(
               children: [
@@ -149,12 +149,12 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
             ),
             TextButton(
               onPressed: () {
-                final newLesson = LessonModel(
-                  id: '',
+                final newCatalog = CatalogModel(
+                  catalogId: '',
                   title: titleController.text,
-                  description: descriptionController.text,
+                  content: descriptionController.text,
                 );
-                context.read<AdminBloc>().add(AddLesson(newLesson));
+                context.read<AdminBloc>().add(AddCatalog(newCatalog));
                 Navigator.pop(context);
               },
               child: const Text('Ekle'),
@@ -165,13 +165,13 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
     );
   }
 
-  void _showDeleteLessonDialog(BuildContext context, String lessonId) {
+  void _showDeleteCatalogDialog(BuildContext context, String catalogId) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Ders sil'),
-          content: const Text('Bu dersi silmek istediğinize emin misiniz ?'),
+          title: const Text('Katalog sil'),
+          content: const Text('Bu eğitimi silmek istediğinize emin misiniz ?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -181,7 +181,7 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
             ),
             TextButton(
               onPressed: () {
-                context.read<AdminBloc>().add(DeleteLesson(lessonId));
+                context.read<AdminBloc>().add(DeleteCatalog(catalogId));
                 Navigator.pop(context);
               },
               child: const Text('Sil'),
