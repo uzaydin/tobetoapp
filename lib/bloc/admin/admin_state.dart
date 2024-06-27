@@ -1,3 +1,4 @@
+import 'package:tobetoapp/models/catalog_model.dart';
 import 'package:tobetoapp/models/class_model.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/models/user_model.dart';
@@ -76,4 +77,24 @@ class LessonDetailsLoaded extends AdminState {
 
   LessonDetailsLoaded(
       {required this.lesson, required this.teachers, required this.classes});
+}
+
+//Katalog işlemleri 
+class CatalogsLoaded extends AdminState {
+  final List<CatalogModel> catalogs;
+
+  CatalogsLoaded({required this.catalogs});
+}
+
+class CatalogImageUploaded extends AdminState {
+  final String imageUrl;
+
+  CatalogImageUploaded({required this.imageUrl});
+}
+
+class CatalogDetailsLoaded extends AdminState {
+  final CatalogModel catalog;
+
+  CatalogDetailsLoaded(
+      {required this.catalog});
 }

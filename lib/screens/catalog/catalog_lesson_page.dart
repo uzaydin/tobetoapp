@@ -359,7 +359,7 @@ class _CatalogLessonPageState extends State<CatalogLessonPage> {
           children: [
             BlocBuilder<CatalogFavoritesBloc, CatalogFavoritesState>(
               builder: (context, state) {
-                if (state is FavoritesLoaded) {
+                if (state is CatalogFavoritesLoaded) {
                   final isFavorite = state.favoriteCatalogIds
                       .contains(widget.catalogId.catalogId);
                   return IconButton(
@@ -394,11 +394,11 @@ class _CatalogLessonPageState extends State<CatalogLessonPage> {
     if (isFavorite) {
       context
           .read<CatalogFavoritesBloc>()
-          .add(RemoveFavorite(catalogId: widget.catalogId.catalogId!));
+          .add(RemoveCatalogFavorite(catalogId: widget.catalogId.catalogId!));
     } else {
       context
           .read<CatalogFavoritesBloc>()
-          .add(AddFavorite(catalogId: widget.catalogId.catalogId!));
+          .add(AddCatalogFavorite(catalogId: widget.catalogId.catalogId!));
     }
   }
 

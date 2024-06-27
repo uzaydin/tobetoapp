@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/admin/admin_event.dart';
 import 'package:tobetoapp/bloc/admin/admin_state.dart';
+import 'package:tobetoapp/repository/catalog/catalog_repository.dart';
 import 'package:tobetoapp/repository/class_repository.dart';
 import 'package:tobetoapp/repository/lessons/lesson_repository.dart';
 import 'package:tobetoapp/repository/user_repository.dart';
@@ -9,11 +10,13 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   final UserRepository _userRepository;
   final ClassRepository _classRepository;
   final LessonRepository _lessonRepository;
+  final CatalogRepository _catalogRepository;
 
   AdminBloc(
     this._userRepository,
     this._classRepository,
     this._lessonRepository,
+    this._catalogRepository,
   ) : super(AdminInitial()) {
     on<LoadChartData>(_onLoadChartData);
     on<LoadUserData>(_onLoadUserData);
@@ -32,6 +35,12 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<LoadLessonDetails>(_onLoadLessonDetails);
     on<AssignClassToLesson>(_onAssignClassToLesson);
     on<UploadLessonImage>(_onUploadLessonImage);
+    on<LoadCatalogs>(_onLoadCatalogs);
+    on<AddCatalog>(_onAddCatalog);
+    on<UpdateCatalog>(_onUpdateCatalog);
+    on<DeleteCatalog>(_onDeleteCatalog);
+    on<LoadCatalogDetails>(_onLoadCatalogDetails);
+    on<UploadCatalogImage>(_onUploadCatalogImage);
   }
 
   void _onLoadChartData(LoadChartData event, Emitter<AdminState> emit) async {
@@ -243,4 +252,66 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
       emit(AdminError(message: e.toString()));
     }
   }
+
+void _onLoadCatalogs(LoadCatalogs event, Emitter<AdminState> emit) async {
+  emit(AdminLoading());
+  try {
+    final catalogs = await _catalogRepository.getCatalog('');
+    emit(CatalogsLoaded(catalogs: catalogs));
+  } catch (e) {
+    emit(AdminError(message: e.toString()));
+  }
+}
+
+void _onAddCatalog(AddCatalog event, Emitter<AdminState> emit) async {
+  try {
+    await _catalogRepository.addCatalog(event.newCatalog);
+    add(LoadCatalogs());
+  } catch (e) {
+    emit(AdminError(message: e.toString()));
+  }
+}
+
+void _onUpdateCatalog(UpdateCatalog event, Emitter<AdminState> emit) async {
+  try {
+    await _catalogRepository.updateCatalog(event.updatedCatalog);
+    add(LoadCatalogs());
+  } catch (e) {
+    emit(AdminError(message: e.toString()));
+  }
+}
+
+void _onDeleteCatalog(DeleteCatalog event, Emitter<AdminState> emit) async {
+  try {
+    await _catalogRepository.deleteCatalog(event.catalogId);
+    add(LoadCatalogs());
+  } catch (e) {
+    emit(AdminError(message: e.toString()));
+  }
+}
+
+void _onUploadCatalogImage(UploadCatalogImage event, Emitter<AdminState> emit) async {
+  try {
+    emit(AdminLoading());
+    final imageUrl = await _catalogRepository.uploadCatalogImage(event.catalogId, event.imageFile);
+
+    final catalog = await _catalogRepository.getCatalogById(event.catalogId);
+    final updatedCatalog = catalog.copyWith(imageUrl: imageUrl);
+    await _catalogRepository.updateCatalog(updatedCatalog);
+
+    emit(CatalogImageUploaded(imageUrl: imageUrl));
+  } catch (e) {
+    emit(AdminError(message: e.toString()));
+  }
+}
+
+void _onLoadCatalogDetails(LoadCatalogDetails event, Emitter<AdminState> emit) async {
+  emit(AdminLoading());
+  try {
+    final catalog = await _catalogRepository.getCatalogById(event.catalogId);
+    emit(CatalogDetailsLoaded(catalog: catalog));
+  } catch (e) {
+    emit(AdminError(message: e.toString()));
+  }
+}
 }

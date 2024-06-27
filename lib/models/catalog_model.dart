@@ -119,6 +119,48 @@ class CatalogModel {
   String toJson() => json.encode(toMap());
 
   factory CatalogModel.fromJson(String source) => CatalogModel.fromMap(json.decode(source));
+
+CatalogModel copyWith({
+    String? catalogId,
+    String? title,
+    String? instructor,
+    String? category,
+    String? level,
+    String? subject,
+    String? language,
+    String? certificationStatus,
+    String? imageUrl,
+    double? rating,
+    bool? isFree,
+    String? content,
+    String? instructorInfo,
+    List<String>? videoIds,
+    Duration? estimatedTime,
+    double? progress,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) {
+    return CatalogModel(
+      catalogId: catalogId ?? this.catalogId,
+      title: title ?? this.title,
+      instructor: instructor ?? this.instructor,
+      category: category ?? this.category,
+      level: level ?? this.level,
+      subject: subject ?? this.subject,
+      language: language ?? this.language,
+      certificationStatus: certificationStatus ?? this.certificationStatus,
+      imageUrl: imageUrl ?? this.imageUrl,
+      rating: rating ?? this.rating,
+      isFree: isFree ?? this.isFree,
+      content: content ?? this.content,
+      instructorInfo: instructorInfo ?? this.instructorInfo,
+      videoIds: videoIds ?? this.videoIds,
+      estimatedTime: estimatedTime ?? this.estimatedTime,
+      progress: progress ?? this.progress,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+    );
+  }
 }
 
 class Video {
