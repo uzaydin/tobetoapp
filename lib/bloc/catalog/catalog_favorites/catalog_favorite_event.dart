@@ -1,13 +1,13 @@
 abstract class CatalogFavoritesEvent {}
 
-class LoadFavorites extends CatalogFavoritesEvent {}
+class LoadCatalogFavorites extends CatalogFavoritesEvent {}
 
-class AddFavorite extends CatalogFavoritesEvent {
+class AddCatalogFavorite extends CatalogFavoritesEvent {
   final String catalogId;
-  AddFavorite({required this.catalogId});
+  AddCatalogFavorite({required this.catalogId});
 }
 
-class RemoveFavorite extends CatalogFavoritesEvent {
+class RemoveCatalogFavorite extends CatalogFavoritesEvent {
   final String catalogId;
-  RemoveFavorite({required this.catalogId});
+  RemoveCatalogFavorite({required this.catalogId});
 }

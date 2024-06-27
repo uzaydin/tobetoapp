@@ -25,6 +25,16 @@ class CatalogRepository {
         .toList();
   }
 
+  Future<CatalogModel> getCatalogById(String catalogId) async {
+    
+      final doc = await _firebaseFirestore.collection('catalog').doc(catalogId).get();
+      if (doc.exists) {
+        return CatalogModel.fromMap(doc.data()!);
+      } else {
+        throw Exception();
+      }
+    } 
+
   Future<List<bool>> fetchFreeCourses() async {
     final QuerySnapshot querySnapshot = await _firebaseFirestore.collection('catalog').get();
     return querySnapshot.docs

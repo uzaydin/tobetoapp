@@ -1,13 +1,13 @@
 abstract class CatalogFavoritesState {}
 
-class FavoritesLoading extends CatalogFavoritesState {}
+class CatalogFavoritesLoading extends CatalogFavoritesState {}
 
-class FavoritesLoaded extends CatalogFavoritesState {
+class CatalogFavoritesLoaded extends CatalogFavoritesState {
   final List<String> favoriteCatalogIds;
-  FavoritesLoaded(this.favoriteCatalogIds);
+  CatalogFavoritesLoaded(this.favoriteCatalogIds);
 }
 
-class FavoritesError extends CatalogFavoritesState {
+class CatalogFavoritesError extends CatalogFavoritesState {
   final String message;
-  FavoritesError(this.message);
+  CatalogFavoritesError(this.message);
 }

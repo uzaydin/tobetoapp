@@ -6,45 +6,45 @@ import 'package:tobetoapp/bloc/catalog/catalog_favorites/catalog_favorite_state.
 class CatalogFavoritesBloc extends Bloc<CatalogFavoritesEvent, CatalogFavoritesState> {
   final SharedPreferences _prefs;
 
-  CatalogFavoritesBloc(this._prefs) : super(FavoritesLoading()) {
-    on<LoadFavorites>(_onLoadFavorites);
-    on<AddFavorite>(_onAddFavorite);
-    on<RemoveFavorite>(_onRemoveFavorite);
+  CatalogFavoritesBloc(this._prefs) : super(CatalogFavoritesLoading()) {
+    on<LoadCatalogFavorites>(_onLoadCatalogFavorites);
+    on<AddCatalogFavorite>(_onAddCatalogFavorite);
+    on<RemoveCatalogFavorite>(_onRemoveCatalogFavorite);
   }
 
-  void _onLoadFavorites(LoadFavorites event, Emitter<CatalogFavoritesState> emit) async {
-    emit(FavoritesLoading());
+  void _onLoadCatalogFavorites(LoadCatalogFavorites event, Emitter<CatalogFavoritesState> emit) async {
+    emit(CatalogFavoritesLoading());
     try {
       final favoriteCatalogIds = _prefs.getStringList('favorites') ?? [];
-      emit(FavoritesLoaded(favoriteCatalogIds));
+      emit(CatalogFavoritesLoaded(favoriteCatalogIds));
     } catch (e) {
-      emit(FavoritesError(e.toString()));
+      emit(CatalogFavoritesError(e.toString()));
     }
   }
 
-  void _onAddFavorite(AddFavorite event, Emitter<CatalogFavoritesState> emit) async {
+  void _onAddCatalogFavorite(AddCatalogFavorite event, Emitter<CatalogFavoritesState> emit) async {
     try {
       final favoriteCatalogIds = List<String>.from(_prefs.getStringList('favorites') ?? []);
       if (!favoriteCatalogIds.contains(event.catalogId)) {
         favoriteCatalogIds.add(event.catalogId);
         await _prefs.setStringList('favorites', favoriteCatalogIds);
       }
-      emit(FavoritesLoaded(favoriteCatalogIds));
+      emit(CatalogFavoritesLoaded(favoriteCatalogIds));
     } catch (e) {
-      emit(FavoritesError(e.toString()));
+      emit(CatalogFavoritesError(e.toString()));
     }
   }
 
-  void _onRemoveFavorite(RemoveFavorite event, Emitter<CatalogFavoritesState> emit) async {
+  void _onRemoveCatalogFavorite(RemoveCatalogFavorite event, Emitter<CatalogFavoritesState> emit) async {
     try {
       final favoriteCatalogIds = List<String>.from(_prefs.getStringList('favorites') ?? []);
       if (favoriteCatalogIds.contains(event.catalogId)) {
         favoriteCatalogIds.remove(event.catalogId);
         await _prefs.setStringList('favorites', favoriteCatalogIds);
       }
-      emit(FavoritesLoaded(favoriteCatalogIds));
+      emit(CatalogFavoritesLoaded(favoriteCatalogIds));
     } catch (e) {
-      emit(FavoritesError(e.toString()));
+      emit(CatalogFavoritesError(e.toString()));
     }
   }
 }
