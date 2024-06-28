@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class RotatingSentenceList extends StatefulWidget {
   final String title;
@@ -52,16 +53,15 @@ class _RotatingSentenceListState extends State<RotatingSentenceList> {
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(AppConstants.paddingMedium),
               child: Text(
                 widget.title,
-                style:
-                    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.displaySmall,
                 textAlign: TextAlign.center,
               ),
             ),
             SizedBox(
-              height: 300,
+              height: AppConstants.screenHeight * 0.5,
               child: PageView.builder(
                 controller: _pageController,
                 scrollDirection: Axis.vertical,
@@ -88,8 +88,10 @@ class _RotatingSentenceListState extends State<RotatingSentenceList> {
                           alignment: Alignment.bottomCenter,
                           child: Text(
                             sentenceProvider.sentences[previousIndex],
-                            style: const TextStyle(
-                                fontSize: 14, color: Colors.grey),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(color: Colors.grey),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -99,8 +101,10 @@ class _RotatingSentenceListState extends State<RotatingSentenceList> {
                           alignment: Alignment.topCenter,
                           child: Text(
                             sentenceProvider.sentences[nextIndex],
-                            style: const TextStyle(
-                                fontSize: 14, color: Colors.grey),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(color: Colors.grey),
                             textAlign: TextAlign.center,
                           ),
                         ),

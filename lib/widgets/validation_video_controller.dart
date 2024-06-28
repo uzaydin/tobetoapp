@@ -9,7 +9,8 @@ String? validation(String? value, String errorMessage) {
 }
 
 // Password kontrol fonksiyonu
-String? validatePasswordConfirmation(String? value, TextEditingController passwordController) {
+String? validatePasswordConfirmation(
+    String? value, TextEditingController passwordController) {
   if (value == null || value.isEmpty) {
     return "Lütfen bir şifreyi doğrulayın";
   }

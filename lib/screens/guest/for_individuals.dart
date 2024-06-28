@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-
 import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
+import 'package:tobetoapp/screens/catalog/catalog_page.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
 
 class ForIndividuals extends StatelessWidget {
-  void navigateToCatalogPage(BuildContext context) {
-    //Navigator.push(
-    //context, MaterialPageRoute(builder: (context) => const CatalogGuest()));
-  }
-
   const ForIndividuals({super.key});
+
+  void navigateToCatalogPage(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const CatalogPage()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ForIndividuals extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            buildGradientContainer(
+            _buildGradientContainer(
               context,
               [
                 TextSpan(
@@ -47,9 +47,9 @@ class ForIndividuals extends StatelessWidget {
               isFirst: true,
             ),
             SizedBox(height: AppConstants.sizedBoxHeightXLarge),
-            buildImageContainer('assets/pictures/foto6.jpg', 30.0),
+            _buildImageContainer('assets/pictures/foto6.jpg', 30.0),
             SizedBox(height: AppConstants.sizedBoxHeightMedium),
-            buildTextSection(
+            _buildTextSection(
               context,
               "Eğitim Yolculuğu",
               "Uzmanlaşmak istediğin alanı seç, Tobeto Platform'da 'Eğitim Yolculuğu'na şimdi başla.",
@@ -61,7 +61,7 @@ class ForIndividuals extends StatelessWidget {
               ],
             ),
             SizedBox(height: AppConstants.sizedBoxHeightXXLarge),
-            buildTextSection(
+            _buildTextSection(
               context,
               "Öğrenme Yolculuğu",
               "Deneyim sahibi olmak istediğin alanda \"Öğrenme Yolculuğu’na\" başla. Yazılım ekipleri ile çalış.",
@@ -73,11 +73,11 @@ class ForIndividuals extends StatelessWidget {
               ],
             ),
             SizedBox(height: AppConstants.sizedBoxHeightXLarge),
-            buildImageContainer("assets/pictures/foto4.jpg", 30.0),
+            _buildImageContainer("assets/pictures/foto4.jpg", 30.0),
             SizedBox(height: AppConstants.sizedBoxHeightXLarge),
-            buildImageContainer("assets/pictures/foto7.jpg", 30.0),
+            _buildImageContainer("assets/pictures/foto7.jpg", 30.0),
             SizedBox(height: AppConstants.sizedBoxHeightXXLarge),
-            buildTextSection(
+            _buildTextSection(
               context,
               "Kariyer Yolculuğu",
               "Kariyer sahibi olmak istediğin alanda “Kariyer Yolculuğu'na” başla. Aradığın desteği Tobeto Platform'da yakala.",
@@ -89,7 +89,7 @@ class ForIndividuals extends StatelessWidget {
               ],
             ),
             SizedBox(height: AppConstants.sizedBoxHeightXXLarge),
-            buildGradientContainer(
+            _buildGradientContainer(
               context,
               [
                 TextSpan(
@@ -101,7 +101,7 @@ class ForIndividuals extends StatelessWidget {
                 ),
               ],
               null,
-              child: buildImageRows(context),
+              child: _buildImageRows(context),
             ),
             SizedBox(height: AppConstants.sizedBoxHeightMedium),
             const CommonFooter(),
@@ -111,7 +111,7 @@ class ForIndividuals extends StatelessWidget {
     );
   }
 
-  Widget buildGradientContainer(
+  Widget _buildGradientContainer(
       BuildContext context, List<TextSpan> textSpans, String? imagePath,
       {Widget? child, bool isFirst = false}) {
     return Container(
@@ -150,7 +150,7 @@ class ForIndividuals extends StatelessWidget {
     );
   }
 
-  Widget buildImageContainer(String imagePath, double borderRadius) {
+  Widget _buildImageContainer(String imagePath, double borderRadius) {
     return Container(
       padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: ClipRRect(
@@ -160,7 +160,7 @@ class ForIndividuals extends StatelessWidget {
     );
   }
 
-  Widget buildTextSection(BuildContext context, String title,
+  Widget _buildTextSection(BuildContext context, String title,
       String description, List<String> items) {
     return Container(
       padding: EdgeInsets.all(AppConstants.paddingMedium),
@@ -181,14 +181,14 @@ class ForIndividuals extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children:
-                items.map((item) => buildListItem(item, context)).toList(),
+                items.map((item) => _buildListItem(item, context)).toList(),
           ),
         ],
       ),
     );
   }
 
-  Widget buildListItem(String text, BuildContext context) {
+  Widget _buildListItem(String text, BuildContext context) {
     return Padding(
       padding:
           const EdgeInsetsDirectional.symmetric(vertical: 5.0, horizontal: 7.0),
@@ -205,7 +205,7 @@ class ForIndividuals extends StatelessWidget {
     );
   }
 
-  Widget buildImageRows(BuildContext context) {
+  Widget _buildImageRows(BuildContext context) {
     List<List<String>> images = [
       ["assets/pictures/1ai.png", "assets/pictures/2proje.png"],
       ["assets/pictures/3fullstack.png", "assets/pictures/4analiz.png"],
@@ -219,7 +219,7 @@ class ForIndividuals extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: imagePair.map((imagePath) {
-              return buildImageWithTap(imagePath, context);
+              return _buildImageWithTap(imagePath, context);
             }).toList(),
           ),
         );
@@ -227,7 +227,7 @@ class ForIndividuals extends StatelessWidget {
     );
   }
 
-  Widget buildImageWithTap(String imagePath, BuildContext context) {
+  Widget _buildImageWithTap(String imagePath, BuildContext context) {
     return GestureDetector(
         onTap: () {
           navigateToCatalogPage(context);
@@ -235,8 +235,6 @@ class ForIndividuals extends StatelessWidget {
         child: Container(
           width: AppConstants.screenWidth * 0.4,
           height: AppConstants.screenWidth * 0.4,
-          //margin: const EdgeInsets.symmetric(horizontal: 10),
-
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(AppConstants.br8),
@@ -251,7 +249,6 @@ class ForIndividuals extends StatelessWidget {
           child: Center(
             child: Image.asset(
               imagePath,
-              //130,
               width: AppConstants.profileImageSize + 100,
               height: AppConstants.profileImageSize + 100,
             ),
