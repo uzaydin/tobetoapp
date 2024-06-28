@@ -9,7 +9,7 @@ import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
 import 'package:tobetoapp/screens/admin/class_management.dart';
 import 'package:tobetoapp/screens/admin/lesson_and_catalog_management.dart';
 import 'package:tobetoapp/screens/admin/user_management.dart';
-import 'package:tobetoapp/screens/calendar/add_event.dart';
+import 'package:tobetoapp/screens/calendar/add_event_page.dart';
 
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';

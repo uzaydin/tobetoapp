@@ -13,8 +13,9 @@ class EducatorService {
         educators.add(doc['name']);
       }
     } catch (e) {
-      
+      '$e';
     }
+
     return educators;
   }
 }

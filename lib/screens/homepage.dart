@@ -1,21 +1,21 @@
 import 'dart:math';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:provider/provider.dart';
-import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
+import 'package:tobetoapp/widgets/guest/animated_container.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
+import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
+import 'package:tobetoapp/screens/auth.dart';
 import 'package:tobetoapp/services/student_comment_service.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
-import 'package:tobetoapp/screens/auth.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
-import 'package:tobetoapp/widgets/guest/homepage_content.dart';
 import 'package:tobetoapp/widgets/guest/animated_avatar.dart';
-import 'package:tobetoapp/widgets/guest/animated_container.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:tobetoapp/widgets/guest/homepage_content.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -64,7 +64,6 @@ class _HomepageState extends State<Homepage> {
           'https://mediafiles.botpress.cloud/d1265f28-5638-4830-bb0c-86bd18db99bc/webchat/bot.html'));
   }
 
-  //
   Future<void> _fetchStudentComments() async {
     List<Map<String, dynamic>> users = await _userService.getStudentComments();
     setState(() {

@@ -36,7 +36,6 @@ class CommonFooter extends StatelessWidget {
         ),
         SizedBox(height: AppConstants.sizedBoxHeightMedium),
         SizedBox(
-          //width: 130.0,
           width: AppConstants.screenWidth * 0.4,
           child: Image.asset(
             'assets/logo/tobetologo.PNG',
@@ -48,7 +47,6 @@ class CommonFooter extends StatelessWidget {
           "© 2024 Tobeto I Her Hakkı Saklıdır.",
           style: Theme.of(context).textTheme.labelLarge,
         ),
-        //const SizedBox(height: 15.0),
         SizedBox(height: AppConstants.sizedBoxHeightMedium),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
