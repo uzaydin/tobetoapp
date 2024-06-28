@@ -23,14 +23,14 @@ import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 
 // Bottom Navigation Bar sayfasi
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class BottomNavigation extends StatefulWidget {
+  const BottomNavigation({super.key});
 
   @override
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<BottomNavigation> {
   int _selectedIndex = 0;
 
   // Her sayfa için bağımsız Navigator'ları saklayacak global anahtarlar

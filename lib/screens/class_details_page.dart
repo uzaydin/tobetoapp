@@ -8,10 +8,13 @@ import 'package:tobetoapp/bloc/lessons/lesson_bloc.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_event.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
+import 'package:tobetoapp/screens/catalog/catalog_page.dart';
 import 'package:tobetoapp/screens/lesson_details_and_video/lesson_details_page.dart';
 import 'package:tobetoapp/screens/student_live_lesson_page.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/widgets/banner_widget.dart';
+import 'package:tobetoapp/widgets/lesson_card.dart';
+import 'package:tobetoapp/widgets/lesson_item.dart';
 import 'package:tobetoapp/widgets/search_bar.dart';
 
 class ClassDetailPage extends StatefulWidget {
@@ -68,21 +71,9 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: EdgeInsets.all(AppConstants.verticalPaddingLarge),
-          child: Row(
-            children: [
-              Image.asset(
-                "assets/logo/tobeto.png",
-                width: 25,
-                height: 25,
-              ),
-              SizedBox(
-                width: AppConstants.sizedBoxWidthSmall,
-              ),
-              const Text('Eğitimler'),
-            ],
-          ),
+        title: Image.asset(
+          "assets/logo/tobetologo.PNG",
+          width: AppConstants.screenWidth * 0.43,
         ),
         actions: [
           IconButton(
@@ -95,6 +86,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
             },
           ),
         ],
+        centerTitle: true,
       ),
       drawer: const DrawerManager(),
       body: Column(
@@ -121,9 +113,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
 
   Widget _buildBody() {
     if (widget.classIds == null || widget.classIds!.isEmpty) {
-      return const Center(
-        child: Text("Henüz ders tanımlanmamıştır."),
-      );
+      return _buildEmptyState();
     }
 
     return BlocBuilder<LessonBloc, LessonState>(
@@ -141,7 +131,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                 ? ListView.builder(
                     itemCount: lessonsToShow.length,
                     itemBuilder: (context, index) {
-                      return _buildLessonItem(lessonsToShow[index]);
+                      return LessonItem(lesson: lessonsToShow[index]);
                     },
                   )
                 : GridView.builder(
@@ -151,7 +141,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                     ),
                     itemCount: lessonsToShow.length,
                     itemBuilder: (context, index) {
-                      return _buildLessonCard(lessonsToShow[index]);
+                      return LessonCard(lesson: lessonsToShow[index]);
                     },
                   );
           }
@@ -165,92 +155,53 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
     );
   }
 
-  Widget _buildLessonItem(LessonModel lesson) {
-    return ListTile(
-      leading: lesson.image != null
-          ? Image.network(
-              lesson.image!,
-              fit: BoxFit.fill,
-              width: 120,
-              height: double.infinity,
-            )
-          : Container(width: 50, height: 50, color: Colors.grey),
-      title: Text(lesson.title ?? "No title"),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(lesson.description ?? "No description"),
-          Text(_formatDate(lesson.startDate)),
-        ],
-      ),
-      onTap: () {
-        _navigateToLessonPage(lesson);
-      },
-    );
-  }
-
-  Widget _buildLessonCard(LessonModel lesson) {
-    return GestureDetector(
-      onTap: () {
-        _navigateToLessonPage(lesson);
-      },
-      child: Card(
-        margin: const EdgeInsets.all(8.0),
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            lesson.image != null
-                ? Image.network(
-                    lesson.image!,
-                    fit: BoxFit.fill,
-                    width: double.infinity,
-                    height: 100,
-                  )
-                : Container(
-                    height: 150,
-                    width: double.infinity,
-                    color: Colors.grey,
-                    child: const Icon(Icons.image, size: 30),
-                  ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                lesson.title ?? "No title",
-              ),
+            const Icon(
+              Icons.info_outline,
+              size: 100,
+              color: Colors.blueAccent,
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              "Henüz ders tanımlanmamıştır.",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                _formatDate(lesson.startDate),
+            const Text(
+              "Ancak kataloğumuza göz atabilirsin!",
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CatalogPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: const Text(
+                "Kataloga git",
+                style: TextStyle(fontSize: 16),
               ),
             ),
-            const SizedBox(height: 10),
           ],
         ),
       ),
     );
-  }
-
-  void _navigateToLessonPage(LessonModel lesson) {
-    if (lesson.isLive ?? false) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => StudentLiveLessonPage(lesson: lesson),
-        ),
-      );
-    } else {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => LessonDetailsPage(lesson: lesson),
-        ),
-      );
-    }
-  }
-
-  String _formatDate(DateTime? date) {
-    if (date == null) return 'Tarih yok';
-    return DateFormat('dd MMM yyyy, hh:mm', 'tr').format(date);
   }
 }

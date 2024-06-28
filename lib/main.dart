@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +10,7 @@ import 'package:tobetoapp/bloc/announcements/announcement_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
-import 'package:tobetoapp/bloc/auth/auth_event.dart';
+
 import 'package:tobetoapp/bloc/blog/blog_bloc.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_bloc.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_event.dart';

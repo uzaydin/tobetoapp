@@ -10,7 +10,7 @@ import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/screens/calendar/calendar_page.dart';
 import 'package:tobetoapp/screens/homepage.dart';
-import 'package:tobetoapp/screens/mainpage.dart';
+import 'package:tobetoapp/widgets/bottom_navigation.dart';
 import 'package:tobetoapp/screens/profile/profile_page.dart';
 import 'package:tobetoapp/screens/user/assessment.dart';
 import 'package:tobetoapp/screens/user/catalog_user.dart';
@@ -44,7 +44,7 @@ class _StudentDrawerState extends State<StudentDrawer> {
                 horizontal: AppConstants.screenWidth * 0.05),
             child: Column(
               children: [
-                _buildListTile(context, "Platform", const MainPage()),
+                _buildListTile(context, "Platform", const BottomNavigation()),
                 _buildListTile(context, "Değerlendirmeler", const Assessment()),
                 _buildListTile(context, "Profilim", const Profile()),
                 _buildListTile(context, "Katalog", const CatalogUser()),

@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/admin/admin_bloc.dart';
 import 'package:tobetoapp/bloc/admin/admin_event.dart';
 import 'package:tobetoapp/bloc/admin/admin_state.dart';
-import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
 import 'package:tobetoapp/screens/admin/class_management.dart';
 import 'package:tobetoapp/screens/admin/lesson_and_catalog_management.dart';
 import 'package:tobetoapp/screens/admin/user_management.dart';
 import 'package:tobetoapp/screens/calendar/add_event_page.dart';
-
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
-import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/admin/admin_charts.dart';
+
 
 class AdminPanel extends StatefulWidget {
   const AdminPanel({super.key});
@@ -40,7 +37,7 @@ class _AdminPanelState extends State<AdminPanel> {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-          padding:EdgeInsets.all(AppConstants.verticalPaddingLarge),
+          padding: EdgeInsets.all(AppConstants.verticalPaddingLarge),
           child: Row(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -56,10 +53,10 @@ class _AdminPanelState extends State<AdminPanel> {
             ],
           ),
         ),
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+       // backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       drawer: const DrawerManager(),
-      backgroundColor: Colors.grey[200], // Sayfanın arka plan rengi
+      //backgroundColor: Colors.grey[200], // Sayfanın arka plan rengi
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppConstants.paddingMedium,

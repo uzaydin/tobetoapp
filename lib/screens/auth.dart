@@ -7,7 +7,7 @@ import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
 import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/auth/auth_state.dart';
-import 'package:tobetoapp/screens/mainpage.dart';
+import 'package:tobetoapp/widgets/bottom_navigation.dart';
 import 'package:tobetoapp/screens/user/reset_password.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
@@ -116,7 +116,7 @@ class _AuthState extends State<Auth> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const MainPage(),
+        builder: (context) => const BottomNavigation(),
       ),
     );
   }

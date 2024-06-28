@@ -50,23 +50,11 @@ class _FavoritesPageState extends State<FavoritesPage>
 
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding:EdgeInsets.all(AppConstants.verticalPaddingLarge),
-          child: Row(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "assets/logo/tobeto.png",
-                width: 25,
-                height: 25,
-              ),
-              SizedBox(
-                width: AppConstants.sizedBoxWidthSmall,
-              ),
-              const Text('Favoriler'),
-            ],
-          ),
+        title: Image.asset(
+          "assets/logo/tobetologo.PNG",
+          width: AppConstants.screenWidth * 0.43,
         ),
+        centerTitle: true,
       ),
       drawer: const DrawerManager(),
       body: Column(
