@@ -7,9 +7,12 @@ import 'package:tobetoapp/bloc/profile/profile_bloc.dart';
 import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/models/user_enum.dart';
+import 'package:tobetoapp/screens/profile/applications_page.dart';
 import 'package:tobetoapp/screens/profile/edit_profile_section_page.dart';
 import 'package:tobetoapp/screens/profile/formscreens/edit_personal_info_page.dart';
 import 'package:tobetoapp/screens/profile/settings_page.dart';
+import 'package:tobetoapp/screens/profile/surveys_page.dart';
+import 'package:tobetoapp/screens/profile/workflows_page.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -189,6 +192,9 @@ class _ProfileState extends State<Profile> {
                         'assets/images/başvurular.png',
                         () {
                           // Navigate to Başvurularım page
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const ApplicationsPage(),
+                          ));
                         },
                       ),
                       _buildFeatureCard(
@@ -197,6 +203,9 @@ class _ProfileState extends State<Profile> {
                         'assets/images/anketler.png',
                         () {
                           // Navigate to Anketlerim page
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const SurveysPage(),
+                          ));
                         },
                       ),
                       _buildFeatureCard(
@@ -205,6 +214,9 @@ class _ProfileState extends State<Profile> {
                         'assets/images/iş_süreçleri.png',
                         () {
                           // Navigate to İş Süreçleri page
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const WorkflowsPage(),
+                          ));
                         },
                       ),
                       _buildFeatureCard(
