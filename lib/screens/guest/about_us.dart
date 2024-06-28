@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:video_player/video_player.dart';
 
 import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
@@ -12,18 +14,148 @@ import 'package:tobetoapp/widgets/guest/controls_overlay.dart';
 import 'package:tobetoapp/widgets/guest/team_card.dart';
 import 'package:tobetoapp/widgets/guest/tobeto_difference.dart';
 import 'package:tobetoapp/widgets/validation_video_controller.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:video_player/video_player.dart';
 
 class AboutUs extends StatefulWidget {
   const AboutUs({super.key});
 
   @override
-  State<AboutUs> createState() => _HakkimizdaState();
+  State<AboutUs> createState() => _AboutUsState();
 }
 
-class _HakkimizdaState extends State<AboutUs> {
+class _AboutUsState extends State<AboutUs> {
   final commonFooter = const CommonFooter();
+
+  Widget _buildGradientButton(Widget child) {
+    return OutlineGradientButton(
+      padding: EdgeInsets.all(AppConstants.paddingLarge),
+      strokeWidth: 3,
+      radius: Radius.circular(AppConstants.br16),
+      gradient: const LinearGradient(
+        colors: [
+          AppColors.tobetoMoru,
+          Colors.white30,
+          AppColors.tobetoMoru,
+          Colors.white30
+        ],
+        stops: [0.0, 0.5, 0.5, 1.0],
+        begin: Alignment.bottomRight,
+        end: Alignment.topLeft,
+      ),
+      child: child,
+    );
+  }
+
+  Widget _buildImage(String imagePath, double borderRadius) {
+    return Container(
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: Image.asset(imagePath),
+      ),
+    );
+  }
+
+  Widget _buildTextSection(
+      String text, TextStyle? titleStyle, TextStyle? bodyStyle) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppConstants.paddingMedium),
+      child: Text.rich(
+        TextSpan(
+          text: text,
+          style: bodyStyle,
+          children: [
+            TextSpan(text: " YES (Yetiş-Eşleş-Sürdür) ", style: titleStyle),
+            TextSpan(
+                text:
+                    "ilkesini benimseyen herkese Tobeto Ailesi'ne katılmaya davet ediyor.",
+                style: bodyStyle),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSocialIcons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        IconButton(
+          onPressed: () => launchUrlString(commonFooter.facebookUrl),
+          icon: FaIcon(
+            FontAwesomeIcons.facebook,
+            size: AppConstants.profileImageSize / 1.6,
+            color: Colors.blue.shade800,
+          ),
+        ),
+        IconButton(
+          onPressed: () => launchUrlString(commonFooter.xUrl),
+          icon: FaIcon(
+            FontAwesomeIcons.twitter,
+            size: AppConstants.profileImageSize / 1.6,
+            color: Colors.lightBlue,
+          ),
+        ),
+        IconButton(
+          onPressed: () => launchUrlString(commonFooter.linkedinUrl),
+          icon: FaIcon(
+            FontAwesomeIcons.linkedin,
+            size: AppConstants.profileImageSize / 1.6,
+            color: Colors.blue.shade900,
+          ),
+        ),
+        IconButton(
+          onPressed: () => launchUrlString(commonFooter.instagramUrl),
+          icon: FaIcon(
+            FontAwesomeIcons.instagram,
+            size: AppConstants.profileImageSize / 1.6,
+            color: Colors.pink,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTeamSection() {
+    return Column(
+      children: [
+        const TeamCard(
+          imagePath: "assets/ekip/elif_kilic.jpeg",
+          name: "Elif Kılıç",
+          title: "Kurucu Direktör",
+          linkedInUrl: 'https://www.linkedin.com/in/eliftugtan/',
+        ),
+        SizedBox(height: AppConstants.sizedBoxHeightLarge),
+        const TeamCard(
+          imagePath: "assets/ekip/kader_yavuz.jpg",
+          name: "Kader Yavuz",
+          title: "Eğitim ve Proje Koordinatörü",
+          linkedInUrl: 'https://www.linkedin.com/in/kader-yavuz/',
+        ),
+        SizedBox(height: AppConstants.sizedBoxHeightLarge),
+        const TeamCard(
+          imagePath: "assets/ekip/pelin_batir.png",
+          name: "Pelin Batır",
+          title: "İş Geliştirme ve Yöneticisi",
+          linkedInUrl: '',
+        ),
+        SizedBox(height: AppConstants.sizedBoxHeightLarge),
+        const TeamCard(
+          imagePath: "assets/ekip/gurkan_ilisen.jfif",
+          name: "Gürkan İlişen",
+          title: "Eğitim Teknolojileri ve Platform Sorumlusu",
+          linkedInUrl: 'https://www.linkedin.com/in/gürkanilişen/',
+        ),
+        SizedBox(height: AppConstants.sizedBoxHeightLarge),
+        const TeamCard(
+          imagePath: "assets/ekip/ali_seyhan.jpg",
+          name: "Ali Seyhan",
+          title: "Operasyon Uzman Yardımcısı",
+          linkedInUrl: 'https://tr.linkedin.com/in/aliseyhnn',
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -46,31 +178,15 @@ class _HakkimizdaState extends State<AboutUs> {
                   children: [
                     Container(
                       padding: EdgeInsets.all(AppConstants.paddingMedium),
-                      child: OutlineGradientButton(
-                        padding: EdgeInsets.all(AppConstants.paddingLarge),
-                        strokeWidth: 3,
-                        radius: Radius.circular(AppConstants.br16),
-                        gradient: const LinearGradient(
-                          colors: [
-                            AppColors.tobetoMoru,
-                            Colors.white30,
-                            AppColors.tobetoMoru,
-                            Colors.white30
-                          ],
-                          stops: [0.0, 0.5, 0.5, 1.0],
-                          begin: Alignment.bottomRight,
-                          end: Alignment.topLeft,
-                        ),
-                        child: Column(
+                      child: _buildGradientButton(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset(
-                                  'assets/logo/tobeto.png',
-                                ),
+                                Image.asset('assets/logo/tobeto.png'),
                                 SizedBox(
                                     width: AppConstants.sizedBoxWidthXLarge),
                                 Text.rich(
@@ -108,8 +224,9 @@ class _HakkimizdaState extends State<AboutUs> {
                                                 videoController.controller),
                                             const ControlsOverlay(),
                                             VideoProgressIndicator(
-                                                videoController.controller,
-                                                allowScrubbing: true),
+                                              videoController.controller,
+                                              allowScrubbing: true,
+                                            ),
                                           ],
                                         ),
                                       )
@@ -121,35 +238,13 @@ class _HakkimizdaState extends State<AboutUs> {
                       ),
                     ),
                     SizedBox(height: AppConstants.sizedBoxHeightXLarge),
-                    Container(
-                      padding: EdgeInsets.all(AppConstants.paddingMedium),
-                      child: ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(AppConstants.br30),
-                          child: Image.asset('assets/pictures/foto3.webp')),
-                    ),
+                    _buildImage(
+                        'assets/pictures/foto3.webp', AppConstants.br30),
                     SizedBox(height: AppConstants.sizedBoxHeightMedium),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: AppConstants.paddingMedium),
-                      child: Text.rich(
-                        TextSpan(
-                          text:
-                              'Yeni nesil mesleklerdeki yetenek açığının mevcut yüksek deneyim ve beceri beklentisinden uzaklaşıp yeteneği keşfederek ve onları en iyi versiyonlarına ulaştırarak çözülebileceğine inanıyoruz. Tobeto; yetenekleri potansiyellerine göre değerlendirir, onları en uygun alanlarda geliştirir ve değer yaratacak projelerle eşleştirir.',
-                          style: Theme.of(context).textTheme.bodySmall,
-                          children: [
-                            TextSpan(
-                              text: " YES (Yetiş-Eşleş-Sürdür) ",
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            TextSpan(
-                              text:
-                                  "ilkesini benimseyen herkese Tobeto Ailesi'ne katılmaya davet ediyor.",
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                      ),
+                    _buildTextSection(
+                      'Yeni nesil mesleklerdeki yetenek açığının mevcut yüksek deneyim ve beceri beklentisinden uzaklaşıp yeteneği keşfederek ve onları en iyi versiyonlarına ulaştırarak çözülebileceğine inanıyoruz. Tobeto; yetenekleri potansiyellerine göre değerlendirir, onları en uygun alanlarda geliştirir ve değer yaratacak projelerle eşleştirir.',
+                      Theme.of(context).textTheme.titleLarge,
+                      Theme.of(context).textTheme.bodySmall,
                     ),
                     SizedBox(height: AppConstants.sizedBoxHeightMedium),
                     Padding(
@@ -174,61 +269,36 @@ class _HakkimizdaState extends State<AboutUs> {
                       ),
                     ),
                     SizedBox(height: AppConstants.sizedBoxHeightLarge),
-                    Container(
-                      padding: EdgeInsets.all(AppConstants.paddingMedium),
-                      child: ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(AppConstants.br30),
-                          child: Image.asset('assets/pictures/foto4.jpg')),
-                    ),
+                    _buildImage('assets/pictures/foto4.jpg', AppConstants.br30),
                     SizedBox(height: AppConstants.sizedBoxHeightLarge),
-                    Container(
-                      padding: EdgeInsets.all(AppConstants.paddingMedium),
-                      child: ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(AppConstants.br30),
-                          child: Image.asset('assets/pictures/foto1.jpg')),
-                    ),
+                    _buildImage('assets/pictures/foto1.jpg', AppConstants.br30),
                     SizedBox(height: AppConstants.sizedBoxHeightLarge),
                     Padding(
                       padding: EdgeInsets.all(AppConstants.paddingMedium),
                       child: Text.rich(
                         TextSpan(
-                            text:
-                                "Öğrencilerin teoriyi anlamalarını önemsemekle beraber ",
-                            style: Theme.of(context).textTheme.bodySmall,
-                            children: [
-                              TextSpan(
-                                text: "uygulamayı merkeze alan ",
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              TextSpan(
-                                text:
-                                    "bir öğrenme yolculuğu sunuyoruz. Öğrenciyi sürekli gelişim, geri bildirim döngüsünde tutarak yetenek ve beceri kazanımını hızlandırıyoruz.",
-                                style: Theme.of(context).textTheme.bodySmall,
-                              )
-                            ]),
+                          text:
+                              "Öğrencilerin teoriyi anlamalarını önemsemekle beraber ",
+                          style: Theme.of(context).textTheme.bodySmall,
+                          children: [
+                            TextSpan(
+                              text: "uygulamayı merkeze alan ",
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            TextSpan(
+                              text:
+                                  "bir öğrenme yolculuğu sunuyoruz. Öğrenciyi sürekli gelişim, geri bildirim döngüsünde tutarak yetenek ve beceri kazanımını hızlandırıyoruz.",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: AppConstants.sizedBoxHeightXLarge),
                     Container(
                       padding: EdgeInsets.all(AppConstants.paddingMedium),
-                      child: OutlineGradientButton(
-                        gradient: const LinearGradient(
-                          colors: [
-                            AppColors.tobetoMoru,
-                            Color.fromARGB(209, 255, 255, 255),
-                            Color.fromARGB(178, 255, 255, 255),
-                            AppColors.tobetoMoru,
-                          ],
-                          stops: [0.0, 0.5, 0.5, 1.0],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        padding: EdgeInsets.all(AppConstants.paddingMedium),
-                        radius: Radius.circular(AppConstants.br20),
-                        strokeWidth: 3,
-                        child: const RotatingSentenceList(
+                      child: _buildGradientButton(
+                        const RotatingSentenceList(
                             title: "TOBETO FARKI\n NEDİR?"),
                       ),
                     ),
@@ -243,54 +313,7 @@ class _HakkimizdaState extends State<AboutUs> {
                             style: Theme.of(context).textTheme.headlineLarge,
                           ),
                           SizedBox(height: AppConstants.sizedBoxHeightMedium),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const TeamCard(
-                                imagePath: "assets/ekip/elif_kilic.jpeg",
-                                name: "Elif Kılıç",
-                                title: "Kurucu Direktör",
-                                linkedInUrl:
-                                    'https://www.linkedin.com/in/eliftugtan/',
-                              ),
-                              SizedBox(
-                                  height: AppConstants.sizedBoxHeightLarge),
-                              const TeamCard(
-                                imagePath: "assets/ekip/kader_yavuz.jpg",
-                                name: "Kader Yavuz",
-                                title: "Eğitim ve Proje Koordinatörü",
-                                linkedInUrl:
-                                    'https://www.linkedin.com/in/kader-yavuz/',
-                              ),
-                              SizedBox(
-                                  height: AppConstants.sizedBoxHeightLarge),
-                              const TeamCard(
-                                imagePath: "assets/ekip/pelin_batir.png",
-                                name: "Pelin Batır",
-                                title: "İş Geliştirme ve Yöneticisi",
-                                linkedInUrl: '',
-                              ),
-                              SizedBox(
-                                  height: AppConstants.sizedBoxHeightLarge),
-                              const TeamCard(
-                                imagePath: "assets/ekip/gurkan_ilisen.jfif",
-                                name: "Gürkan İlişen",
-                                title:
-                                    "Eğitim Teknolojileri ve Platform Sorumlusu",
-                                linkedInUrl:
-                                    'https://www.linkedin.com/in/gürkanilişen/',
-                              ),
-                              SizedBox(
-                                  height: AppConstants.sizedBoxHeightLarge),
-                              const TeamCard(
-                                imagePath: "assets/ekip/ali_seyhan.jpg",
-                                name: "Ali Seyhan",
-                                title: "Operasyon Uzman Yardımcısı",
-                                linkedInUrl:
-                                    'https://tr.linkedin.com/in/aliseyhnn',
-                              ),
-                            ],
-                          ),
+                          _buildTeamSection(),
                         ],
                       ),
                     ),
@@ -314,7 +337,7 @@ class _HakkimizdaState extends State<AboutUs> {
                           ),
                           SizedBox(height: AppConstants.sizedBoxHeightLarge),
                           Text(
-                            "Kavacık, Rüzgarlıbahçe Mah. Çampınarı Sok. No:4 Smart Plaza B Blok Kat:3 34805, Beykoz,İstanbul",
+                            "Kavacık, Rüzgarlıbahçe Mah. Çampınarı Sok. No:4 Smart Plaza B Blok Kat:3 34805, Beykoz, İstanbul",
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           SizedBox(height: AppConstants.sizedBoxHeightMedium),
@@ -335,46 +358,7 @@ class _HakkimizdaState extends State<AboutUs> {
                             width: 3,
                           ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconButton(
-                                onPressed: () =>
-                                    launchUrlString(commonFooter.facebookUrl),
-                                icon: FaIcon(
-                                  FontAwesomeIcons.facebook,
-                                  size: AppConstants.profileImageSize / 1.6,
-                                  color: Colors.blue.shade800,
-                                )),
-                            IconButton(
-                              onPressed: () =>
-                                  launchUrlString(commonFooter.xUrl),
-                              icon: FaIcon(
-                                FontAwesomeIcons.twitter,
-                                size: AppConstants.profileImageSize / 1.6,
-                                color: Colors.lightBlue,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () =>
-                                  launchUrlString(commonFooter.linkedinUrl),
-                              icon: FaIcon(
-                                FontAwesomeIcons.linkedin,
-                                size: AppConstants.profileImageSize / 1.6,
-                                color: Colors.blue.shade900,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () =>
-                                  launchUrlString(commonFooter.instagramUrl),
-                              icon: FaIcon(
-                                FontAwesomeIcons.instagram,
-                                size: AppConstants.profileImageSize / 1.6,
-                                color: Colors.pink,
-                              ),
-                            ),
-                          ],
-                        ),
+                        child: _buildSocialIcons(),
                       ),
                     ),
                   ],

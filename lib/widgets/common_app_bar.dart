@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tobetoapp/screens/homepage.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CommonAppBar({
@@ -15,7 +16,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
               MaterialPageRoute(builder: (context) => const Homepage()));
         },
         child: SizedBox(
-          width: 200.0,
+          width: AppConstants.screenWidth * 0.5,
           child: Image.asset(
             'assets/logo/tobetologo.PNG',
             fit: BoxFit.contain,

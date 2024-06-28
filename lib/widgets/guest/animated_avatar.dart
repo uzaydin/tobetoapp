@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class AnimatedAvatar extends StatefulWidget {
   final bool isSelected;
-  //
   final String? photoUrl;
 
   const AnimatedAvatar({
@@ -47,15 +46,8 @@ class _AnimatedAvatarState extends State<AnimatedAvatar>
             backgroundColor: widget.isSelected
                 ? Colors.green.shade300
                 : const Color.fromARGB(255, 151, 191, 224),
-            //
             backgroundImage:
                 widget.photoUrl != null ? NetworkImage(widget.photoUrl!) : null,
-            /*
-            child: const Icon(
-              Icons.person,
-              size: 60,
-              color: Color.fromARGB(255, 201, 189, 189),
-            ),*/
             child: widget.photoUrl == null
                 ? const Icon(
                     Icons.person,

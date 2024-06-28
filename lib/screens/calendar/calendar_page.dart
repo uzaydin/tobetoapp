@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:tobetoapp/models/event_model.dart';
-import 'package:tobetoapp/screens/calendar/events_page.dart';
+import 'package:tobetoapp/screens/calendar/filter/events_page.dart';
 import 'package:tobetoapp/services/event_service.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
@@ -132,7 +132,6 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
                   child: Center(
                     child: Text(
                       event.education,
-                      //style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
@@ -141,7 +140,6 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
           );
         },
       ),
-      //if (_selectedEvent != null) _buildEventDetailSheet(),
     );
   }
 }
@@ -216,79 +214,6 @@ void _showEventDetails(BuildContext context, Event event) {
     },
   );
 }
-
-/*
-  Widget _buildEventDetailSheet() {
-    final Color borderColor = getEventColor(_selectedEvent!);
-    return DraggableScrollableSheet(
-      initialChildSize: 0.3,
-      minChildSize: 0.1,
-      maxChildSize: 0.5,
-      builder: (BuildContext context, ScrollController scrollController) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(
-              top: BorderSide(color: borderColor, width: 3),
-            ),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-          ),
-          padding: const EdgeInsets.all(16.0),
-          child: ListView(
-            controller: scrollController,
-            children: [
-              Text(
-                _selectedEvent!.education,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  setState(() {
-                    _selectedEvent = null;
-                  });
-                },
-              ),
-              const SizedBox(height: 16.0),
-              Text('Eğitmen: ${_selectedEvent!.educator}'),
-              const SizedBox(height: 8.0),
-              Text(
-                  'Tarih: ${_selectedEvent!.date.day.toString().padLeft(2, '0')}-${_selectedEvent!.date.month.toString().padLeft(2, '0')}-${_selectedEvent!.date.year}'),
-              const SizedBox(height: 8.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const FaIcon(FontAwesomeIcons.hourglassStart, size: 20),
-                  const SizedBox(width: 8),
-                  Text(
-                      'Başlangıç Saati: ${_selectedEvent!.startTime.hour.toString().padLeft(2, '0')}:${_selectedEvent!.startTime.minute.toString().padLeft(2, '0')}'),
-                ],
-              ),
-              const SizedBox(height: 8.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const FaIcon(FontAwesomeIcons.hourglassEnd, size: 18),
-                  const SizedBox(width: 8),
-                  Text(
-                      'Bitiş Saati: ${_selectedEvent!.endTime.hour.toString().padLeft(2, '0')}:${_selectedEvent!.endTime.minute.toString().padLeft(2, '0')}'),
-                ],
-              ),
-              if (_selectedEvent!.price != null) ...[
-                const SizedBox(height: 8.0),
-                Text('Fiyat: ${_selectedEvent!.price}'),
-              ],
-            ],
-          ),
-        );
-      },
-    );
-  }
-  */
 
 class EventDataSource extends CalendarDataSource {
   EventDataSource(List<Event> source) {

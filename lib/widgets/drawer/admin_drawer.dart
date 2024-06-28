@@ -68,12 +68,6 @@ class _AdminDrawerState extends State<AdminDrawer> {
               child: Image.asset('assets/logo/tobetologo.PNG',
                   fit: BoxFit.contain),
             ),
-            IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
           ],
         ),
       ),
