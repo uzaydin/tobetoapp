@@ -43,7 +43,7 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Eğitimlerim",
+        title: const Text("Sınıflar",
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
@@ -66,7 +66,7 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Text(
-                      "Eğitimlerim", // Banner içindeki yazı
+                      "Sınıflar", // Banner içindeki yazı
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 24,

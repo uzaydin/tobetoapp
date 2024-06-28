@@ -13,11 +13,11 @@ class AnnouncementCard extends StatelessWidget {
   final List<String> classIds;
 
   const AnnouncementCard({
-    Key? key,
+    super.key,
     required this.announcement,
     required this.role,
     required this.classIds,
-  }) : super(key: key);
+  });
 
   void _showAnnouncementDetails(BuildContext context, Announcements announcement) {
     showDialog(

@@ -78,7 +78,13 @@ class _LessonEditPageState extends State<LessonEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  PopScope(
+        onPopInvoked: (popped) {
+          if (popped) {
+            context.read<AdminBloc>().add(LoadLessons());
+          }
+        },
+        child: Scaffold(
       appBar: AppBar(
         title: const Text('Ders Detayları'),
       ),
@@ -297,6 +303,6 @@ class _LessonEditPageState extends State<LessonEditPage> {
           }
         },
       ),
-    );
+    ));
   }
 }

@@ -1,11 +1,17 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class BannerWidget extends StatelessWidget {
   final String imagePath;
   final String text;
-
-  const BannerWidget({Key? key, required this.imagePath, required this.text}) : super(key: key);
+  
+  const BannerWidget({
+    super.key,
+    required this.imagePath,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {

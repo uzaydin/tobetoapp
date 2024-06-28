@@ -215,7 +215,7 @@ class _MainPageState extends State<MainPage> {
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
-            label: 'Duyurular',
+            label: 'Duyurularım',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
@@ -231,15 +231,15 @@ class _MainPageState extends State<MainPage> {
       case UserRole.admin:
         items = [
           const BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.admin_panel_settings_outlined),
+            label: 'Admin Panel',
           ),
           const BottomNavigationBarItem(
-            icon: Icon(Icons.announcement),
+            icon: Icon(Icons.announcement_outlined),
             label: 'Duyurular',
           ),
           const BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.account_circle_outlined),
             label: 'Profil',
           ),
         ];
@@ -269,7 +269,6 @@ class _MainPageState extends State<MainPage> {
       selectedItemColor: Colors.purple, // Seçilen öğenin rengi
       unselectedItemColor: Colors.grey, // Seçilmeyen öğelerin rengi
       backgroundColor: Colors.white, // Arkaplan rengi
-      showUnselectedLabels: false, // Seçilmeyen öğelerin etiketlerini göster
     );
   }
 }
