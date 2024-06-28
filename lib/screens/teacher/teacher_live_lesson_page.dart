@@ -7,21 +7,22 @@ import 'package:tobetoapp/bloc/lessons/lesson_live/live_session_bloc.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_live/live_session_event.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_live/live_session_state.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_state.dart';
-import 'package:tobetoapp/homework/homework_bloc.dart';
-import 'package:tobetoapp/homework/homework_event.dart';
-import 'package:tobetoapp/homework/homework_state.dart';
+import 'package:tobetoapp/bloc/homework/homework_bloc.dart';
+import 'package:tobetoapp/bloc/homework/homework_event.dart';
+import 'package:tobetoapp/bloc/homework/homework_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
-class LessonLivePage extends StatefulWidget {
+class TeacherLiveLessonPage extends StatefulWidget {
   final LessonModel lesson;
 
-  const LessonLivePage({super.key, required this.lesson});
+  const TeacherLiveLessonPage({super.key, required this.lesson});
 
   @override
-  _LessonLivePageState createState() => _LessonLivePageState();
+  _TeacherLiveLessonPageState createState() => _TeacherLiveLessonPageState();
 }
 
-class _LessonLivePageState extends State<LessonLivePage> {
+class _TeacherLiveLessonPageState extends State<TeacherLiveLessonPage> {
   bool showHomework = false;
 
   @override
@@ -31,9 +32,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
     context
         .read<LiveSessionBloc>()
         .add(FetchLiveSessions(widget.lesson.liveSessions ?? []));
-    context
-        .read<LessonBloc>()
-        .add(LoadTeacherNames(widget.lesson.teacherIds ?? []));
+    context.read<LessonBloc>().add(FetchTeacherssForLesson(widget.lesson));
   }
 
   @override
@@ -61,11 +60,11 @@ class _LessonLivePageState extends State<LessonLivePage> {
               Image.network(
                 widget.lesson.image ?? '',
                 width: double.infinity,
-                height: 200,
+                height: AppConstants.screenHeight * 0.25,
                 fit: BoxFit.cover,
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(AppConstants.paddingMedium),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -80,7 +79,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                         foregroundColor: Colors.purple,
                         side: const BorderSide(color: Colors.purple),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(AppConstants.br8),
                         ),
                       ),
                       child: const Text(
@@ -94,7 +93,8 @@ class _LessonLivePageState extends State<LessonLivePage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(
+                    horizontal: AppConstants.paddingMedium),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -113,8 +113,9 @@ class _LessonLivePageState extends State<LessonLivePage> {
                           return Column(
                             children: liveSessions.map((session) {
                               return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                padding: EdgeInsets.symmetric(
+                                    vertical:
+                                        AppConstants.verticalPaddingSmall / 3),
                                 child: ExpansionTile(
                                   title: Text(session.title ?? 'Oturum'),
                                   children: [
@@ -138,7 +139,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                         }
                       },
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: AppConstants.sizedBoxHeightMedium),
                     const Row(
                       children: [
                         Icon(Icons.school),
@@ -154,15 +155,17 @@ class _LessonLivePageState extends State<LessonLivePage> {
                       builder: (context, state) {
                         if (state is LessonsLoading) {
                           return const CircularProgressIndicator();
-                        } else if (state is TeacherNamesLoaded) {
-                          final teacherNames = state.teacherNames;
-                          return Wrap(
-                            children: teacherNames.entries.map((entry) {
+                        } else if (state is TeachersLoaded) {
+                          final teachers = state.teachers;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: teachers.map((teacher) {
                               return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 4.0),
+                                padding: EdgeInsets.symmetric(
+                                    vertical:
+                                        AppConstants.verticalPaddingSmall),
                                 child: Text(
-                                  entry.value,
+                                  '${teacher.firstName} ${teacher.lastName}',
                                   style: const TextStyle(color: Colors.blue),
                                 ),
                               );
@@ -175,7 +178,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                         }
                       },
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: AppConstants.sizedBoxHeightMedium),
                     TextButton(
                       onPressed: () {
                         setState(() {
@@ -206,7 +209,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
               ),
               if (showHomework)
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(AppConstants.paddingMedium),
                   child: BlocBuilder<HomeworkBloc, HomeworkState>(
                     builder: (context, homeworkState) {
                       if (homeworkState is HomeworkLoading) {
@@ -220,7 +223,6 @@ class _LessonLivePageState extends State<LessonLivePage> {
                               DataColumn(label: Text('Veriliş Tarihi')),
                               DataColumn(label: Text('Son Teslim Tarihi')),
                               DataColumn(label: Text('Gönderen Sayısı')),
-                              //DataColumn(label: Text('Ödev Dosyaları')),
                               DataColumn(label: Text('İşlem')),
                             ],
                             rows: homeworkState.homeworks.map((homework) {
@@ -236,15 +238,6 @@ class _LessonLivePageState extends State<LessonLivePage> {
                                         .studentSubmissions?.length
                                         .toString() ??
                                     '0')),
-                                /*DataCell(
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: const Text(
-                                      'İndir',
-                                      style: TextStyle(color: Colors.blue),
-                                    ),
-                                  ),
-                                ),*/
                                 DataCell(Row(
                                   children: [
                                     TextButton(
@@ -304,7 +297,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  const SizedBox(height: 8.0),
+                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
                   TextField(
                     controller: descriptionController,
                     decoration: const InputDecoration(
@@ -312,7 +305,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  const SizedBox(height: 8.0),
+                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
                   ElevatedButton.icon(
                     icon: const Icon(Icons.calendar_today),
                     label: Text(dueDate == null
@@ -328,7 +321,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                       setState(() {
                         dueDate = picked;
                       });
-                                        },
+                    },
                   ),
                 ],
               ),
@@ -392,7 +385,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  const SizedBox(height: 8.0),
+                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
                   TextField(
                     controller: descriptionController,
                     decoration: const InputDecoration(
@@ -400,7 +393,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  const SizedBox(height: 8.0),
+                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
                   ElevatedButton.icon(
                     icon: const Icon(Icons.calendar_today),
                     label: Text(dueDate == null
@@ -416,7 +409,7 @@ class _LessonLivePageState extends State<LessonLivePage> {
                       setState(() {
                         dueDate = picked;
                       });
-                                        },
+                    },
                   ),
                 ],
               ),

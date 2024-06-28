@@ -25,7 +25,7 @@ import 'package:tobetoapp/bloc/lessons/lesson_video/video_bloc.dart';
 import 'package:tobetoapp/bloc/news/news_bloc.dart';
 import 'package:tobetoapp/bloc/profile/profile_bloc.dart';
 import 'package:tobetoapp/bloc/user/user_bloc.dart';
-import 'package:tobetoapp/homework/homework_bloc.dart';
+import 'package:tobetoapp/bloc/homework/homework_bloc.dart';
 import 'package:tobetoapp/repository/announcements_repo.dart';
 import 'package:tobetoapp/repository/auth_repo.dart';
 import 'package:tobetoapp/repository/blog_repository.dart';
@@ -135,8 +135,8 @@ class Home extends StatelessWidget {
               create: (context) => LiveSessionBloc(LessonLiveRepository()),
             ),
             BlocProvider<AdminBloc>(
-              create: (context) => AdminBloc(
-                  UserRepository(), ClassRepository(), LessonRepository(), CatalogRepository()),
+              create: (context) => AdminBloc(UserRepository(),
+                  ClassRepository(), LessonRepository(), CatalogRepository()),
             ),
             BlocProvider(
                 create: (context) =>

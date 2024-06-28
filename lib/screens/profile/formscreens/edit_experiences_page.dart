@@ -7,6 +7,7 @@ import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/profile/formscreens/form_helpers.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class EditExperiencesPage extends StatefulWidget {
   const EditExperiencesPage({super.key});
@@ -66,11 +67,11 @@ class _EditExperiencesPageState extends State<EditExperiencesPage> {
 
   Widget _buildContent() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: Column(
         children: <Widget>[
           _buildForm(),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           _buildExperienceList(),
         ],
       ),
@@ -105,7 +106,7 @@ class _EditExperiencesPageState extends State<EditExperiencesPage> {
           buildTextFormField(
               _descriptionController, 'İş Açıklaması', Icons.description,
               isOptional: true),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -114,9 +115,10 @@ class _EditExperiencesPageState extends State<EditExperiencesPage> {
                 foregroundColor: Colors.white,
                 backgroundColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppConstants.br10),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding:
+                    EdgeInsets.symmetric(vertical: AppConstants.paddingSmall),
               ),
               child: const Text('Ekle'),
             ),
@@ -128,7 +130,8 @@ class _EditExperiencesPageState extends State<EditExperiencesPage> {
 
   Widget _buildCheckbox(String label) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding:
+          EdgeInsets.symmetric(vertical: AppConstants.verticalPaddingSmall),
       child: Row(
         children: [
           Checkbox(
@@ -165,7 +168,8 @@ class _EditExperiencesPageState extends State<EditExperiencesPage> {
             final experience = experiences[index];
             return Card(
               color: Colors.purple[50],
-              margin: const EdgeInsets.symmetric(vertical: 8.0),
+              margin: EdgeInsets.symmetric(
+                  vertical: AppConstants.verticalPaddingSmall),
               child: ListTile(
                 title: Text(experience.institution ?? '',
                     style: const TextStyle(fontWeight: FontWeight.bold)),

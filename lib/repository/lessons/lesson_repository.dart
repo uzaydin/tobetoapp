@@ -140,21 +140,20 @@ class LessonRepository {
     }
   }
 
-  Future<Map<String, String>> getTeacherNames(List<String> teacherIds) async {
+  Future<List<UserModel>> getTeacherDetails(LessonModel lesson) async {
     try {
-      Map<String, String> teacherNames = {};
-      for (String teacherId in teacherIds) {
+      List<UserModel> teachers = [];
+      for (String teacherId in lesson.teacherIds ?? []) {
         final teacherSnapshot =
             await _firestore.collection('users').doc(teacherId).get();
         if (teacherSnapshot.exists) {
-          final data = teacherSnapshot.data();
-          teacherNames[teacherId] =
-              '${data?['firstName']} ${data?['lastName']}';
+          final data = teacherSnapshot.data() as Map<String, dynamic>;
+          teachers.add(UserModel.fromMap(data));
         }
       }
-      return teacherNames;
+      return teachers;
     } catch (e) {
-      throw Exception('Error getting teacher names: $e');
+      throw Exception('Error getting teacher details: $e');
     }
   }
 
@@ -194,7 +193,8 @@ class LessonRepository {
     }
   }
 
-  Future<List<LessonModel>> getLesson() async {  // isim degisebilir Lessons yap
+  Future<List<LessonModel>> getLesson() async {
+    // isim degisebilir Lessons yap
     try {
       final snapshot = await _firestore.collection('lessons').get();
       if (snapshot.docs.isEmpty) {
@@ -211,7 +211,8 @@ class LessonRepository {
   // Admin Ders image ekleme
   Future<String> uploadLessonImage(String lessonId, XFile imageFile) async {
     try {
-      final ref = FirebaseStorage.instance.ref().child('lesson_images/$lessonId');
+      final ref =
+          FirebaseStorage.instance.ref().child('lesson_images/$lessonId');
       final uploadTask = ref.putFile(File(imageFile.path));
       final snapshot = await uploadTask;
       return await snapshot.ref.getDownloadURL();
@@ -219,6 +220,4 @@ class LessonRepository {
       throw Exception('Failed to upload image: $e');
     }
   }
-
-
 }

@@ -89,7 +89,7 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
     on<LessonsUpdated>(_onLessonsUpdated);
     on<LoadTeacherLessons>(_loadTeacherLessons);
     on<FetchStudentsForLesson>(_fetchStudentsForLesson);
-    on<LoadTeacherNames>(_loadTeacherNames);
+    on<FetchTeacherssForLesson>(_fetchTeachersForLesson);
   }
 
   Future<void> _loadLessons(
@@ -157,13 +157,12 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
     }
   }
 
-  Future<void> _loadTeacherNames(
-      LoadTeacherNames event, Emitter<LessonState> emit) async {
+  Future<void> _fetchTeachersForLesson(
+      FetchTeacherssForLesson event, Emitter<LessonState> emit) async {
     emit(LessonsLoading());
     try {
-      final teacherNames =
-          await _lessonRepository.getTeacherNames(event.teacherIds);
-      emit(TeacherNamesLoaded(teacherNames));
+      final teachers = await _lessonRepository.getTeacherDetails(event.lesson);
+      emit(TeachersLoaded(teachers));
     } catch (e) {
       emit(LessonOperationFailure(e.toString()));
     }

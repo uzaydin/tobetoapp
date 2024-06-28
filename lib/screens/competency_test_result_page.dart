@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/competency_test/competency_test_bloc.dart';
 import 'package:tobetoapp/bloc/competency_test/competency_test_event.dart';
 import 'package:tobetoapp/bloc/competency_test/competency_test_state.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class CompetencyTestResultPage extends StatefulWidget {
   const CompetencyTestResultPage({super.key});
@@ -34,7 +35,7 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
           } else if (state is CompetencyTestResultFetched) {
             return SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(AppConstants.paddingMedium),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -47,7 +48,7 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: AppConstants.sizedBoxHeightSmall),
                     const Text(
                       'Analiz Raporum',
                       style: TextStyle(
@@ -57,20 +58,21 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: AppConstants.sizedBoxHeightLarge),
                     Image.asset(
-                      'lib/assets/images/competency_test_report.png',
+                      'assets/images/competency_test_report.png',
                       fit: BoxFit.cover,
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: AppConstants.sizedBoxHeightLarge),
                     ...state.result.scores.entries.map((entry) {
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        padding: EdgeInsets.symmetric(
+                            vertical: AppConstants.verticalPaddingSmall),
                         child: Row(
                           children: [
                             Container(
-                              width: 24,
-                              height: 24,
+                              width: AppConstants.screenWidth * 0.06,
+                              height: AppConstants.screenWidth * 0.06,
                               decoration: BoxDecoration(
                                 color: getCategoryColor(entry.key),
                                 shape: BoxShape.circle,
@@ -86,7 +88,7 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: AppConstants.sizedBoxWidthSmall),
                             Expanded(
                               child: Text(
                                 getCategoryName(entry.key),

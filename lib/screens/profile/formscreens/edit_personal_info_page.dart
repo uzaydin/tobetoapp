@@ -7,6 +7,7 @@ import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/profile/formscreens/form_helpers.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class EditPersonalInfoPage extends StatefulWidget {
   const EditPersonalInfoPage({super.key});
@@ -95,14 +96,14 @@ class _EditPersonalInfoPageState extends State<EditPersonalInfoPage> {
 
   Widget _buildContent() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: Column(
         children: <Widget>[
           Center(
             child: Stack(
               children: [
                 CircleAvatar(
-                  radius: 50,
+                  radius: AppConstants.profileImageSize,
                   backgroundImage: _currentUser?.profilePhotoUrl != null
                       ? NetworkImage(_currentUser!.profilePhotoUrl!)
                       : const AssetImage('assets/images/profile_photo.png')
@@ -112,14 +113,14 @@ class _EditPersonalInfoPageState extends State<EditPersonalInfoPage> {
                   right: 0,
                   bottom: 0,
                   child: IconButton(
-                    icon: const Icon(Icons.camera_alt, color: Colors.white),
+                    icon: const Icon(Icons.camera_alt, color: Colors.black),
                     onPressed: _pickImage,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           _buildForm(),
         ],
       ),
@@ -175,7 +176,7 @@ class _EditPersonalInfoPageState extends State<EditPersonalInfoPage> {
               isOptional: true),
           buildTextFormField(_aboutController, 'Hakkımda', Icons.info,
               isOptional: true, keyboardType: TextInputType.multiline),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -184,9 +185,10 @@ class _EditPersonalInfoPageState extends State<EditPersonalInfoPage> {
                 foregroundColor: Colors.white,
                 backgroundColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppConstants.br10),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding:
+                    EdgeInsets.symmetric(vertical: AppConstants.paddingSmall),
               ),
               child: const Text('Güncelle'),
             ),

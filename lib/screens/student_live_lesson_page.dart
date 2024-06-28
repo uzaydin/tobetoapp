@@ -10,10 +10,11 @@ import 'package:tobetoapp/bloc/lessons/lesson_live/live_session_bloc.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_live/live_session_event.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_live/live_session_state.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_state.dart';
-import 'package:tobetoapp/homework/homework_bloc.dart';
-import 'package:tobetoapp/homework/homework_event.dart';
-import 'package:tobetoapp/homework/homework_state.dart';
+import 'package:tobetoapp/bloc/homework/homework_bloc.dart';
+import 'package:tobetoapp/bloc/homework/homework_event.dart';
+import 'package:tobetoapp/bloc/homework/homework_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class StudentLiveLessonPage extends StatefulWidget {
   final LessonModel lesson;
@@ -34,9 +35,7 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
     context
         .read<LiveSessionBloc>()
         .add(FetchLiveSessions(widget.lesson.liveSessions ?? []));
-    context
-        .read<LessonBloc>()
-        .add(LoadTeacherNames(widget.lesson.teacherIds ?? []));
+    context.read<LessonBloc>().add(FetchTeacherssForLesson(widget.lesson));
   }
 
   @override
@@ -66,11 +65,11 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
                 Image.network(
                   widget.lesson.image ?? '',
                   width: double.infinity,
-                  height: 200,
+                  height: AppConstants.screenHeight * 0.25,
                   fit: BoxFit.cover,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(AppConstants.paddingMedium),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -85,7 +84,8 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
                           foregroundColor: Colors.purple,
                           side: const BorderSide(color: Colors.purple),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius:
+                                BorderRadius.circular(AppConstants.br8),
                           ),
                         ),
                         child: const Text(
@@ -99,7 +99,8 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: AppConstants.paddingMedium),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -118,8 +119,10 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
                             return Column(
                               children: liveSessions.map((session) {
                                 return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical:
+                                          AppConstants.verticalPaddingSmall /
+                                              3),
                                   child: ExpansionTile(
                                     title: Text(session.title ?? 'Oturum'),
                                     children: [
@@ -144,7 +147,7 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
                           }
                         },
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: AppConstants.sizedBoxHeightMedium),
                       const Row(
                         children: [
                           Icon(Icons.school),
@@ -160,15 +163,17 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
                         builder: (context, state) {
                           if (state is LessonsLoading) {
                             return const CircularProgressIndicator();
-                          } else if (state is TeacherNamesLoaded) {
-                            final teacherNames = state.teacherNames;
-                            return Wrap(
-                              children: teacherNames.entries.map((entry) {
+                          } else if (state is TeachersLoaded) {
+                            final teachers = state.teachers;
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: teachers.map((teacher) {
                                 return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 4.0),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical:
+                                          AppConstants.verticalPaddingSmall),
                                   child: Text(
-                                    entry.value,
+                                    '${teacher.firstName} ${teacher.lastName}',
                                     style: const TextStyle(color: Colors.blue),
                                   ),
                                 );
@@ -181,7 +186,7 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
                           }
                         },
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: AppConstants.sizedBoxHeightMedium),
                       TextButton(
                         onPressed: () {
                           setState(() {
@@ -212,7 +217,7 @@ class _StudentLiveLessonPageState extends State<StudentLiveLessonPage> {
                 ),
                 if (showHomework)
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(AppConstants.paddingMedium),
                     child: BlocBuilder<HomeworkBloc, HomeworkState>(
                       builder: (context, homeworkState) {
                         if (homeworkState is HomeworkLoading) {

@@ -8,7 +8,8 @@ import 'package:tobetoapp/bloc/exam/exam_event.dart';
 import 'package:tobetoapp/bloc/exam/exam_state.dart';
 import 'package:tobetoapp/repository/exam_repository.dart';
 import 'package:tobetoapp/screens/competency_test_result_page.dart';
-import 'package:tobetoapp/widgets/user/competency_test_dialog.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
+import 'package:tobetoapp/widgets/user/competency_test_info_dialog.dart';
 import 'package:tobetoapp/widgets/user/exam_dialog.dart';
 import 'package:tobetoapp/widgets/user/result_dialog.dart';
 
@@ -23,6 +24,7 @@ class _AssessmentState extends State<Assessment> {
   @override
   void initState() {
     super.initState();
+
     context.read<CompetencyTestBloc>().add(FetchCompetencyTestResult());
   }
 
@@ -37,12 +39,12 @@ class _AssessmentState extends State<Assessment> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 20),
+            SizedBox(height: AppConstants.sizedBoxHeightLarge),
             _buildIntroText(),
             _buildHeader(context),
             _buildSoftwareTestSection(),
             _buildSubjectList(),
-            const SizedBox(height: 20),
+            SizedBox(height: AppConstants.sizedBoxHeightLarge),
             _buildSubscriptionSection(),
           ],
         ),
@@ -77,21 +79,21 @@ class _AssessmentState extends State<Assessment> {
 
   Widget _buildHeader(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            bottomRight: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
+            topRight: Radius.circular(AppConstants.br20),
+            bottomRight: Radius.circular(AppConstants.br20),
+            bottomLeft: Radius.circular(AppConstants.br20),
           ),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [Color(0xFFdda1fa), Color(0xFF3c0b8c)],
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
           ),
         ),
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppConstants.paddingMedium),
         child: Column(
           children: [
             const Text(
@@ -103,7 +105,7 @@ class _AssessmentState extends State<Assessment> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 30),
+            SizedBox(height: AppConstants.sizedBoxHeightLarge),
             const Text(
               '80 soru ile yetkinliklerini ölç, önerilen eğitimleri tamamla, rozetini kazan.',
               style: TextStyle(
@@ -112,7 +114,7 @@ class _AssessmentState extends State<Assessment> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: AppConstants.sizedBoxHeightMedium),
             BlocBuilder<CompetencyTestBloc, CompetencyTestState>(
               builder: (context, state) {
                 if (state is CompetencyTestLoading) {
@@ -122,14 +124,15 @@ class _AssessmentState extends State<Assessment> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF9933ff),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
+                        borderRadius: BorderRadius.circular(AppConstants.br20),
                       ),
                     ),
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CompetencyTestResultPage(),
+                          builder: (context) =>
+                              const CompetencyTestResultPage(),
                         ),
                       );
                     },
@@ -143,7 +146,7 @@ class _AssessmentState extends State<Assessment> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF9933ff),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
+                        borderRadius: BorderRadius.circular(AppConstants.br20),
                       ),
                     ),
                     onPressed: () {
@@ -168,21 +171,21 @@ class _AssessmentState extends State<Assessment> {
 
   Widget _buildSoftwareTestSection() {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            bottomRight: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
+            topRight: Radius.circular(AppConstants.br20),
+            bottomRight: Radius.circular(AppConstants.br20),
+            bottomLeft: Radius.circular(AppConstants.br20),
           ),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [Color(0xFFb59ef9), Color(0xFF1d0b8c)],
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
           ),
         ),
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppConstants.paddingMedium),
         child: const Column(
           children: [
             Text(
@@ -240,11 +243,12 @@ class _AssessmentState extends State<Assessment> {
                   state.subject == subjects[index]) {
                 bool completed = state.isCompleted;
                 return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(
+                      vertical: AppConstants.verticalPaddingSmall / 3,
+                      horizontal: AppConstants.paddingMedium),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(AppConstants.br30),
                       gradient: const LinearGradient(
                         colors: [Color(0xFF8A2387), Color(0xFF1d0b8c)],
                         begin: Alignment.topLeft,
@@ -262,7 +266,8 @@ class _AssessmentState extends State<Assessment> {
                           foregroundColor: const Color(0xFF8A2387),
                           backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius:
+                                BorderRadius.circular(AppConstants.br30),
                           ),
                         ),
                         onPressed: () {
@@ -311,11 +316,12 @@ class _AssessmentState extends State<Assessment> {
                 );
               } else if (state is ExamLoading) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(
+                      vertical: AppConstants.verticalPaddingSmall,
+                      horizontal: AppConstants.paddingMedium),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(AppConstants.br30),
                       gradient: const LinearGradient(
                         colors: [Color(0xFF8A2387), Color(0xFFE94057)],
                         begin: Alignment.topLeft,
@@ -344,11 +350,11 @@ class _AssessmentState extends State<Assessment> {
 
   Widget _buildSubscriptionSection() {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: Column(
         children: [
           Container(
-            height: 100,
+            height: AppConstants.screenHeight * 0.1,
             width: 2,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -358,7 +364,7 @@ class _AssessmentState extends State<Assessment> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: AppConstants.sizedBoxHeightLarge),
           RichText(
             text: const TextSpan(
               children: [
@@ -377,15 +383,15 @@ class _AssessmentState extends State<Assessment> {
               ],
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: AppConstants.sizedBoxHeightXLarge),
           Container(
-            padding: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
+            padding: EdgeInsets.all(AppConstants.paddingLarge),
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20)),
-              gradient: LinearGradient(
+                  topRight: Radius.circular(AppConstants.br20),
+                  bottomRight: Radius.circular(AppConstants.br20),
+                  bottomLeft: Radius.circular(AppConstants.br20)),
+              gradient: const LinearGradient(
                 colors: [Color(0xFFac1eeb), Color(0xFF6e6cf5)],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
@@ -414,15 +420,15 @@ class _AssessmentState extends State<Assessment> {
               ],
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: AppConstants.sizedBoxHeightXLarge),
           Container(
-            padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
+            padding: EdgeInsets.all(AppConstants.paddingMedium),
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20)),
-              gradient: LinearGradient(
+                  topRight: Radius.circular(AppConstants.br20),
+                  bottomRight: Radius.circular(AppConstants.br20),
+                  bottomLeft: Radius.circular(AppConstants.br20)),
+              gradient: const LinearGradient(
                 colors: [Color(0xFFac1eeb), Color(0xFF6e6cf5)],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,

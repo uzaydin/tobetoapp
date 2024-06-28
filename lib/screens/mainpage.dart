@@ -18,7 +18,7 @@ import 'package:tobetoapp/screens/favorites_page.dart';
 import 'package:tobetoapp/screens/homepage.dart';
 
 import 'package:tobetoapp/screens/profile/profile_page.dart';
-import 'package:tobetoapp/screens/teacher_lesson_page.dart';
+import 'package:tobetoapp/screens/teacher/teacher_lesson_page.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 
 // Bottom Navigation Bar sayfasi

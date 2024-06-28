@@ -11,7 +11,7 @@ import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/screens/calendar/calendar_page.dart';
 import 'package:tobetoapp/screens/homepage.dart';
 import 'package:tobetoapp/screens/profile/profile_page.dart';
-import 'package:tobetoapp/screens/teacher_lesson_page.dart';
+import 'package:tobetoapp/screens/teacher/teacher_lesson_page.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/utils/theme/theme_switcher.dart';
