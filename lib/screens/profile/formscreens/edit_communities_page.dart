@@ -5,6 +5,7 @@ import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/screens/profile/formscreens/form_helpers.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class EditCommunitiesPage extends StatefulWidget {
   const EditCommunitiesPage({super.key});
@@ -58,11 +59,11 @@ class _EditCommunitiesPageState extends State<EditCommunitiesPage> {
 
   Widget _buildContent() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: Column(
         children: <Widget>[
           _buildForm(),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           _buildCommunityList(),
         ],
       ),
@@ -79,7 +80,7 @@ class _EditCommunitiesPageState extends State<EditCommunitiesPage> {
               _communityNameController, 'Kulüp veya Topluluk Adı', Icons.group),
           buildTextFormField(
               _positionController, 'Ünvan veya Görev', Icons.work),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -88,9 +89,10 @@ class _EditCommunitiesPageState extends State<EditCommunitiesPage> {
                 foregroundColor: Colors.white,
                 backgroundColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppConstants.br10),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding:
+                    EdgeInsets.symmetric(vertical: AppConstants.paddingSmall),
               ),
               child: const Text('Ekle'),
             ),
@@ -117,7 +119,8 @@ class _EditCommunitiesPageState extends State<EditCommunitiesPage> {
             final community = communities[index];
             return Card(
               color: Colors.purple[50],
-              margin: const EdgeInsets.symmetric(vertical: 8.0),
+              margin: EdgeInsets.symmetric(
+                  vertical: AppConstants.verticalPaddingSmall),
               child: ListTile(
                 title: Text(community.communityName ?? '',
                     style: const TextStyle(fontWeight: FontWeight.bold)),

@@ -10,7 +10,8 @@ import 'package:tobetoapp/bloc/lessons/lesson_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/repository/lessons/lesson_repository.dart';
-import 'package:tobetoapp/screens/teacher_live_lesson_page.dart';
+import 'package:tobetoapp/screens/teacher/teacher_live_lesson_page.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class TeacherLessonPage extends StatefulWidget {
   final String teacherId;
@@ -43,7 +44,7 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sınıflar",
+        title: const Text("Eğitimlerim",
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
@@ -52,7 +53,7 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
         children: [
           SizedBox(
             width: double.infinity,
-            height: 150, // Banner yüksekliği
+            height: AppConstants.screenHeight * 0.2, // Banner yüksekliği
             child: Stack(
               children: [
                 Positioned.fill(
@@ -61,12 +62,12 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      "Sınıflar", // Banner içindeki yazı
+                    padding: EdgeInsets.all(AppConstants.paddingMedium),
+                    child: const Text(
+                      "Eğitimlerim", // Banner içindeki yazı
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 24,
@@ -117,11 +118,14 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
           leading: lesson.image != null
               ? Image.network(
                   lesson.image!,
-                  width: 50,
-                  height: 50,
+                  width: AppConstants.screenWidth * 0.1,
+                  height: AppConstants.screenWidth * 0.1,
                   fit: BoxFit.cover,
                 )
-              : Container(width: 50, height: 50, color: Colors.grey),
+              : Container(
+                  width: AppConstants.screenWidth * 0.1,
+                  height: AppConstants.screenWidth * 0.1,
+                  color: Colors.grey),
           title: Text(lesson.title ?? "Başlık Yok"),
           subtitle: FutureBuilder<List<UserModel>>(
             future: _fetchStudents(lesson),
@@ -138,21 +142,21 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
                     Row(
                       children: [
                         const Icon(Icons.calendar_today, size: 16),
-                        const SizedBox(width: 4),
+                        SizedBox(width: AppConstants.sizedBoxWidthSmall),
                         Text('Başlangıç: ${_formatDate(lesson.startDate)}'),
                       ],
                     ),
                     Row(
                       children: [
                         const Icon(Icons.calendar_today, size: 16),
-                        const SizedBox(width: 4),
+                        SizedBox(width: AppConstants.sizedBoxWidthSmall),
                         Text('Bitiş: ${_formatDate(lesson.endDate)}'),
                       ],
                     ),
                     Row(
                       children: [
                         const Icon(Icons.people, size: 16),
-                        const SizedBox(width: 4),
+                        SizedBox(width: AppConstants.sizedBoxWidthSmall),
                         Text('Öğrenci Sayısı: ${students.length}'),
                       ],
                     ),
@@ -179,7 +183,7 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
   void _navigateToLessonPage(LessonModel lesson) {
     Navigator.of(context)
         .push(MaterialPageRoute(
-            builder: (context) => LessonLivePage(lesson: lesson)))
+            builder: (context) => TeacherLiveLessonPage(lesson: lesson)))
         .then((_) {
       _loadLessons(); // geri dönüldüğünde kursların tekrar listelenmesi için
     });
@@ -192,7 +196,7 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
       isScrollControlled: true,
       builder: (context) {
         return Container(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(AppConstants.paddingMedium),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,7 +206,8 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 8),
+              const Divider(),
+              SizedBox(height: AppConstants.sizedBoxHeightSmall),
               students.isEmpty
                   ? const Text(
                       'Bu ders için henüz kayıtlı öğrenci bulunmamaktadır.')
@@ -211,6 +216,15 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
                       itemCount: students.length,
                       itemBuilder: (context, index) {
                         return ListTile(
+                          leading: CircleAvatar(
+                            radius: AppConstants.screenWidth * 0.05,
+                            backgroundImage: students[index].profilePhotoUrl !=
+                                    null
+                                ? NetworkImage(students[index].profilePhotoUrl!)
+                                : const AssetImage(
+                                        'assets/images/profile_photo.png')
+                                    as ImageProvider,
+                          ),
                           title: Text(
                             '${index + 1}. ${students[index].firstName} ${students[index].lastName}',
                           ),

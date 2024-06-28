@@ -6,6 +6,7 @@ import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/profile/formscreens/form_helpers.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class EditSocialMediaPage extends StatefulWidget {
   const EditSocialMediaPage({super.key});
@@ -60,11 +61,11 @@ class _EditSocialMediaPageState extends State<EditSocialMediaPage> {
 
   Widget _buildContent() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: Column(
         children: <Widget>[
           _buildForm(),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           _buildSocialMediaList(),
         ],
       ),
@@ -85,7 +86,7 @@ class _EditSocialMediaPageState extends State<EditSocialMediaPage> {
               (value) => value.name,
               Icons.account_circle),
           buildTextFormField(_linkController, 'Link', Icons.link),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -94,9 +95,10 @@ class _EditSocialMediaPageState extends State<EditSocialMediaPage> {
                 foregroundColor: Colors.white,
                 backgroundColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppConstants.br10),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding:
+                    EdgeInsets.symmetric(vertical: AppConstants.paddingSmall),
               ),
               child: const Text('Ekle'),
             ),
@@ -123,7 +125,8 @@ class _EditSocialMediaPageState extends State<EditSocialMediaPage> {
             final social = socialMedia[index];
             return Card(
               color: Colors.purple[50],
-              margin: const EdgeInsets.symmetric(vertical: 8.0),
+              margin: EdgeInsets.symmetric(
+                  vertical: AppConstants.verticalPaddingSmall),
               child: ListTile(
                 title: Text(social.platform?.name ?? '',
                     style: const TextStyle(fontWeight: FontWeight.bold)),

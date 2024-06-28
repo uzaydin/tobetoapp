@@ -25,8 +25,8 @@ class StudentsLoaded extends LessonState {
   StudentsLoaded(this.students);
 }
 
-class TeacherNamesLoaded extends LessonState {
-  final Map<String, String> teacherNames;
+class TeachersLoaded extends LessonState {
+  final List<UserModel> teachers;
 
-  TeacherNamesLoaded(this.teacherNames);
+  TeachersLoaded(this.teachers);
 }

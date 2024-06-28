@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 Widget buildTextFormField(
     TextEditingController controller, String label, IconData icon,
     {bool isOptional = false, TextInputType? keyboardType}) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    padding:
+        EdgeInsets.symmetric(vertical: AppConstants.verticalPaddingSmall / 2),
     child: TextFormField(
       controller: controller,
       decoration: InputDecoration(
         labelText: isOptional ? label : '$label *',
         prefixIcon: Icon(icon),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppConstants.br8),
+        ),
       ),
       validator: (value) {
         if (!isOptional && (value == null || value.isEmpty)) {
@@ -27,7 +32,8 @@ Widget buildDateFormField(
     TextEditingController controller, String label, IconData icon,
     {bool isDisabled = false, bool isOptional = false}) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    padding:
+        EdgeInsets.symmetric(vertical: AppConstants.verticalPaddingSmall / 2),
     child: Builder(
       builder: (context) => TextFormField(
         controller: controller,
@@ -36,6 +42,9 @@ Widget buildDateFormField(
         decoration: InputDecoration(
           labelText: isOptional ? label : '$label *',
           prefixIcon: Icon(icon),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppConstants.br8),
+          ),
         ),
         onTap: !isDisabled
             ? () async {
@@ -67,13 +76,17 @@ Widget buildDropdown<T>(String label, T? selectedValue, List<T> items,
     ValueChanged<T?> onChanged, String Function(T) itemLabel, IconData icon,
     {bool isOptional = false}) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    padding:
+        EdgeInsets.symmetric(vertical: AppConstants.verticalPaddingSmall / 2),
     child: FormField<T>(
       builder: (FormFieldState<T> state) {
         return InputDecorator(
           decoration: InputDecoration(
             labelText: isOptional ? label : '$label *',
             prefixIcon: Icon(icon),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppConstants.br8),
+            ),
             errorText: state.hasError ? state.errorText : null,
           ),
           isEmpty: selectedValue == null,

@@ -4,34 +4,12 @@ import 'package:tobetoapp/bloc/exam/exam_bloc.dart';
 import 'package:tobetoapp/bloc/exam/exam_event.dart';
 import 'package:tobetoapp/bloc/exam/exam_state.dart';
 import 'package:tobetoapp/repository/exam_repository.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class ResultDialog extends StatelessWidget {
   final String subject;
 
   const ResultDialog({super.key, required this.subject});
-
-  Widget _buildResultItem(String label, int value, BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          value.toString(),
-          style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
-        const SizedBox(height: 8.0),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 16.0,
-            color: Colors.grey,
-          ),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,19 +19,21 @@ class ResultDialog extends StatelessWidget {
       child: BlocBuilder<ExamBloc, ExamState>(
         builder: (context, state) {
           if (state is ExamResultLoading) {
-            return const AlertDialog(
+            return AlertDialog(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(AppConstants.br20)),
               ),
-              title: Center(
+              title: const Center(
                 child: Text('Test Bitti'),
               ),
-              content: Center(child: CircularProgressIndicator()),
+              content: const Center(child: CircularProgressIndicator()),
             );
           } else if (state is ExamResultLoaded) {
             return AlertDialog(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.all(Radius.circular(AppConstants.br20)),
               ),
               title: const Center(
                 child: Text(
@@ -68,9 +48,9 @@ class ResultDialog extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _buildResultItem('Doğru', state.correctAnswers, context),
-                  const SizedBox(height: 8.0),
+                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
                   _buildResultItem('Yanlış', state.wrongAnswers, context),
-                  const SizedBox(height: 8.0),
+                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
                   _buildResultItem('Puan', state.score.toInt(), context),
                 ],
               ),
@@ -80,7 +60,7 @@ class ResultDialog extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepPurple,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(AppConstants.br10),
                       ),
                     ),
                     onPressed: () {
@@ -96,8 +76,9 @@ class ResultDialog extends StatelessWidget {
             );
           } else if (state is ExamError) {
             return AlertDialog(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.all(Radius.circular(AppConstants.br20)),
               ),
               title: const Center(
                 child: Text('Test Bitti'),
@@ -109,7 +90,7 @@ class ResultDialog extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepPurple,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(AppConstants.br10),
                       ),
                     ),
                     onPressed: () {
@@ -125,6 +106,29 @@ class ResultDialog extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+  Widget _buildResultItem(String label, int value, BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          value.toString(),
+          style: TextStyle(
+            fontSize: 24.0,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        SizedBox(height: AppConstants.sizedBoxHeightSmall / 4),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 16.0,
+            color: Colors.grey,
+          ),
+        ),
+      ],
     );
   }
 }

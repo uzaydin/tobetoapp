@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/exam/exam_bloc.dart';
 import 'package:tobetoapp/bloc/exam/exam_event.dart';
 import 'package:tobetoapp/bloc/exam/exam_state.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/widgets/user/result_dialog.dart';
 
 class ExamDialog extends StatefulWidget {
@@ -70,8 +71,9 @@ class _ExamDialogState extends State<ExamDialog> {
           } else if (state is ExamLoaded) {
             final currentQuestion = state.questions[state.currentQuestionIndex];
             return AlertDialog(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.all(Radius.circular(AppConstants.br20)),
               ),
               title: Center(
                 child: Text(
@@ -93,7 +95,7 @@ class _ExamDialogState extends State<ExamDialog> {
                       color: Colors.purple,
                     ),
                   ),
-                  const SizedBox(height: 10.0),
+                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
                   Text(
                     currentQuestion.question,
                     style: const TextStyle(
@@ -101,20 +103,22 @@ class _ExamDialogState extends State<ExamDialog> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 20.0),
+                  SizedBox(height: AppConstants.sizedBoxHeightLarge),
                   ...currentQuestion.answers.asMap().entries.map((entry) {
                     int idx = entry.key;
                     String answer = entry.value;
                     bool isCorrect = currentQuestion.correct == idx;
                     bool isSelected = state.selectedAnswer == idx;
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      padding: EdgeInsets.symmetric(
+                          vertical: AppConstants.verticalPaddingSmall / 3),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: Colors.purple[200],
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius:
+                                BorderRadius.circular(AppConstants.br10),
                           ),
                         ),
                         onPressed: state.isAnswered
@@ -142,7 +146,7 @@ class _ExamDialogState extends State<ExamDialog> {
                       foregroundColor: Colors.grey,
                       backgroundColor: Colors.purple[100],
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(AppConstants.br10),
                       ),
                     ),
                     onPressed: state.isAnswered

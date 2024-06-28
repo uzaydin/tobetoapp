@@ -7,6 +7,7 @@ import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/screens/profile/formscreens/form_helpers.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class EditCertificatesPage extends StatefulWidget {
   const EditCertificatesPage({super.key});
@@ -67,11 +68,11 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
 
   Widget _buildContent() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: Column(
         children: <Widget>[
           _buildForm(),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           _buildCertificatesList(),
         ],
       ),
@@ -88,7 +89,7 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
           buildDateFormField(
               _dateController, 'Alınan Tarih', Icons.calendar_today),
           _buildFilePicker(),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -97,9 +98,10 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
                 foregroundColor: Colors.white,
                 backgroundColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppConstants.br10),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding:
+                    EdgeInsets.symmetric(vertical: AppConstants.paddingSmall),
               ),
               child: const Text('Ekle'),
             ),
@@ -111,7 +113,8 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
 
   Widget _buildFilePicker() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding:
+          EdgeInsets.symmetric(vertical: AppConstants.verticalPaddingSmall),
       child: Row(
         children: [
           Expanded(
@@ -121,6 +124,9 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
                     ? 'Sertifika Yüklendi'
                     : 'Sertifika Yükle *',
                 prefixIcon: const Icon(Icons.attach_file),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppConstants.br8),
+                ),
               ),
               readOnly: true,
               validator: (value) {
@@ -162,7 +168,8 @@ class _EditCertificatesPageState extends State<EditCertificatesPage> {
             final certificate = certificates[index];
             return Card(
               color: Colors.purple[50],
-              margin: const EdgeInsets.symmetric(vertical: 8.0),
+              margin: EdgeInsets.symmetric(
+                  vertical: AppConstants.verticalPaddingSmall),
               child: ListTile(
                 title: Text(certificate.name,
                     style: const TextStyle(fontWeight: FontWeight.bold)),

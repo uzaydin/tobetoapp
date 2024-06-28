@@ -5,6 +5,7 @@ import 'package:tobetoapp/bloc/competency_test/competency_test_event.dart';
 import 'package:tobetoapp/bloc/competency_test/competency_test_state.dart';
 import 'package:tobetoapp/models/competency_test_question.dart';
 import 'package:tobetoapp/screens/competency_test_result_page.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class CompetencyTestPage extends StatefulWidget {
   const CompetencyTestPage({super.key});
@@ -22,6 +23,7 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
   @override
   void initState() {
     super.initState();
+    //AppConstants.init(context);
     context.read<CompetencyTestBloc>().add(LoadQuestions());
   }
 
@@ -70,9 +72,9 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
 
             return Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
+                Padding(
+                  padding: EdgeInsets.all(AppConstants.paddingMedium),
+                  child: const Text(
                     'Tobeto İşte Başarı Modeli',
                     style: TextStyle(
                       color: Color(0xFF9933ff),
@@ -82,7 +84,8 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: AppConstants.paddingMedium),
                   child: LinearProgressIndicator(
                     value: (currentPage + 1) / totalPages,
                     backgroundColor: const Color(0xFFD8D8D8),
@@ -113,8 +116,9 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                         itemBuilder: (context, index) {
                           final question = pageQuestions[index];
                           return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 16.0),
+                            padding: EdgeInsets.symmetric(
+                                vertical: AppConstants.verticalPaddingSmall,
+                                horizontal: AppConstants.paddingMedium),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -154,7 +158,7 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(AppConstants.paddingMedium),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -163,6 +167,10 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                           foregroundColor: const Color(0xFF9933ff),
                           backgroundColor: Colors.white,
                           side: const BorderSide(color: Color(0xFF9933ff)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(AppConstants.br8),
+                          ),
                         ),
                         onPressed: currentPage == 0
                             ? null
@@ -203,6 +211,10 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
                                           : questions!.length))
                                   ? const Color(0xFF9933ff)
                                   : Colors.grey),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(AppConstants.br8),
+                          ),
                         ),
                         onPressed: areAllQuestionsAnswered(questions!.sublist(
                                 currentPage * 10,

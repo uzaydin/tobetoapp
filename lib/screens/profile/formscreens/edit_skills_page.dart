@@ -5,6 +5,7 @@ import 'package:tobetoapp/bloc/profile/profile_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class EditSkillsPage extends StatefulWidget {
   const EditSkillsPage({super.key});
@@ -66,7 +67,7 @@ class _EditSkillsPageState extends State<EditSkillsPage> {
         builder: (context, state) {
           if (state is ProfileLoaded || state is ProfileInitial) {
             return Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(AppConstants.paddingMedium),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -80,7 +81,7 @@ class _EditSkillsPageState extends State<EditSkillsPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: AppConstants.sizedBoxHeightMedium),
                         Wrap(
                           spacing: 8.0,
                           runSpacing: 4.0,
@@ -94,7 +95,7 @@ class _EditSkillsPageState extends State<EditSkillsPage> {
                             );
                           }).toList(),
                         ),
-                        const SizedBox(height: 24),
+                        SizedBox(height: AppConstants.sizedBoxHeightLarge),
                         const Text(
                           'Yetkinlikler',
                           style: TextStyle(
@@ -102,7 +103,7 @@ class _EditSkillsPageState extends State<EditSkillsPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: AppConstants.sizedBoxHeightMedium),
                         Wrap(
                           spacing: 8.0,
                           runSpacing: 4.0,

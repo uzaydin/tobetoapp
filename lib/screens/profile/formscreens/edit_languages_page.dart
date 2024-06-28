@@ -6,6 +6,7 @@ import 'package:tobetoapp/bloc/profile/profile_state.dart';
 import 'package:tobetoapp/models/user_model.dart';
 import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/screens/profile/formscreens/form_helpers.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class EditLanguagesPage extends StatefulWidget {
   const EditLanguagesPage({super.key});
@@ -60,11 +61,11 @@ class _EditLanguagesPageState extends State<EditLanguagesPage> {
 
   Widget _buildContent() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
       child: Column(
         children: <Widget>[
           _buildForm(),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           _buildLanguagesList(),
         ],
       ),
@@ -91,7 +92,7 @@ class _EditLanguagesPageState extends State<EditLanguagesPage> {
               (value) => setState(() => _selectedProficiencyLevel = value),
               (value) => value.name,
               Icons.assessment),
-          const SizedBox(height: 16.0),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -100,9 +101,10 @@ class _EditLanguagesPageState extends State<EditLanguagesPage> {
                 foregroundColor: Colors.white,
                 backgroundColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppConstants.br10),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding:
+                    EdgeInsets.symmetric(vertical: AppConstants.paddingSmall),
               ),
               child: const Text('Ekle'),
             ),
@@ -129,7 +131,8 @@ class _EditLanguagesPageState extends State<EditLanguagesPage> {
             final language = languages[index];
             return Card(
               color: Colors.purple[50],
-              margin: const EdgeInsets.symmetric(vertical: 8.0),
+              margin: EdgeInsets.symmetric(
+                  vertical: AppConstants.verticalPaddingSmall),
               child: ListTile(
                 title: Text(language.language?.name ?? '',
                     style: const TextStyle(fontWeight: FontWeight.bold)),

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tobetoapp/homework/homework_event.dart';
-import 'package:tobetoapp/homework/homework_state.dart';
+import 'package:tobetoapp/bloc/homework/homework_event.dart';
+import 'package:tobetoapp/bloc/homework/homework_state.dart';
 import 'package:tobetoapp/repository/lessons/homework_repository.dart';
 
 class HomeworkBloc extends Bloc<HomeworkEvent, HomeworkState> {

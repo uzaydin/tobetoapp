@@ -71,8 +71,8 @@ class FetchStudentsForLesson extends LessonEvent {
   FetchStudentsForLesson(this.lesson);
 }
 
-class LoadTeacherNames extends LessonEvent {
-  final List<String> teacherIds;
+class FetchTeacherssForLesson extends LessonEvent {
+  final LessonModel lesson;
 
-  LoadTeacherNames(this.teacherIds);
+  FetchTeacherssForLesson(this.lesson);
 }
