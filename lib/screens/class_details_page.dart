@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
-
 import 'package:tobetoapp/bloc/lessons/lesson_bloc.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_event.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/screens/catalog/catalog_page.dart';
-import 'package:tobetoapp/screens/lesson_details_and_video/lesson_details_page.dart';
-import 'package:tobetoapp/screens/student_live_lesson_page.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/widgets/banner_widget.dart';
 import 'package:tobetoapp/widgets/lesson_card.dart';
