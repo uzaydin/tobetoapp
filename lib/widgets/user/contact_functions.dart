@@ -7,23 +7,23 @@ Future<void> sendDataToFirestore({
   required String nameSurname,
   required String email,
   required String message,
-  required TextEditingController adSoyadController,
+  required TextEditingController nameSurnameController,
   required TextEditingController emailController,
-  required TextEditingController mesajController,
+  required TextEditingController messageController,
 }) async {
   try {
     await FirebaseFirestore.instance.collection("contact").add({
-      "adSoyad": nameSurname,
+      "nameSurname": nameSurname,
       "email": email,
-      "mesaj": message,
+      "message": message,
       "timestamp": FieldValue.serverTimestamp(),
     });
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text("Mesajınız başarıyla gönderildi."),
     ));
-    adSoyadController.clear();
+    nameSurnameController.clear();
     emailController.clear();
-    mesajController.clear();
+    messageController.clear();
   } catch (error) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('Veri gönderme hatası: $error'),
@@ -45,9 +45,9 @@ void submitForm({
       nameSurname: nameSurnameController.text,
       email: emailController.text,
       message: messageController.text,
-      adSoyadController: nameSurnameController,
+      nameSurnameController: nameSurnameController,
       emailController: emailController,
-      mesajController: messageController,
+      messageController: messageController,
     );
   }
 }

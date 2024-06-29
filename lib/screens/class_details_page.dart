@@ -154,48 +154,51 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   Widget _buildEmptyState() {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.info_outline,
-              size: 100,
-              color: Colors.blueAccent,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              "Henüz ders tanımlanmamıştır.",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Ancak kataloğumuza göz atabilirsin!",
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CatalogPage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+        padding: EdgeInsets.all(AppConstants.paddingMedium),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.info_outline,
+                size: AppConstants.profileImageSize + 20,
+                color: Colors.blueAccent,
+              ),
+              SizedBox(height: AppConstants.sizedBoxWidthMedium),
+              const Text(
+                "Henüz ders tanımlanmamıştır.",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: AppConstants.sizedBoxHeightSmall),
+              const Text(
+                "Ancak kataloğumuza göz atabilirsin!",
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: AppConstants.sizedBoxHeightLarge),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CatalogPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppConstants.br20),
+                  ),
+                ),
+                child: const Text(
+                  "Kataloga git",
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
-              child: const Text(
-                "Kataloga git",
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

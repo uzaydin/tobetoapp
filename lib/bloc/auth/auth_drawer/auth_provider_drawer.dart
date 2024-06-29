@@ -25,22 +25,6 @@ class AuthProviderDrawer extends ChangeNotifier {
     }
   }
 
-/*
-  Future<void> login() async {
-    _user = _firebaseAuth.currentUser;
-
-    if (_user != null) {
-      DocumentSnapshot userDoc =
-          await _firestore.collection('users').doc(_user!.uid).get();
-      if (userDoc.exists) {
-        _userModel = UserModel.fromMap(userDoc.data() as Map<String, dynamic>);
-        _userRole = _userModel?.role.toString();
-      }
-    }
-    notifyListeners();
-  }
-*/
-
   Future<void> login() async {
     _user = _firebaseAuth.currentUser;
     if (_user != null) {
@@ -48,21 +32,10 @@ class AuthProviderDrawer extends ChangeNotifier {
     }
     notifyListeners();
   }
-/*
-  Future<void> _loadUserDetails() async {
-    final userDoc = await _firestore.collection('users').doc(_user!.uid).get();
-    if (userDoc.exists) {
-      _userModel = UserModel.fromMap(userDoc.data() as Map<String, dynamic>);
-      _userRole = _userModel?.role.toString();
-    }
-    notifyListeners();
-  }
-*/
 
   Future<void> _loadUserDetails() async {
     try {
       _userModel = await _userRepository.getUserDetails(_user!.uid);
-      //_userRole = _userModel?.role.toString();
     } catch (e) {
       print('Error loading user details: $e');
     }
