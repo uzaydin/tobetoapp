@@ -381,7 +381,6 @@ class _HomepageState extends State<Homepage> {
                 SizedBox(height: AppConstants.sizedBoxHeightLarge),
                 const Divider(),
                 SizedBox(height: AppConstants.sizedBoxHeightLarge),
-                //
                 Padding(
                   padding: EdgeInsets.all(AppConstants.paddingMedium),
                   child: Column(
@@ -407,7 +406,8 @@ class _HomepageState extends State<Homepage> {
                             return GestureDetector(
                               onTap: () => _onAvatarTap(index),
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding:
+                                    EdgeInsets.all(AppConstants.paddingSmall),
                                 child: AnimatedAvatar(
                                   isSelected: _selectedIndex == index,
                                   photoUrl: _users[index]['photoUrl'],

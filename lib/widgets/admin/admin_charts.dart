@@ -63,7 +63,9 @@ class _AdminChartsState extends State<AdminCharts> {
                     barGroups: barGroups(widget.monthlyRegistrations),
                     gridData: const FlGridData(show: false),
                     alignment: BarChartAlignment.spaceAround,
-                    maxY: (widget.monthlyRegistrations.reduce((a, b) => a > b ? a : b)).toDouble() * 1.5,
+                    maxY: (widget.monthlyRegistrations
+                            .reduce((a, b) => a > b ? a : b)).toDouble() *
+                        1.5,
                   ),
                 );
               }
@@ -76,7 +78,9 @@ class _AdminChartsState extends State<AdminCharts> {
           children: List.generate(2, (index) {
             return GestureDetector(
               onTap: () {
-                _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+                _pageController.animateToPage(index,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut);
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -95,26 +99,26 @@ class _AdminChartsState extends State<AdminCharts> {
   }
 
   BarTouchData get barTouchData => BarTouchData(
-    enabled: false,
-    touchTooltipData: BarTouchTooltipData(
-      getTooltipColor: (group) => Colors.transparent,
-      tooltipPadding: EdgeInsets.zero,
-      tooltipMargin: 8,
-      getTooltipItem: (
-        BarChartGroupData group,
-        int groupIndex,
-        BarChartRodData rod,
-        int rodIndex,
-      ) {
-        return BarTooltipItem(
-          rod.toY.round().toString(),
-          const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        );
-      },
-    ),
-  );
+        enabled: false,
+        touchTooltipData: BarTouchTooltipData(
+          getTooltipColor: (group) => Colors.transparent,
+          tooltipPadding: EdgeInsets.zero,
+          tooltipMargin: 8,
+          getTooltipItem: (
+            BarChartGroupData group,
+            int groupIndex,
+            BarChartRodData rod,
+            int rodIndex,
+          ) {
+            return BarTooltipItem(
+              rod.toY.round().toString(),
+              const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            );
+          },
+        ),
+      );
 
   Widget getTitles(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -171,37 +175,37 @@ class _AdminChartsState extends State<AdminCharts> {
   }
 
   FlTitlesData get titlesData => FlTitlesData(
-    show: true,
-    bottomTitles: AxisTitles(
-      sideTitles: SideTitles(
-        showTitles: true,
-        reservedSize: 30,
-        getTitlesWidget: getTitles,
-      ),
-    ),
-    leftTitles: const AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    topTitles: const AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    rightTitles: const AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-  );
+        show: true,
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            getTitlesWidget: getTitles,
+          ),
+        ),
+        leftTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        rightTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+      );
 
   FlBorderData get borderData => FlBorderData(
-    show: false,
-  );
+        show: false,
+      );
 
   LinearGradient get _barsGradient => LinearGradient(
-    colors: [
-      Colors.blue.shade800,
-      Colors.cyanAccent.shade400,
-    ],
-    begin: Alignment.bottomCenter,
-    end: Alignment.topCenter,
-  );
+        colors: [
+          Colors.blue.shade800,
+          Colors.cyanAccent.shade400,
+        ],
+        begin: Alignment.bottomCenter,
+        end: Alignment.topCenter,
+      );
 
   List<BarChartGroupData> barGroups(List<int> monthlyData) {
     if (monthlyData.length != 12) {
