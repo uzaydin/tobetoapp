@@ -13,7 +13,7 @@ class CatalogVideoRepository {
           .get();
 
       return snapshot.docs
-          .map((doc) => Video.fromMap(doc.data() as Map<String, dynamic>))
+          .map((doc) => Video.fromMap(doc.data()))
           .toList();
     } catch (e) {
       throw Exception('Error fetching videos: $e');

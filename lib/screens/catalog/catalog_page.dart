@@ -5,7 +5,7 @@ import 'package:tobetoapp/bloc/catalog/catalog_event.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_state.dart';
 import 'package:tobetoapp/models/catalog_model.dart';
 import 'package:tobetoapp/screens/catalog/catalog_detail_page.dart';
-import 'package:tobetoapp/screens/catalog/catalog_filter_widget.dart';
+import 'package:tobetoapp/widgets/catalog_filter_widget.dart';
 
 class CatalogPage extends StatefulWidget {
 
