@@ -15,7 +15,7 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
     on<LoadAnnouncements>(_loadAnnouncements);
     on<AddAnnouncement>(_addAnnouncement);
     on<DeleteAnnouncement>(_deleteAnnouncement);
-    on<AnnouncementsUpdated>(_onAnnouncementsUpdated);
+    //on<AnnouncementsUpdated>(_onAnnouncementsUpdated);
   }
 
   Future<void> _loadAnnouncements(
@@ -40,10 +40,10 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
 
  
 
-  void _onAnnouncementsUpdated(
-      AnnouncementsUpdated event, Emitter<AnnouncementState> emit) {
-    emit(AnnouncementsLoaded(event.announcements));
-  }
+  // void _onAnnouncementsUpdated(
+  //     AnnouncementsUpdated event, Emitter<AnnouncementState> emit) {
+  //   emit(AnnouncementsLoaded(event.announcements));
+  // }
 
   Future<void> _addAnnouncement(
       AddAnnouncement event, Emitter<AnnouncementState> emit) async {

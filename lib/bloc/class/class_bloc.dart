@@ -1,14 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/class/class_event.dart';
 import 'package:tobetoapp/bloc/class/class_state.dart';
-import 'package:tobetoapp/models/class_model.dart';
 import 'package:tobetoapp/repository/class_repository.dart';
 
 class ClassBloc extends Bloc<ClassEvent, ClassState> {
   final ClassRepository _classRepository;
-  StreamSubscription<List<ClassModel>>? _classesSubscription;
 
   ClassBloc(this._classRepository) : super(ClassLoading()) {
     on<LoadClasses>(_loadClasses);
@@ -19,15 +15,12 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
 
   Future<void> _loadClasses(LoadClasses event, Emitter<ClassState> emit) async {
     emit(ClassLoading());
-    _classesSubscription?.cancel();
-    _classesSubscription = _classRepository.getClassesStream().listen(
-      (classes) {
-        add(ClassUpdated(classes));
-      },
-      onError: (error) {
-        emit(ClassOperationFailure(error.toString()));
-      },
-    );
+    try {
+      final classes = await _classRepository.getClasses();
+      emit(ClassesLoaded(classes));
+    } catch (e) {
+      emit(ClassOperationFailure(e.toString()));
+    }
   }
 
   void _onClassesUpdated(ClassUpdated event, Emitter<ClassState> emit) {

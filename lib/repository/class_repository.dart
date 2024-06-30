@@ -21,7 +21,6 @@ class ClassRepository {
   Future<List<ClassModel>> getClasses() async {
     try {
       final snapshot = await _firestore.collection('classes').get();
-      //print('Fetched classes from Firestore: ${snapshot.docs.length}');
       return snapshot.docs.map((doc) {
         return ClassModel.fromMap(doc.data() as Map<String, dynamic>);
       }).toList();
