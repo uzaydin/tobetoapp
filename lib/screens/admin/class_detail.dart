@@ -21,7 +21,7 @@ class ClassDetailsPage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Class Details'),
+          title: const Text('Sınıf Detayları'),
         ),
         body: BlocBuilder<AdminBloc, AdminState>(
           builder: (context, state) {
@@ -34,8 +34,8 @@ class ClassDetailsPage extends StatelessWidget {
                   children: [
                     const TabBar(
                       tabs: [
-                        Tab(text: 'Users'),
-                        Tab(text: 'Lessons'),
+                        Tab(text: 'Kullanıcılar'),
+                        Tab(text: 'Dersler'),
                       ],
                     ),
                     Expanded(
@@ -69,7 +69,7 @@ class ClassDetailsPage extends StatelessWidget {
                                   ListTile(
                                     title: Text(lesson.title!),
                                     subtitle: Text(
-                                        'Description: ${lesson.description}'),
+                                        'Açıklama: ${lesson.description}'),
                                   ),
                                   const Divider(
                                     thickness: 1, // Çizginin kalınlığı
@@ -88,7 +88,7 @@ class ClassDetailsPage extends StatelessWidget {
             } else if (state is AdminError) {
               return Center(
                   child:
-                      Text('Failed to load class details: ${state.message}'));
+                      Text('Sınıf detayları yüklenirken bir hata oluştu. Lütfen tekrar deneyiniz.'));
             } else {
               return const Center(child: Text('No class details found'));
             }

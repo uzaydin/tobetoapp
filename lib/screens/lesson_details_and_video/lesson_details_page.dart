@@ -12,6 +12,7 @@ import 'package:tobetoapp/bloc/lessons/lesson_video/video_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/screens/lesson_details_and_video/sample_player.dart';
 import 'package:tobetoapp/screens/lesson_details_and_video/video_list_widget.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class LessonDetailsPage extends StatefulWidget {
   final LessonModel lesson;
@@ -132,20 +133,20 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: AppConstants.sizedBoxHeightMedium),
               Row(
                 children: [
                   const Icon(
                     Icons.calendar_today,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     'Bitiş: ${endDate != null ? DateFormat('dd MMM yyyy').format(endDate) : 'Belirtilmemiş'}',
                     style: const TextStyle(color: Colors.black),
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: AppConstants.sizedBoxHeightMedium),
               Row(
                 children: [
                   const Icon(
@@ -158,7 +159,7 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: AppConstants.sizedBoxHeightMedium),
               Row(
                 children: [
                   const Icon(Icons.video_library),
@@ -190,7 +191,10 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tobeto"),
+        title: Image.asset(
+          "assets/logo/tobetologo.PNG",
+          width: AppConstants.screenWidth * 0.43,
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -213,7 +217,7 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
       children: [
         Text(
           widget.lesson.title ?? 'Başlık Yok',
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         Row(
           children: [
@@ -271,7 +275,7 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildProgressIndicator(progress),
-              const SizedBox(height: 16),
+              SizedBox(height: AppConstants.sizedBoxHeightSmall),
               if (_currentVideoUrl != null)
                 SamplePlayer(
                   key: ValueKey(_currentVideoUrl),
@@ -279,12 +283,12 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
                   onVideoComplete: _onVideoComplete,
                   onTimeUpdate: _onTimeUpdate,
                 ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppConstants.sizedBoxHeightSmall),
               Expanded(child: VideoListWidget(onVideoTap: _onVideoTap)),
             ],
           );
         } else if (state is VideoOperationFailure) {
-          return Center(child: Text('Error: ${state.error}'));
+          return Center(child: Text('Henüz video tanımlanmamıştır.'));
         } else {
           return const Center(child: CircularProgressIndicator());
         }

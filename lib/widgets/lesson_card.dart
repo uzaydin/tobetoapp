@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/screens/lesson_details_and_video/lesson_details_page.dart';
 import 'package:tobetoapp/screens/student_live_lesson_page.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class LessonCard extends StatelessWidget {
   final LessonModel lesson;
@@ -16,7 +17,7 @@ class LessonCard extends StatelessWidget {
         _navigateToLessonPage(context, lesson);
       },
       child: Card(
-        margin: const EdgeInsets.all(8.0),
+        //margin: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -33,21 +34,22 @@ class LessonCard extends StatelessWidget {
                     color: Colors.grey,
                     child: const Icon(Icons.image, size: 30),
                   ),
-            const SizedBox(height: 10),
+            SizedBox(height: AppConstants.screenHeight * 0.01),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 lesson.title ?? "No title",
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: AppConstants.screenHeight * 0.01),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 _formatDate(lesson.startDate),
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: AppConstants.screenHeight * 0.01),
           ],
         ),
       ),

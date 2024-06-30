@@ -19,7 +19,8 @@ class AnnouncementCard extends StatelessWidget {
     required this.classIds,
   });
 
-  void _showAnnouncementDetails(BuildContext context, Announcements announcement) {
+  void _showAnnouncementDetails(
+      BuildContext context, Announcements announcement) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -81,7 +82,7 @@ class AnnouncementCard extends StatelessWidget {
               SizedBox(height: AppConstants.sizedBoxHeightSmall),
               Text(
                 announcement.title!,
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
               ),
@@ -95,19 +96,22 @@ class AnnouncementCard extends StatelessWidget {
                       SizedBox(width: AppConstants.sizedBoxWidthSmall),
                       Text(
                         formattedDate,
-                        style: const TextStyle(color: Colors.black, fontSize: 15),
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 15),
                       ),
                     ],
                   ),
                   TextButton(
-                    onPressed: () => _showAnnouncementDetails(context, announcement),
+                    onPressed: () =>
+                        _showAnnouncementDetails(context, announcement),
                     child: const Text('Detaylar'),
                   ),
                   if (role == UserRole.admin)
                     IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () {
-                        context.read<AnnouncementBloc>().add(DeleteAnnouncement(classIds, announcement.id!, role));
+                        context.read<AnnouncementBloc>().add(DeleteAnnouncement(
+                            classIds, announcement.id!, role));
                       },
                     ),
                 ],
