@@ -7,17 +7,6 @@ class ClassRepository {
   ClassRepository({FirebaseFirestore? firestore})
       : _firestore = firestore ?? FirebaseFirestore.instance;
 
-  Stream<List<ClassModel>> getClassesStream() {
-    return _firestore.collection('classes').snapshots().map((snapshot) {
-      // Future kullanilabilir.
-      return snapshot.docs.map((doc) {
-        return ClassModel.fromMap(doc.data());
-      }).toList();
-    }).handleError((error) {
-      throw error;
-    });
-  }
-
   Future<List<ClassModel>> getClasses() async {
     try {
       final snapshot = await _firestore.collection('classes').get();
