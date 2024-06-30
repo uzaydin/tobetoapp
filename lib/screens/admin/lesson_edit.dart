@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:tobetoapp/bloc/admin/admin_bloc.dart';
 import 'package:tobetoapp/bloc/admin/admin_event.dart';
 import 'package:tobetoapp/bloc/admin/admin_state.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class LessonEditPage extends StatefulWidget {
   final String lessonId;
@@ -172,7 +173,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                           ),
                           maxLines: 3,
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: AppConstants.sizedBoxHeightSmall),
                         ListTile(
                           title: const Text('Başlangıç tarihi'),
                           subtitle: Text(_formatDate(_startDate)),
@@ -239,7 +240,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                             isVisible: true,
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: AppConstants.sizedBoxHeightSmall),
                         const Text(
                           'Sınıflara ata',
                           style: TextStyle(
@@ -274,7 +275,7 @@ class _LessonEditPageState extends State<LessonEditPage> {
                             isVisible: true,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: AppConstants.sizedBoxHeightSmall),
                         ElevatedButton(
                           onPressed: () {
                             final updatedLesson = state.lesson.copyWith(

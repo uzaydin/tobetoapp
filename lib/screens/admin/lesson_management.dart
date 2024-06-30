@@ -5,6 +5,7 @@ import 'package:tobetoapp/bloc/admin/admin_event.dart';
 import 'package:tobetoapp/bloc/admin/admin_state.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/screens/admin/lesson_edit.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/widgets/admin/lesson_tile.dart';
 import 'package:tobetoapp/widgets/search_bar.dart';
 
@@ -53,63 +54,63 @@ class _LessonManagementPageState extends State<LessonManagementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          body: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SearchBarWidget(
-                  controller: _searchController,
-                  hintText: 'Ders başlığı giriniz',
-                ),
-              ),
-              Expanded(
-                child: BlocBuilder<AdminBloc, AdminState>(
-                  builder: (context, state) {
-                    if (state is AdminLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (state is AdminError) {
-                      return const Center(
-                          child: Text(
-                              'Yüklenirken bir hata oluştu. Lütfen tekrar deneyiniz.'));
-                    } else if (state is LessonsLoaded) {
-                      final itemsToDisplay = _searchController.text.isEmpty
-                          ? state.lessons
-                          : _filteredLessons;
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(AppConstants.paddingSmall),
+            child: SearchBarWidget(
+              controller: _searchController,
+              hintText: 'Ders başlığı giriniz',
+            ),
+          ),
+          Expanded(
+            child: BlocBuilder<AdminBloc, AdminState>(
+              builder: (context, state) {
+                if (state is AdminLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is AdminError) {
+                  return const Center(
+                      child: Text(
+                          'Yüklenirken bir hata oluştu. Lütfen tekrar deneyiniz.'));
+                } else if (state is LessonsLoaded) {
+                  final itemsToDisplay = _searchController.text.isEmpty
+                      ? state.lessons
+                      : _filteredLessons;
 
-                      return ListView.builder(
-                        itemCount: itemsToDisplay.length,
-                        itemBuilder: (context, index) {
-                          final lesson = itemsToDisplay[index];
-                          return Column(
-                            children: [
-                              LessonTile(
-                                lesson: lesson,
-                                onEdit: () => _navigateToEditLessonPage(
-                                    context, lesson.id!),
-                                onDelete: () => _showDeleteLessonDialog(
-                                    context, lesson.id!),
-                              ),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.grey,
-                              ),
-                            ],
-                          );
-                        },
+                  return ListView.builder(
+                    itemCount: itemsToDisplay.length,
+                    itemBuilder: (context, index) {
+                      final lesson = itemsToDisplay[index];
+                      return Column(
+                        children: [
+                          LessonTile(
+                            lesson: lesson,
+                            onEdit: () =>
+                                _navigateToEditLessonPage(context, lesson.id!),
+                            onDelete: () =>
+                                _showDeleteLessonDialog(context, lesson.id!),
+                          ),
+                          const Divider(
+                            thickness: 1,
+                            color: Colors.grey,
+                          ),
+                        ],
                       );
-                    } else {
-                      return const SizedBox.shrink();
-                    }
-                  },
-                ),
-              ),
-            ],
+                    },
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => _showAddLessonDialog(context),
-            child: const Icon(Icons.add),
-          ),
-        );
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showAddLessonDialog(context),
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 
   void _navigateToEditLessonPage(BuildContext context, String lessonId) {
