@@ -44,8 +44,8 @@ class _AdminPanelState extends State<AdminPanel> {
             children: [
               Image.asset(
                 "assets/logo/tobeto.png",
-                width: 25,
-                height: 25,
+                width: 32,
+                height: 32,
               ),
               SizedBox(
                 width: AppConstants.sizedBoxWidthSmall,
