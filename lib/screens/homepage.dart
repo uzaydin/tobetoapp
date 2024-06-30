@@ -61,7 +61,7 @@ class _HomepageState extends State<Homepage> {
         ),
       )
       ..loadRequest(Uri.parse(
-          'https://mediafiles.botpress.cloud/d1265f28-5638-4830-bb0c-86bd18db99bc/webchat/bot.html'));
+          'https://mediafiles.botpress.cloud/7df64e85-0771-427d-aa97-220335183397/webchat/bot.html'));
   }
 
   Future<void> _fetchStudentComments() async {
