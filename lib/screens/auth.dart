@@ -13,6 +13,7 @@ import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
+import 'package:tobetoapp/widgets/password_strength.dart';
 import 'package:tobetoapp/widgets/password_suffix_icon.dart';
 import 'package:tobetoapp/widgets/validation_video_controller.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -157,6 +158,11 @@ class _AuthState extends State<Auth> {
           SizedBox(height: AppConstants.sizedBoxHeightSmall),
           _buildPasswordField(),
           SizedBox(height: AppConstants.sizedBoxHeightSmall),
+          if (!_isLoginPage)
+            PasswordStrengthWidget(
+              passwordController: _passwordController,
+            ),
+          SizedBox(height: AppConstants.sizedBoxHeightSmall),
           if (!_isLoginPage) _buildConfirmPasswordField(),
           SizedBox(height: AppConstants.sizedBoxHeightSmall),
           _buildSubmitButton(context),
@@ -270,26 +276,31 @@ class _AuthState extends State<Auth> {
   }
 
   Widget _buildPasswordField() {
-    return TextFormField(
-      controller: _passwordController,
-      decoration: InputDecoration(
-        labelText: "Şifre",
-        suffixIcon: PasswordSuffixIcon(
-          isPasswordVisible: _isPasswordVisible,
-          onToggleVisibility: () {
-            setState(() {
-              _isPasswordVisible = !_isPasswordVisible;
-            });
-          },
+    return Column(
+      children: [
+        TextFormField(
+          controller: _passwordController,
+          decoration: InputDecoration(
+            labelText: "Şifre",
+            suffixIcon: PasswordSuffixIcon(
+              isPasswordVisible: _isPasswordVisible,
+              onToggleVisibility: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppConstants.br20),
+            ),
+            prefixIcon: const Icon(Icons.lock_outline_rounded),
+          ),
+          autocorrect: false,
+          obscureText: !_isPasswordVisible,
+          validator: (value) => validation(value, "Lütfen bir şifre giriniz"),
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppConstants.br20),
-        ),
-        prefixIcon: const Icon(Icons.lock_outline_rounded),
-      ),
-      autocorrect: false,
-      obscureText: !_isPasswordVisible,
-      validator: (value) => validation(value, "Lütfen bir şifre giriniz"),
+        SizedBox(height: AppConstants.sizedBoxHeightSmall),
+      ],
     );
   }
 
