@@ -382,6 +382,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.20"
+  flutter_pw_validator:
+    dependency: "direct main"
+    description:
+      name: flutter_pw_validator
+      sha256: "01960d4d701f6b972f3a2f324e202d840ecfe1b84e00522f92dece874b1c9b30"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.6.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -672,14 +680,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
-  password_strength_checker:
-    dependency: "direct main"
-    description:
-      name: password_strength_checker
-      sha256: aeaf889c9528d667d653a159f7488f42d5b79836e0074f709c3048ef6013e08a
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.3"
   path:
     dependency: "direct main"
     description:
