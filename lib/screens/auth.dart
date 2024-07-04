@@ -15,6 +15,7 @@ import 'package:tobetoapp/widgets/common_app_bar.dart';
 import 'package:tobetoapp/widgets/common_footer.dart';
 import 'package:tobetoapp/widgets/password_strength.dart';
 import 'package:tobetoapp/widgets/password_suffix_icon.dart';
+import 'package:tobetoapp/widgets/user/recaptcha.dart';
 import 'package:tobetoapp/widgets/validation_video_controller.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -32,7 +33,9 @@ class _AuthState extends State<Auth> {
 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _emailControllerSignUp = TextEditingController();
   final _passwordController = TextEditingController();
+  final _passwordControllerSignUp = TextEditingController();
   final _nameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -51,7 +54,7 @@ class _AuthState extends State<Auth> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CommonAppBar(),
-      drawer: const DrawerManager(),
+      drawer: DrawerManager(),
       body: BlocListener<AuthBloc, AuthState>(
         listener: _authBlocListener,
         child: SingleChildScrollView(
@@ -69,6 +72,61 @@ class _AuthState extends State<Auth> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildAuthForm(BuildContext context) {
+    return OutlineGradientButton(
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
+      strokeWidth: 3,
+      radius: Radius.circular(AppConstants.br30),
+      gradient: const LinearGradient(
+        colors: [
+          AppColors.tobetoMoru,
+          Color.fromARGB(209, 255, 255, 255),
+          Color.fromARGB(178, 255, 255, 255),
+          AppColors.tobetoMoru,
+        ],
+        stops: [0.0, 0.5, 0.5, 1.0],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      child: Column(
+        children: [
+          SizedBox(height: AppConstants.sizedBoxHeightSmall),
+          _buildLogo(),
+          SizedBox(height: AppConstants.sizedBoxHeightSmall),
+          _buildWelcomeText(context),
+          SizedBox(height: AppConstants.sizedBoxHeightLarge),
+          _buildToggleSwitch(),
+          SizedBox(height: AppConstants.sizedBoxHeightMedium),
+          if (_isLoginPage) ...[
+            _buildEmailField(),
+            SizedBox(height: AppConstants.sizedBoxHeightSmall),
+            _buildPasswordField(),
+            SizedBox(height: AppConstants.sizedBoxHeightSmall),
+            if (_isLoginPage)
+              SizedBox(
+                  height: AppConstants.screenHeight * 0.15, child: Recaptcha()),
+          ],
+          if (!_isLoginPage) ...[
+            _buildSignUpFields(),
+            _buildEmailFieldForSignUp(),
+            SizedBox(height: AppConstants.sizedBoxHeightSmall),
+            _buildPasswordFieldForSignUp(),
+            SizedBox(height: AppConstants.sizedBoxHeightSmall),
+            PasswordStrengthWidget(
+              passwordController: _passwordControllerSignUp,
+            ),
+            SizedBox(height: AppConstants.sizedBoxHeightSmall),
+            _buildConfirmPasswordField(),
+            SizedBox(height: AppConstants.sizedBoxHeightSmall),
+          ],
+          _buildSubmitButton(context),
+          SizedBox(height: AppConstants.sizedBoxHeightSmall),
+          if (_isLoginPage) _buildAdditionalOptions(context),
+        ],
       ),
     );
   }
@@ -126,51 +184,6 @@ class _AuthState extends State<Auth> {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => const Auth(),
     ));
-  }
-
-  Widget _buildAuthForm(BuildContext context) {
-    return OutlineGradientButton(
-      padding: EdgeInsets.all(AppConstants.paddingMedium),
-      strokeWidth: 3,
-      radius: Radius.circular(AppConstants.br30),
-      gradient: const LinearGradient(
-        colors: [
-          AppColors.tobetoMoru,
-          Color.fromARGB(209, 255, 255, 255),
-          Color.fromARGB(178, 255, 255, 255),
-          AppColors.tobetoMoru,
-        ],
-        stops: [0.0, 0.5, 0.5, 1.0],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      child: Column(
-        children: [
-          SizedBox(height: AppConstants.sizedBoxHeightSmall),
-          _buildLogo(),
-          SizedBox(height: AppConstants.sizedBoxHeightSmall),
-          _buildWelcomeText(context),
-          SizedBox(height: AppConstants.sizedBoxHeightLarge),
-          _buildToggleSwitch(),
-          SizedBox(height: AppConstants.sizedBoxHeightMedium),
-          if (!_isLoginPage) _buildSignUpFields(),
-          _buildEmailField(),
-          SizedBox(height: AppConstants.sizedBoxHeightSmall),
-          _buildPasswordField(),
-          SizedBox(height: AppConstants.sizedBoxHeightSmall),
-          if (!_isLoginPage)
-            PasswordStrengthWidget(
-              passwordController: _passwordController,
-            ),
-          SizedBox(height: AppConstants.sizedBoxHeightSmall),
-          if (!_isLoginPage) _buildConfirmPasswordField(),
-          SizedBox(height: AppConstants.sizedBoxHeightSmall),
-          _buildSubmitButton(context),
-          SizedBox(height: AppConstants.sizedBoxHeightSmall),
-          if (_isLoginPage) _buildAdditionalOptions(context),
-        ],
-      ),
-    );
   }
 
   Widget _buildLogo() {
@@ -275,6 +288,23 @@ class _AuthState extends State<Auth> {
     );
   }
 
+  Widget _buildEmailFieldForSignUp() {
+    return TextFormField(
+      controller: _emailControllerSignUp,
+      decoration: InputDecoration(
+        labelText: "E-Posta",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppConstants.br20),
+        ),
+        prefixIcon: const Icon(Icons.email),
+      ),
+      autocorrect: false,
+      keyboardType: TextInputType.emailAddress,
+      validator: (value) =>
+          validation(value, "Lütfen bir e-posta adresi giriniz."),
+    );
+  }
+
   Widget _buildPasswordField() {
     return Column(
       children: [
@@ -304,6 +334,30 @@ class _AuthState extends State<Auth> {
     );
   }
 
+  Widget _buildPasswordFieldForSignUp() {
+    return TextFormField(
+      controller: _passwordControllerSignUp,
+      decoration: InputDecoration(
+        labelText: "Şifre",
+        suffixIcon: PasswordSuffixIcon(
+          isPasswordVisible: _isPasswordVisible,
+          onToggleVisibility: () {
+            setState(() {
+              _isPasswordVisible = !_isPasswordVisible;
+            });
+          },
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppConstants.br20),
+        ),
+        prefixIcon: const Icon(Icons.lock_outline_rounded),
+      ),
+      autocorrect: false,
+      obscureText: !_isPasswordVisible,
+      validator: (value) => validation(value, "Lütfen bir şifre giriniz"),
+    );
+  }
+
   Widget _buildConfirmPasswordField() {
     return Column(
       children: [
@@ -326,8 +380,8 @@ class _AuthState extends State<Auth> {
           ),
           autocorrect: false,
           obscureText: !_isRepeatPasswordVisible,
-          validator: (value) =>
-              validatePasswordConfirmation(value, _passwordController.text),
+          validator: (value) => validatePasswordConfirmation(
+              value, _passwordControllerSignUp.text),
         ),
         SizedBox(height: AppConstants.sizedBoxHeightSmall),
       ],
@@ -438,6 +492,7 @@ class _AuthState extends State<Auth> {
             password: _passwordController.text,
           ),
         );
+    _clearForm();
   }
 
   void _signUp() {
@@ -445,10 +500,11 @@ class _AuthState extends State<Auth> {
           AuthSignUp(
             name: _nameController.text,
             lastName: _lastNameController.text,
-            email: _emailController.text,
-            password: _passwordController.text,
+            email: _emailControllerSignUp.text,
+            password: _passwordControllerSignUp.text,
           ),
         );
+    _clearForm();
   }
 
   String? validatePasswordConfirmation(
@@ -459,5 +515,15 @@ class _AuthState extends State<Auth> {
       return "Şifreler eşleşmiyor.";
     }
     return null;
+  }
+
+  void _clearForm() {
+    _emailController.clear();
+    _passwordController.clear();
+    if (!_isLoginPage) {
+      _nameController.clear();
+      _lastNameController.clear();
+      _confirmPasswordController.clear();
+    }
   }
 }

@@ -84,7 +84,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
         ],
         centerTitle: true,
       ),
-      drawer: const DrawerManager(),
+      drawer: DrawerManager(),
       body: Column(
         children: [
           // Banner

@@ -35,7 +35,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CommonAppBar(),
-      drawer: const DrawerManager(),
+      drawer: DrawerManager(),
       body: Padding(
         padding: EdgeInsets.symmetric(
             vertical: AppConstants.paddingXLarge,

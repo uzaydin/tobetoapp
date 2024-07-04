@@ -102,7 +102,7 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         title: const Text('Profil'),
       ),
-      drawer: const DrawerManager(),
+      drawer: DrawerManager(),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state is ProfileInitial || state is ProfileLoading) {

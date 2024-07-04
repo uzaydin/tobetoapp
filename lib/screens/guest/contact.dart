@@ -40,7 +40,7 @@ class _IletisimState extends State<Contact> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CommonAppBar(),
-      drawer: const DrawerManager(),
+      drawer: DrawerManager(),
       body: SingleChildScrollView(
         child: Column(
           children: [

@@ -9,29 +9,32 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: InkWell(
-        onTap: () {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const Homepage()));
-        },
-        child: SizedBox(
-          width: AppConstants.screenWidth * 0.5,
-          child: Image.asset(
-            'assets/logo/tobetologo.PNG',
-            fit: BoxFit.contain,
+    return PreferredSize(
+      preferredSize: Size.fromHeight(AppConstants.screenHeight * 0.1),
+      child: AppBar(
+        title: InkWell(
+          onTap: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const Homepage()));
+          },
+          child: SizedBox(
+            width: AppConstants.screenWidth * 0.5,
+            child: Image.asset(
+              'assets/logo/tobetologo.PNG',
+              fit: BoxFit.contain,
+            ),
           ),
         ),
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          Builder(
+              builder: (context) => IconButton(
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  icon: const Icon(Icons.menu))),
+        ],
       ),
-      automaticallyImplyLeading: false,
-      actions: <Widget>[
-        Builder(
-            builder: (context) => IconButton(
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                icon: const Icon(Icons.menu))),
-      ],
     );
   }
 

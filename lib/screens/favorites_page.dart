@@ -55,7 +55,7 @@ class _FavoritesPageState extends State<FavoritesPage>
         ),
         centerTitle: true,
       ),
-      drawer: const DrawerManager(),
+      drawer: DrawerManager(),
       body: Column(
         children: [
           const BannerWidget(

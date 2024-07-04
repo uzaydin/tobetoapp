@@ -138,7 +138,7 @@ class _HomepageState extends State<Homepage> {
 
     return Scaffold(
       appBar: const CommonAppBar(),
-      drawer: const DrawerManager(),
+      drawer: DrawerManager(),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(

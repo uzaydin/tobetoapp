@@ -185,6 +185,9 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+//
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+//
   @override
   Widget build(BuildContext context) {
     return Builder(
@@ -193,6 +196,7 @@ class _MyAppState extends State<MyApp> {
         return Consumer<AuthProviderDrawer>(
           builder: (context, authProvider, _) {
             return MaterialApp(
+              navigatorKey: navigatorKey,
               debugShowCheckedModeBanner: false,
               title: 'Tobeto',
               theme: AppThemes.light,
@@ -202,7 +206,7 @@ class _MyAppState extends State<MyApp> {
               builder: (context, child) {
                 return Scaffold(
                   body: child,
-                  drawer: const DrawerManager(),
+                  drawer: DrawerManager(),
                 );
               },
             );

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
-import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/auth/auth_event.dart';
 import 'package:tobetoapp/bloc/profile/profile_bloc.dart';
 import 'package:tobetoapp/bloc/profile/profile_event.dart';
@@ -124,10 +122,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       ));
                       _clearPasswordFields();
                     } else if (state is ProfileDeleted) {
-                      final authProvider = Provider.of<AuthProviderDrawer>(
-                          context,
-                          listen: false);
-                      authProvider.logout();
                       context.read<AuthBloc>().add(AuthLogOut());
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Hesap başarıyla silindi'),

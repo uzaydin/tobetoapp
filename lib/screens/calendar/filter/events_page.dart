@@ -7,6 +7,7 @@ import 'package:tobetoapp/bloc/calendar_bloc/calendar.state.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_bloc.dart';
 
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_event.dart';
+import 'package:tobetoapp/models/event_model.dart';
 import 'package:tobetoapp/screens/calendar/filter/checkboxes.dart';
 import 'package:tobetoapp/screens/calendar/filter/educator_dropdown.dart';
 import 'package:tobetoapp/screens/calendar/filter/search_field.dart';
@@ -70,7 +71,7 @@ class _EventsPageState extends State<EventsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CommonAppBar(),
-      drawer: const DrawerManager(),
+      drawer: DrawerManager(),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(
@@ -138,6 +139,7 @@ class _EventsPageState extends State<EventsPage> {
                                 return const Center(
                                     child: Text('Mevcut etkinlik yok.'));
                               }
+
                               return ListView(
                                 shrinkWrap: true,
                                 children: groupedEvents.entries.map((entry) {

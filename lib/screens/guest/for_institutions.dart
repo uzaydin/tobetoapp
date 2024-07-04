@@ -16,7 +16,7 @@ class ForInstitutions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CommonAppBar(),
-      drawer: const DrawerManager(),
+      drawer: DrawerManager(),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(AppConstants.paddingMedium),
