@@ -27,7 +27,11 @@ class _BlogPageState extends State<BlogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Blog'),
+        title: Image.asset(
+          "assets/logo/tobetologo.PNG",
+          width: MediaQuery.of(context).size.width * 0.43,
+        ),
+        centerTitle: true,
       ),
       body: BlocBuilder<BlogBloc, BlogState>(
         builder: (context, state) {

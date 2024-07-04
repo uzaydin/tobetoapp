@@ -4,7 +4,7 @@ import 'package:tobetoapp/bloc/news/news_bloc.dart';
 import 'package:tobetoapp/bloc/news/news_event.dart';
 import 'package:tobetoapp/bloc/news/news_state.dart';
 import 'package:tobetoapp/models/news_model.dart';
-import 'package:tobetoapp/screens/news_detail_screen.dart';
+import 'package:tobetoapp/screens/news_detail_page.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
@@ -28,7 +28,11 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basında Biz'),
+        title: Image.asset(
+          "assets/logo/tobetologo.PNG",
+          width: MediaQuery.of(context).size.width * 0.43,
+        ),
+        centerTitle: true,
       ),
       body: BlocBuilder<NewsBloc, NewsState>(
         builder: (context, state) {
@@ -58,7 +62,7 @@ class _NewsPageState extends State<NewsPage> {
       itemBuilder: (context, index) {
         News news = newsList[index];
         return Card(
-          color: Theme.of(context).cardColor,  // Adapt card color to theme
+          color: Theme.of(context).cardColor, 
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
