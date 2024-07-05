@@ -22,6 +22,7 @@ class LessonDetailsPage extends StatefulWidget {
 class _LessonDetailsPageState extends State<LessonDetailsPage> {
   late VideoHandler _videoHandler;
   String? _currentVideoUrl;
+  double _progress = 0.0;
 
   @override
   void initState() {
@@ -30,8 +31,19 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
       context: context,
       collectionId: widget.lesson.id!,
       videoIds: widget.lesson.videoIds ?? [],
+      onProgressUpdate: (progress) {
+        setState(() {
+          _progress = progress;
+        });
+      },
     );
     _videoHandler.loadVideos();
+  }
+
+  @override
+  void dispose() {
+    _videoHandler.dispose();
+    super.dispose();
   }
 
   @override
@@ -50,7 +62,6 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
             return Center(child: CircularProgressIndicator());
           } else if (state is VideosLoaded) {
             final videos = state.videos;
-            final progress = _videoHandler.calculateProgress(videos);
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,6 +78,8 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
                   ),
                 ),
                 SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                CommonProgressIndicator(progress: _progress),
+                SizedBox(height: AppConstants.sizedBoxHeightSmall),
                 CommonVideoPlayer(
                   videoUrl: _currentVideoUrl ?? _videoHandler.currentVideoUrl,
                   onVideoComplete: _videoHandler.onVideoComplete,
@@ -81,7 +94,7 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
                         _currentVideoUrl = video.link;
                       });
                     },
-                    progress: progress,
+                    progress: _progress,
                   ),
                 ),
               ],

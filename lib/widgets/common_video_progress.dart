@@ -16,25 +16,16 @@ class CommonVideoProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CommonProgressIndicator(progress: progress),
-        SizedBox(height: AppConstants.sizedBoxHeightSmall),
-        Expanded(
-          child: ListView.builder(
-            itemCount: videos.length,
-            itemBuilder: (context, index) {
-              final video = videos[index];
-              return ListTile(
-                title: Text(video.videoTitle!),
-                subtitle: Text(video.duration.toString()),
-                onTap: () => onVideoTap(video),
-              );
-            },
-          ),
-        ),
-      ],
+    return ListView.builder(
+      itemCount: videos.length,
+      itemBuilder: (context, index) {
+        final video = videos[index];
+        return ListTile(
+          title: Text(video.videoTitle!),
+          subtitle: Text(video.duration.toString()),
+          onTap: () => onVideoTap(video),
+        );
+      },
     );
   }
 }
@@ -46,22 +37,24 @@ class CommonProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: LinearProgressIndicator(
-            value: progress / 100,
-            backgroundColor: Colors.grey,
-            valueColor: AlwaysStoppedAnimation<Color>(
-              progress == 100 ? Colors.green : Colors.blue,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppConstants.screenWidth * 0.04),
+      child: Row(
+        children: [
+          Expanded(
+            child: LinearProgressIndicator(
+              value: progress / 100,
+              backgroundColor: Colors.grey,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                progress == 100 ? Colors.green : Colors.blue,
+              ),
             ),
           ),
-        ),
-        const SizedBox(width: 8),
-        Text('%${progress.toStringAsFixed(0)}'),
-      ],
+          SizedBox(width: AppConstants.sizedBoxWidthSmall),
+          Text('%${progress.toStringAsFixed(0)}'),
+        ],
+      ),
     );
   }
 }
-
 

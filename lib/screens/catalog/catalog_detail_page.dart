@@ -219,7 +219,6 @@ class InfoRow extends StatelessWidget {
   }
 }
 
-
 class SectionTitle extends StatelessWidget {
   final String title;
 

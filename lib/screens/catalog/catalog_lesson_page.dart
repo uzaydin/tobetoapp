@@ -78,6 +78,8 @@ class _CatalogLessonPageState extends State<CatalogLessonPage> {
                   ),
                 ),
                 SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                CommonProgressIndicator(progress: _progress),
+                SizedBox(height: AppConstants.sizedBoxHeightSmall),
                 CommonVideoPlayer(
                   videoUrl: _currentVideoUrl ?? _videoHandler.currentVideoUrl,
                   onVideoComplete: _videoHandler.onVideoComplete,
@@ -105,6 +107,3 @@ class _CatalogLessonPageState extends State<CatalogLessonPage> {
     );
   }
 }
-
-
-
