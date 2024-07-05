@@ -1,5 +1,4 @@
-
-import 'package:tobetoapp/models/lesson_model.dart';
+import 'package:tobetoapp/models/video_model.dart';
 
 abstract class VideoState {}
 
@@ -11,11 +10,7 @@ class VideosLoaded extends VideoState {
   VideosLoaded(this.videos);
 }
 
-class VideoUpdated extends VideoState {
-  final Video video;
-
-  VideoUpdated({required this.video});
-}
+class VideoUpdating extends VideoState {}
 
 class VideoOperationFailure extends VideoState {
   final String error;
@@ -23,4 +18,8 @@ class VideoOperationFailure extends VideoState {
   VideoOperationFailure({required this.error});
 }
 
-class VideoUpdating extends VideoState {}
+class VideoUpdated extends VideoState {
+  final Video video;
+
+  VideoUpdated({required this.video});
+}

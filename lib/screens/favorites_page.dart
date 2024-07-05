@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
-import 'package:tobetoapp/bloc/catalog/catalog_favorites/catalog_favorite_bloc.dart';
-import 'package:tobetoapp/bloc/catalog/catalog_favorites/catalog_favorite_event.dart';
-import 'package:tobetoapp/bloc/catalog/catalog_favorites/catalog_favorite_state.dart';
-import 'package:tobetoapp/bloc/favorites/favorite_bloc.dart';
-import 'package:tobetoapp/bloc/favorites/favorite_event.dart';
-import 'package:tobetoapp/bloc/favorites/favorite_state.dart';
+import 'package:tobetoapp/bloc/favorites/favorites_bloc.dart';
+import 'package:tobetoapp/bloc/favorites/favorites_event.dart';
+import 'package:tobetoapp/bloc/favorites/favorites_state.dart';
 import 'package:tobetoapp/models/catalog_model.dart';
 import 'package:tobetoapp/models/lesson_model.dart';
 import 'package:tobetoapp/repository/lessons/lesson_repository.dart';
@@ -33,7 +30,6 @@ class _FavoritesPageState extends State<FavoritesPage>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     context.read<FavoritesBloc>().add(LoadFavorites());
-    context.read<CatalogFavoritesBloc>().add(LoadCatalogFavorites());
   }
 
   @override
@@ -90,7 +86,7 @@ class _FavoritesPageState extends State<FavoritesPage>
         if (favoritesState is FavoritesLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (favoritesState is FavoritesLoaded) {
-          final favoriteLessonIds = favoritesState.favoriteLessonIds;
+          final favoriteLessonIds = favoritesState.favoriteId;
 
           if (favoriteLessonIds.isEmpty) {
             return const Center(child: Text('Favori dersleriniz henüz boş!'));
@@ -146,12 +142,12 @@ class _FavoritesPageState extends State<FavoritesPage>
 
   Widget _buildFavoritesCatalogs(
       BuildContext context, CatalogRepository catalogRepository) {
-    return BlocBuilder<CatalogFavoritesBloc, CatalogFavoritesState>(
+    return BlocBuilder<FavoritesBloc, FavoritesState>(
       builder: (context, catalogFavoritesState) {
-        if (catalogFavoritesState is CatalogFavoritesLoading) {
+        if (catalogFavoritesState is FavoritesLoading) {
           return const Center(child: CircularProgressIndicator());
-        } else if (catalogFavoritesState is CatalogFavoritesLoaded) {
-          final favoriteCatalogIds = catalogFavoritesState.favoriteCatalogIds;
+        } else if (catalogFavoritesState is FavoritesLoaded) {
+          final favoriteCatalogIds = catalogFavoritesState.favoriteId;
 
           if (favoriteCatalogIds.isEmpty) {
             return const Center(
@@ -187,7 +183,7 @@ class _FavoritesPageState extends State<FavoritesPage>
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                CatalogLessonPage(catalogId: catalog),
+                                CatalogLessonPage(catalog: catalog),
                           ),
                         );
                       },

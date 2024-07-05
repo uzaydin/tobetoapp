@@ -10,36 +10,33 @@ import 'package:tobetoapp/bloc/announcements/announcement_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
+import 'package:tobetoapp/bloc/favorites/favorites_bloc.dart';
 
 import 'package:tobetoapp/bloc/blog/blog_bloc.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_bloc.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_event.dart';
 import 'package:tobetoapp/bloc/catalog/catalog_bloc.dart';
-import 'package:tobetoapp/bloc/catalog/catalog_favorites/catalog_favorite_bloc.dart';
-import 'package:tobetoapp/bloc/catalog/catalog_video/catalog_video_bloc.dart';
 import 'package:tobetoapp/bloc/class/class_bloc.dart';
 import 'package:tobetoapp/bloc/competency_test/competency_test_bloc.dart';
 import 'package:tobetoapp/bloc/exam/exam_bloc.dart';
-import 'package:tobetoapp/bloc/favorites/favorite_bloc.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_bloc.dart';
 import 'package:tobetoapp/bloc/lessons/lesson_live/live_session_bloc.dart';
-import 'package:tobetoapp/bloc/lessons/lesson_video/video_bloc.dart';
 import 'package:tobetoapp/bloc/news/news_bloc.dart';
 import 'package:tobetoapp/bloc/profile/profile_bloc.dart';
 import 'package:tobetoapp/bloc/user/user_bloc.dart';
 import 'package:tobetoapp/bloc/homework/homework_bloc.dart';
+import 'package:tobetoapp/bloc/videos/videos_bloc.dart';
 import 'package:tobetoapp/repository/announcements_repo.dart';
 import 'package:tobetoapp/repository/auth_repo.dart';
+import 'package:tobetoapp/repository/video_repository.dart';
 import 'package:tobetoapp/repository/blog_repository.dart';
 import 'package:tobetoapp/repository/catalog/catalog_repository.dart';
-import 'package:tobetoapp/repository/catalog/catalog_video_repository.dart';
 import 'package:tobetoapp/repository/class_repository.dart';
 import 'package:tobetoapp/repository/competency_test_repository.dart';
 import 'package:tobetoapp/repository/exam_repository.dart';
 import 'package:tobetoapp/repository/lessons/homework_repository.dart';
 import 'package:tobetoapp/repository/lessons/lesson_live_repository.dart';
 import 'package:tobetoapp/repository/lessons/lesson_repository.dart';
-import 'package:tobetoapp/repository/lessons/lesson_video_repository.dart';
 import 'package:tobetoapp/repository/news_repository.dart';
 import 'package:tobetoapp/repository/profile_repository.dart';
 import 'package:tobetoapp/repository/user_repository.dart';
@@ -101,23 +98,21 @@ class Home extends StatelessWidget {
             BlocProvider(
               create: (context) => BlogBloc(BlogRepository()),
             ),
+
             BlocProvider(
               create: (context) => CatalogBloc(CatalogRepository()),
             ),
             BlocProvider(
-              create: (context) => CatalogVideoBloc(CatalogVideoRepository()),
+              create: (context) => VideoBloc(VideoRepository()),
             ),
             BlocProvider(
-              create: (context) => CatalogFavoritesBloc(sharedPreferences),
+              create: (context) => FavoritesBloc(sharedPreferences, ""),
             ),
             BlocProvider(
               create: (context) => LessonBloc(LessonRepository()),
             ),
             BlocProvider(
               create: (context) => VideoBloc(VideoRepository()),
-            ),
-            BlocProvider(
-              create: (context) => FavoritesBloc(sharedPreferences),
             ),
             BlocProvider<ProfileBloc>(
               create: (context) =>

@@ -10,7 +10,11 @@ class BlogDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(blog.title),
+        title: Image.asset(
+          "assets/logo/tobetologo.PNG",
+          width: MediaQuery.of(context).size.width * 0.43,
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
