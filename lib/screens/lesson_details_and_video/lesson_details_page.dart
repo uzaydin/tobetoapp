@@ -21,6 +21,7 @@ class LessonDetailsPage extends StatefulWidget {
 
 class _LessonDetailsPageState extends State<LessonDetailsPage> {
   late VideoHandler _videoHandler;
+  String? _currentVideoUrl;
 
   @override
   void initState() {
@@ -67,14 +68,19 @@ class _LessonDetailsPageState extends State<LessonDetailsPage> {
                 ),
                 SizedBox(height: AppConstants.sizedBoxHeightSmall),
                 CommonVideoPlayer(
-                  videoUrl: _videoHandler.currentVideoUrl,
+                  videoUrl: _currentVideoUrl ?? _videoHandler.currentVideoUrl,
                   onVideoComplete: _videoHandler.onVideoComplete,
                   onTimeUpdate: _videoHandler.onTimeUpdate,
                 ),
                 Expanded(
                   child: CommonVideoProgress(
                     videos: videos,
-                    onVideoTap: _videoHandler.onVideoTap,
+                    onVideoTap: (video) {
+                      setState(() {
+                        _videoHandler.onVideoTap(video);
+                        _currentVideoUrl = video.link;
+                      });
+                    },
                     progress: progress,
                   ),
                 ),
