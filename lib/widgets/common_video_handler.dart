@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/videos/videos_bloc.dart';
 import 'package:tobetoapp/bloc/videos/videos_event.dart';
+import 'package:tobetoapp/bloc/videos/videos_state.dart';
 import 'package:tobetoapp/models/video_model.dart';
 
 class VideoHandler {
@@ -14,11 +15,13 @@ class VideoHandler {
   Video? currentVideo;
   Duration totalSpentTime = Duration.zero;
   final Map<String, Duration> videoSpentTimes = {};
+  final Function(double progress)? onProgressUpdate;
 
   VideoHandler({
     required this.context,
     required this.collectionId,
     required this.videoIds,
+    this.onProgressUpdate,
   });
 
   void loadVideos() {
@@ -36,29 +39,38 @@ class VideoHandler {
     totalSpentTime = videoSpentTimes[video.id] ?? Duration.zero;
   }
 
-  void onVideoComplete() {
-    if (currentVideo != null) {
-      final userId = context.read<AuthBloc>().currentUser?.id;
-      if (userId != null) {
-        context.read<VideoBloc>().add(
-              UpdateSpentTime(
-                userId: userId,
-                collectionId: collectionId,
-                videoId: currentVideo!.id,
-                spentTime: totalSpentTime,
-                videoIds: videoIds,
-              ),
-            );
-      }
+void onVideoComplete() {
+  if (currentVideo != null) {
+    final userId = context.read<AuthBloc>().currentUser?.id;
+    if (userId != null) {
       context.read<VideoBloc>().add(
-            VideoSelected(
+            UpdateSpentTime(
+              userId: userId,
               collectionId: collectionId,
-              video: currentVideo!,
+              videoId: currentVideo!.id,
+              spentTime: totalSpentTime,
               videoIds: videoIds,
             ),
           );
     }
+    context.read<VideoBloc>().add(
+          VideoSelected(
+            collectionId: collectionId,
+            video: currentVideo!,
+            videoIds: videoIds,
+          ),
+        );
+
+    final state = context.read<VideoBloc>().state;
+    if (state is VideosLoaded) {
+      final videos = state.videos;
+      final progress = calculateProgress(videos);
+      if (onProgressUpdate != null) {
+        onProgressUpdate!(progress);
+      }
+    }
   }
+}
 
   void onTimeUpdate(Duration spentTime) {
     totalSpentTime = spentTime;
@@ -67,11 +79,11 @@ class VideoHandler {
     }
   }
 
-  double calculateProgress(List<Video> videos) {
-    if (videos.isEmpty) return 0.0;
-    final completedVideos = videos.where((video) => video.isCompleted!).length;
-    return completedVideos / videos.length;
-  }
+double calculateProgress(List<Video> videos) {
+  if (videos.isEmpty) return 0.0;
+  final completedVideos = videos.where((video) => video.isCompleted ?? false).length;
+  return (completedVideos / videos.length) * 100;
+}
 
   Duration calculateSpentTime(List<Video> videos) {
     return videos.fold(
@@ -80,6 +92,6 @@ class VideoHandler {
     );
   }
 
-  void dispose() {
-  }
+  void dispose() {}
 }
+

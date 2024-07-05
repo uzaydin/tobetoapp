@@ -22,6 +22,7 @@ class CatalogLessonPage extends StatefulWidget {
 class _CatalogLessonPageState extends State<CatalogLessonPage> {
   late VideoHandler _videoHandler;
   String? _currentVideoUrl;
+  double _progress = 0.0;
 
   @override
   void initState() {
@@ -30,6 +31,11 @@ class _CatalogLessonPageState extends State<CatalogLessonPage> {
       context: context,
       collectionId: widget.catalog.catalogId!,
       videoIds: widget.catalog.videoIds ?? [],
+      onProgressUpdate: (progress) {
+        setState(() {
+          _progress = progress;
+        });
+      },
     );
     _videoHandler.loadVideos();
   }
@@ -56,7 +62,6 @@ class _CatalogLessonPageState extends State<CatalogLessonPage> {
             return Center(child: CircularProgressIndicator());
           } else if (state is VideosLoaded) {
             final videos = state.videos;
-            final progress = _videoHandler.calculateProgress(videos);
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +92,7 @@ class _CatalogLessonPageState extends State<CatalogLessonPage> {
                         _currentVideoUrl = video.link;
                       });
                     },
-                    progress: progress,
+                    progress: _progress,
                   ),
                 ),
               ],
@@ -100,4 +105,6 @@ class _CatalogLessonPageState extends State<CatalogLessonPage> {
     );
   }
 }
+
+
 
