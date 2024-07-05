@@ -62,7 +62,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                   ]
                 : null,
       ),
-      drawer: const DrawerManager(),
+      drawer: DrawerManager(),
       body: Column(
         children: [
           const BannerWidget(

@@ -169,7 +169,7 @@ class _AboutUsState extends State<AboutUs> {
       ],
       child: Scaffold(
         appBar: const CommonAppBar(),
-        drawer: const DrawerManager(),
+        drawer: DrawerManager(),
         body: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(

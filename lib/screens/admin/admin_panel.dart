@@ -55,7 +55,7 @@ class _AdminPanelState extends State<AdminPanel> {
           ),
         ),
       ),
-      drawer: const DrawerManager(),
+      drawer: DrawerManager(),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppConstants.paddingMedium,

@@ -63,12 +63,72 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
   CalendarView _calendarView = CalendarView.month;
   Event? _selectedEvent;
 
+  void _showEventDetails(BuildContext context, Event event) {
+    final Color borderColor = getEventColor(event);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(color: borderColor, width: 3),
+            borderRadius: BorderRadius.circular(AppConstants.br10),
+          ),
+          child: Container(
+            width: AppConstants.screenWidth * 0.8,
+            height: AppConstants.screenHeight * 0.4,
+            padding: EdgeInsets.all(AppConstants.paddingMedium),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  event.education,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                SizedBox(height: AppConstants.sizedBoxHeightMedium),
+                Text('Eğitmen: ${event.educator}'),
+                SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                Text(
+                    'Tarih: ${event.date.day.toString().padLeft(2, '0')}-${event.date.month.toString().padLeft(2, '0')}-${event.date.year}'),
+                SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const FaIcon(FontAwesomeIcons.hourglassStart, size: 20),
+                    SizedBox(width: AppConstants.sizedBoxWidthSmall),
+                    Text(
+                        'Başlangıç Saati: ${event.startTime.hour.toString().padLeft(2, '0')}:${event.startTime.minute.toString().padLeft(2, '0')}'),
+                  ],
+                ),
+                SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const FaIcon(FontAwesomeIcons.hourglassEnd, size: 18),
+                    SizedBox(width: AppConstants.sizedBoxWidthSmall),
+                    Text(
+                        'Bitiş Saati: ${event.endTime.hour.toString().padLeft(2, '0')}:${event.endTime.minute.toString().padLeft(2, '0')}'),
+                  ],
+                ),
+                if (event.price != null) ...[
+                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                  Text('Fiyat: ${event.price}'),
+                ],
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Eğitim ve Etkinlik Takvimi',
+          'Eğitim Takvimi',
         ),
         actions: [
           IconButton(
@@ -114,9 +174,11 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
             monthViewSettings: const MonthViewSettings(
               appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
               appointmentDisplayCount: 2,
+              showTrailingAndLeadingDates: false,
             ),
             appointmentBuilder: (context, calendarAppointmentDetails) {
               final Event event = calendarAppointmentDetails.appointments.first;
+
               final Color eventColor = getEventColor(event);
               return GestureDetector(
                 onTap: () {
@@ -153,66 +215,6 @@ Color getEventColor(Event event) {
   } else {
     return Colors.green;
   }
-}
-
-void _showEventDetails(BuildContext context, Event event) {
-  final Color borderColor = getEventColor(event);
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(color: borderColor, width: 3),
-          borderRadius: BorderRadius.circular(AppConstants.br10),
-        ),
-        child: Container(
-          width: AppConstants.screenWidth * 0.8,
-          height: AppConstants.screenHeight * 0.4,
-          padding: EdgeInsets.all(AppConstants.paddingMedium),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                event.education,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              SizedBox(height: AppConstants.sizedBoxHeightMedium),
-              Text('Eğitmen: ${event.educator}'),
-              SizedBox(height: AppConstants.sizedBoxHeightSmall),
-              Text(
-                  'Tarih: ${event.date.day.toString().padLeft(2, '0')}-${event.date.month.toString().padLeft(2, '0')}-${event.date.year}'),
-              SizedBox(height: AppConstants.sizedBoxHeightSmall),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const FaIcon(FontAwesomeIcons.hourglassStart, size: 20),
-                  SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                  Text(
-                      'Başlangıç Saati: ${event.startTime.hour.toString().padLeft(2, '0')}:${event.startTime.minute.toString().padLeft(2, '0')}'),
-                ],
-              ),
-              SizedBox(height: AppConstants.sizedBoxHeightSmall),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const FaIcon(FontAwesomeIcons.hourglassEnd, size: 18),
-                  SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                  Text(
-                      'Bitiş Saati: ${event.endTime.hour.toString().padLeft(2, '0')}:${event.endTime.minute.toString().padLeft(2, '0')}'),
-                ],
-              ),
-              if (event.price != null) ...[
-                SizedBox(height: AppConstants.sizedBoxHeightSmall),
-                Text('Fiyat: ${event.price}'),
-              ],
-            ],
-          ),
-        ),
-      );
-    },
-  );
 }
 
 class EventDataSource extends CalendarDataSource {
