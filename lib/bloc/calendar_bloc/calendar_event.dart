@@ -12,7 +12,8 @@ class UpdateFilters extends CalendarEvent {
   final String selectedEducator;
   final List<String> selectedStatuses;
 
-  UpdateFilters(this.searchQuery, this.selectedEducator, this.selectedStatuses);
+  UpdateFilters(this.searchQuery, this.selectedEducator, this.selectedStatuses,
+      {List<String>? combinedTrainings});
 
   @override
   List<Object?> get props => [searchQuery, selectedEducator, selectedStatuses];
@@ -26,5 +27,3 @@ class SearchEducations extends CalendarEvent {
   @override
   List<Object?> get props => [query];
 }
-
-

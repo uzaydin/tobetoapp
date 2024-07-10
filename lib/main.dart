@@ -161,6 +161,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.light;
   final ThemeService _themeService = ThemeService();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   void initState() {
     super.initState();
@@ -185,9 +187,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-//
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-//
   @override
   Widget build(BuildContext context) {
     return Builder(
