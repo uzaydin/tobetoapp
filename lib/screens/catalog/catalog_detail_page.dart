@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:tobetoapp/models/catalog_model.dart';
 import 'package:tobetoapp/screens/auth.dart';
 import 'package:tobetoapp/screens/catalog/catalog_lesson_page.dart';
-
 import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:tobetoapp/widgets/review_section.dart';
 
@@ -17,8 +16,11 @@ class CatalogDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Eğitim Detayı', textAlign: TextAlign.center),
-        backgroundColor: AppColors.tobetoMoru,
+        title: Image.asset(
+          "assets/logo/tobetologo.PNG",
+          width: MediaQuery.of(context).size.width * 0.43,
+        ),
+        centerTitle: true,
       ),
       resizeToAvoidBottomInset: true,
       body: FutureBuilder<DocumentSnapshot>(
@@ -116,7 +118,7 @@ class CatalogDetailPage extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => CatalogLessonPage(catalogId: catalogId)),
+                              MaterialPageRoute(builder: (context) => CatalogLessonPage(catalog: catalogId)),
                             );
                           },
                           child: const Text('Eğitime Git', style: TextStyle(color: Colors.white)),
@@ -216,7 +218,6 @@ class InfoRow extends StatelessWidget {
     );
   }
 }
-
 
 class SectionTitle extends StatelessWidget {
   final String title;

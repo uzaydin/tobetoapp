@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tobetoapp/models/lesson_model.dart';
+import 'package:tobetoapp/models/video_model.dart';
 
 class VideoRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -11,22 +11,22 @@ class VideoRepository {
           .where('id', whereIn: videoIds)
           .get();
 
-      return snapshot.docs
-          .map((doc) => Video.fromMap(doc.data()))
-          .toList();
+      return snapshot.docs.map((doc) => Video.fromMap(doc.data())).toList();
     } catch (e) {
       throw Exception('Error fetching videos: $e');
     }
   }
 
- Future<Map<String, dynamic>> getUserVideoStatuses(String userId, String lessonId, List<String> videoIds) async {
+  Future<Map<String, dynamic>> getUserVideoStatuses(String userId, String videoId, List<String> videoIds) {
+    return _getUserVideoStatuses(userId, 'userLessons/$videoId/videos', videoIds);
+  }
+
+  Future<Map<String, dynamic>> _getUserVideoStatuses(String userId, String docPath, List<String> videoIds) async {
     try {
       final snapshot = await _firestore
           .collection('users')
           .doc(userId)
-          .collection('userLessons')
-          .doc(lessonId)
-          .collection('videos')
+          .collection(docPath)
           .where('videoId', whereIn: videoIds)
           .get();
 
@@ -42,26 +42,28 @@ class VideoRepository {
     }
   }
 
-  Future<void> updateVideoStatus(String userId, String lessonId, String videoId,
+  Future<void> updateVideoStatus(String userId, String videoIds, String videoId,
+      bool isCompleted, Duration spentTime) {
+    return _updateVideoStatus(userId, 'userLessons/$videoIds/videos', videoId, isCompleted, spentTime);
+  }
+
+  Future<void> _updateVideoStatus(String userId, String docPath, String videoId,
       bool isCompleted, Duration spentTime) async {
     try {
       final docRef = _firestore
           .collection('users')
           .doc(userId)
-          .collection('userLessons')
-          .doc(lessonId)
-          .collection('videos')
+          .collection(docPath)
           .doc(videoId);
 
       await docRef.set(
-          {
-            'isCompleted': isCompleted,
-            'videoId': videoId,
-            'spentTime': spentTime.inSeconds,
-          },
-          SetOptions(
-              merge:
-                  true)); // merge: true ekleyerek var olan verilere ekleme yapıyoruz
+        {
+          'isCompleted': isCompleted,
+          'videoId': videoId,
+          'spentTime': spentTime.inSeconds,
+        },
+        SetOptions(merge: true),
+      );
     } catch (e) {
       throw Exception('Error updating video status: $e');
     }

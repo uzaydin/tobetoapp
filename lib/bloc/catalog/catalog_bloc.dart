@@ -12,9 +12,6 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
 
   CatalogBloc(this._catalogRepository) : super(CatalogsLoading()) {
     on<LoadCatalogs>(_loadCatalogs);
-    // on<AddCatalog>(_addCatalog);
-    // on<DeleteCatalog>(_deleteCatalog);
-    // on<CatalogsUpdated>(_onCatalogsUpdated);
   }
 
   Future<void> _loadCatalogs(
@@ -31,29 +28,6 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
       emit(CatalogOperationFailure(e.toString()));
     }
   }
-
-  // void _onCatalogsUpdated(CatalogsUpdated event, Emitter<CatalogState> emit) {
-  //   emit(CatalogsLoaded(event.catalogs));
-  // }
-
-  // Future<void> _addCatalog(AddCatalog event, Emitter<CatalogState> emit) async {
-  //   try {
-  //     await _catalogRepository.addCatalog(event.catalogModel);
-  //     emit(CatalogOperationSuccess());
-  //   } catch (e) {
-  //     emit(CatalogOperationFailure(e.toString()));
-  //   }
-  // }
-
-  // Future<void> _deleteCatalog(
-  //     DeleteCatalog event, Emitter<CatalogState> emit) async {
-  //   try {
-  //     await _catalogRepository.deleteCatalog(event.id);
-  //     emit(CatalogOperationSuccess());
-  //   } catch (e) {
-  //     emit(CatalogOperationFailure(e.toString()));
-  //   }
-  // }
 
   @override
   Future<void> close() {

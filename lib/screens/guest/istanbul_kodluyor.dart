@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tobetoapp/utils/theme/light/light_theme.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class IstanbulKodluyor extends StatefulWidget {
@@ -40,12 +39,11 @@ class _IstanbulKodluyorState extends State<IstanbulKodluyor> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: AppColors.tobetoMoru,
-        title: const Text(
-          "Istanbul Kodluyor",
-          style: TextStyle(color: Colors.white),
+        title: Image.asset(
+          "assets/logo/tobetologo.PNG",
+          width: MediaQuery.of(context).size.width * 0.43,
         ),
+        centerTitle: true,
       ),
       body: WebViewWidget(
         controller: controller,
