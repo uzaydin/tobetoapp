@@ -60,9 +60,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _currentUser = userModel; // Kullanıcı bilgilerini bellekte saklama
         emit(AuthSuccess(id: user.uid, role: role));
       }
-    } catch (e) {
-      final errorMessage = AuthException.handleException(e as Exception);
+    } on FirebaseAuthException catch (e) {
+      final errorMessage = AuthExceptionHandler.handleException(e);
       emit(AuthFailure(message: errorMessage));
+    } catch (e) {
+      emit(AuthFailure(message: 'Bilinmeyen bir hata oluştu.'));
     }
   }
 
@@ -81,9 +83,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _currentUser = userModel; // Kullanıcı bilgilerini bellekte saklama
         emit(AuthSuccess(id: user.uid, role: role));
       }
-    } catch (e) {
-      final errorMessage = AuthException.handleException(e as Exception);
+    } on FirebaseAuthException catch (e) {
+      final errorMessage = AuthExceptionHandler.handleException(e);
       emit(AuthFailure(message: errorMessage));
+    } catch (e) {
+      emit(AuthFailure(message: 'Bilinmeyen bir hata oluştu.'));
     }
   }
 
@@ -95,9 +99,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final role = await _authRepository.getUserRole(user.uid);
         emit(AuthSuccess(id: user.uid, role: role));
       }
-    } catch (e) {
-      final errorMessage = AuthException.handleException(e as Exception);
+    } on FirebaseAuthException catch (e) {
+      final errorMessage = AuthExceptionHandler.handleException(e);
       emit(AuthFailure(message: errorMessage));
+    } catch (e) {
+      emit(AuthFailure(message: 'Bilinmeyen bir hata oluştu.'));
     }
   }
 
