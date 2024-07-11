@@ -23,7 +23,6 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
   @override
   void initState() {
     super.initState();
-    //AppConstants.init(context);
     context.read<CompetencyTestBloc>().add(LoadQuestions());
   }
 
@@ -66,182 +65,17 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
             return const Center(child: CircularProgressIndicator());
           } else if (state is CompetencyTestLoaded) {
             questions = state.questions;
-            questions!.sort(
-                (a, b) => a.id.compareTo(b.id)); // Soruları id'ye göre sırala
+            questions!.sort((a, b) => a.id.compareTo(b.id));
             int totalPages = (questions!.length / 10).ceil();
 
             return Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.all(AppConstants.paddingMedium),
-                  child: const Text(
-                    'Tobeto İşte Başarı Modeli',
-                    style: TextStyle(
-                      color: Color(0xFF9933ff),
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: AppConstants.paddingMedium),
-                  child: LinearProgressIndicator(
-                    value: (currentPage + 1) / totalPages,
-                    backgroundColor: const Color(0xFFD8D8D8),
-                    valueColor:
-                        const AlwaysStoppedAnimation<Color>(Color(0xFF9933ff)),
-                  ),
-                ),
+                _buildTitle(),
+                _buildProgressIndicator(totalPages),
                 Expanded(
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: totalPages,
-                    physics: const NeverScrollableScrollPhysics(),
-                    onPageChanged: (index) {
-                      setState(() {
-                        currentPage = index;
-                      });
-                    },
-                    itemBuilder: (context, pageIndex) {
-                      int start = pageIndex * 10;
-                      int end = (start + 10 < questions!.length)
-                          ? start + 10
-                          : questions!.length;
-                      List<CompetencyQuestion> pageQuestions =
-                          questions!.sublist(start, end);
-
-                      return ListView.builder(
-                        itemCount: pageQuestions.length,
-                        itemBuilder: (context, index) {
-                          final question = pageQuestions[index];
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: AppConstants.verticalPaddingSmall,
-                                horizontal: AppConstants.paddingMedium),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${question.id}. ${question.text}',
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: List.generate(5, (i) {
-                                    return Column(
-                                      children: [
-                                        Radio<int>(
-                                          value: i - 2, // --, -, 0, +, ++
-                                          groupValue: answers[question.id],
-                                          onChanged: (value) {
-                                            setState(() {
-                                              answers[question.id] = value!;
-                                            });
-                                          },
-                                        ),
-                                        Text(
-                                          ['--', '-', '0', '+', '++'][i],
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    );
-                                  }),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
+                  child: _buildPageView(totalPages),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(AppConstants.paddingMedium),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: const Color(0xFF9933ff),
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: Color(0xFF9933ff)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(AppConstants.br8),
-                          ),
-                        ),
-                        onPressed: currentPage == 0
-                            ? null
-                            : () {
-                                _pageController.previousPage(
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOut,
-                                );
-                              },
-                        child: const Text('Geri'),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: areAllQuestionsAnswered(questions!
-                                  .sublist(
-                                      currentPage * 10,
-                                      (currentPage * 10 + 10 <
-                                              questions!.length)
-                                          ? currentPage * 10 + 10
-                                          : questions!.length))
-                              ? Colors.white
-                              : const Color(0xFF9933ff),
-                          backgroundColor: areAllQuestionsAnswered(questions!
-                                  .sublist(
-                                      currentPage * 10,
-                                      (currentPage * 10 + 10 <
-                                              questions!.length)
-                                          ? currentPage * 10 + 10
-                                          : questions!.length))
-                              ? const Color(0xFF9933ff)
-                              : Colors.white,
-                          side: BorderSide(
-                              color: areAllQuestionsAnswered(questions!.sublist(
-                                      currentPage * 10,
-                                      (currentPage * 10 + 10 <
-                                              questions!.length)
-                                          ? currentPage * 10 + 10
-                                          : questions!.length))
-                                  ? const Color(0xFF9933ff)
-                                  : Colors.grey),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(AppConstants.br8),
-                          ),
-                        ),
-                        onPressed: areAllQuestionsAnswered(questions!.sublist(
-                                currentPage * 10,
-                                (currentPage * 10 + 10 < questions!.length)
-                                    ? currentPage * 10 + 10
-                                    : questions!.length))
-                            ? () {
-                                if (currentPage == totalPages - 1) {
-                                  final scores = calculateScores(answers);
-                                  context
-                                      .read<CompetencyTestBloc>()
-                                      .add(SaveResult(scores));
-                                } else {
-                                  _pageController.nextPage(
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.easeInOut,
-                                  );
-                                }
-                              }
-                            : null,
-                        child: Text(currentPage == totalPages - 1
-                            ? 'Değerlendirmeyi Bitir'
-                            : 'İleri'),
-                      ),
-                    ],
-                  ),
-                ),
+                _buildNavigationButtons(totalPages),
               ],
             );
           } else if (state is CompetencyTestError) {
@@ -250,6 +84,179 @@ class _CompetencyTestPageState extends State<CompetencyTestPage> {
             return Container();
           }
         },
+      ),
+    );
+  }
+
+  Widget _buildTitle() {
+    return Padding(
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
+      child: const Text(
+        'Tobeto İşte Başarı Modeli',
+        style: TextStyle(
+          color: Color(0xFF9933ff),
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProgressIndicator(int totalPages) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppConstants.paddingMedium),
+      child: LinearProgressIndicator(
+        value: (currentPage + 1) / totalPages,
+        backgroundColor: const Color(0xFFD8D8D8),
+        valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF9933ff)),
+      ),
+    );
+  }
+
+  Widget _buildPageView(int totalPages) {
+    return PageView.builder(
+      controller: _pageController,
+      itemCount: totalPages,
+      physics: const NeverScrollableScrollPhysics(),
+      onPageChanged: (index) {
+        setState(() {
+          currentPage = index;
+        });
+      },
+      itemBuilder: (context, pageIndex) {
+        int start = pageIndex * 10;
+        int end =
+            (start + 10 < questions!.length) ? start + 10 : questions!.length;
+        List<CompetencyQuestion> pageQuestions = questions!.sublist(start, end);
+
+        return ListView.builder(
+          itemCount: pageQuestions.length,
+          itemBuilder: (context, index) {
+            final question = pageQuestions[index];
+            return _buildQuestionItem(question);
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildQuestionItem(CompetencyQuestion question) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: AppConstants.verticalPaddingSmall,
+        horizontal: AppConstants.paddingMedium,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${question.id}. ${question.text}',
+            style: const TextStyle(fontSize: 16),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(5, (i) {
+              return Column(
+                children: [
+                  Radio<int>(
+                    value: i - 2, // --, -, 0, +, ++
+                    groupValue: answers[question.id],
+                    onChanged: (value) {
+                      setState(() {
+                        answers[question.id] = value!;
+                      });
+                    },
+                  ),
+                  Text(
+                    ['--', '-', '0', '+', '++'][i],
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              );
+            }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavigationButtons(int totalPages) {
+    return Padding(
+      padding: EdgeInsets.all(AppConstants.paddingMedium),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: const Color(0xFF9933ff),
+              backgroundColor: Colors.white,
+              side: const BorderSide(color: Color(0xFF9933ff)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppConstants.br8),
+              ),
+            ),
+            onPressed: currentPage == 0
+                ? null
+                : () {
+                    _pageController.previousPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+            child: const Text('Geri'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: areAllQuestionsAnswered(questions!.sublist(
+                      currentPage * 10,
+                      (currentPage * 10 + 10 < questions!.length)
+                          ? currentPage * 10 + 10
+                          : questions!.length))
+                  ? Colors.white
+                  : const Color(0xFF9933ff),
+              backgroundColor: areAllQuestionsAnswered(questions!.sublist(
+                      currentPage * 10,
+                      (currentPage * 10 + 10 < questions!.length)
+                          ? currentPage * 10 + 10
+                          : questions!.length))
+                  ? const Color(0xFF9933ff)
+                  : Colors.white,
+              side: BorderSide(
+                  color: areAllQuestionsAnswered(questions!.sublist(
+                          currentPage * 10,
+                          (currentPage * 10 + 10 < questions!.length)
+                              ? currentPage * 10 + 10
+                              : questions!.length))
+                      ? const Color(0xFF9933ff)
+                      : Colors.grey),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppConstants.br8),
+              ),
+            ),
+            onPressed: areAllQuestionsAnswered(questions!.sublist(
+                    currentPage * 10,
+                    (currentPage * 10 + 10 < questions!.length)
+                        ? currentPage * 10 + 10
+                        : questions!.length))
+                ? () {
+                    if (currentPage == totalPages - 1) {
+                      final scores = calculateScores(answers);
+                      context
+                          .read<CompetencyTestBloc>()
+                          .add(SaveResult(scores));
+                    } else {
+                      _pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    }
+                  }
+                : null,
+            child: Text(currentPage == totalPages - 1
+                ? 'Değerlendirmeyi Bitir'
+                : 'İleri'),
+          ),
+        ],
       ),
     );
   }

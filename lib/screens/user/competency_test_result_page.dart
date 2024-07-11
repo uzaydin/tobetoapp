@@ -33,76 +33,7 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
           if (state is CompetencyTestLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is CompetencyTestResultFetched) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(AppConstants.paddingMedium),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Tobeto İşte Başarı Modeli',
-                      style: TextStyle(
-                        color: Color(0xFF9933ff),
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: AppConstants.sizedBoxHeightSmall),
-                    const Text(
-                      'Analiz Raporum',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: AppConstants.sizedBoxHeightLarge),
-                    Image.asset(
-                      'assets/images/competency_test_report.png',
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(height: AppConstants.sizedBoxHeightLarge),
-                    ...state.result.scores.entries.map((entry) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: AppConstants.verticalPaddingSmall),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: AppConstants.screenWidth * 0.06,
-                              height: AppConstants.screenWidth * 0.06,
-                              decoration: BoxDecoration(
-                                color: getCategoryColor(entry.key),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  entry.value.toStringAsFixed(1),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                            Expanded(
-                              child: Text(
-                                getCategoryName(entry.key),
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ],
-                ),
-              ),
-            );
+            return _buildResultPage(state);
           } else if (state is CompetencyTestError) {
             return Center(child: Text(state.message));
           } else {
@@ -111,6 +42,95 @@ class _CompetencyTestResultPageState extends State<CompetencyTestResultPage> {
         },
       ),
     );
+  }
+
+  Widget _buildResultPage(CompetencyTestResultFetched state) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(AppConstants.paddingMedium),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _buildTitle(),
+            SizedBox(height: AppConstants.sizedBoxHeightSmall),
+            _buildSubtitle(),
+            SizedBox(height: AppConstants.sizedBoxHeightLarge),
+            _buildImage(),
+            SizedBox(height: AppConstants.sizedBoxHeightLarge),
+            ..._buildScoreList(state),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTitle() {
+    return const Text(
+      'Tobeto İşte Başarı Modeli',
+      style: TextStyle(
+        color: Color(0xFF9933ff),
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget _buildSubtitle() {
+    return const Text(
+      'Analiz Raporum',
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget _buildImage() {
+    return Image.asset(
+      'assets/images/competency_test_report.png',
+      fit: BoxFit.cover,
+    );
+  }
+
+  List<Widget> _buildScoreList(CompetencyTestResultFetched state) {
+    return state.result.scores.entries.map((entry) {
+      return Padding(
+        padding:
+            EdgeInsets.symmetric(vertical: AppConstants.verticalPaddingSmall),
+        child: Row(
+          children: [
+            Container(
+              width: AppConstants.screenWidth * 0.06,
+              height: AppConstants.screenWidth * 0.06,
+              decoration: BoxDecoration(
+                color: getCategoryColor(entry.key),
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                  entry.value.toStringAsFixed(1),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: AppConstants.sizedBoxWidthSmall),
+            Expanded(
+              child: Text(
+                getCategoryName(entry.key),
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+          ],
+        ),
+      );
+    }).toList();
   }
 
   Color getCategoryColor(String category) {
