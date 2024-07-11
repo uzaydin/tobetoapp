@@ -4,7 +4,7 @@ import 'package:tobetoapp/bloc/competency_test/competency_test_bloc.dart';
 import 'package:tobetoapp/bloc/competency_test/competency_test_event.dart';
 import 'package:tobetoapp/bloc/competency_test/competency_test_state.dart';
 import 'package:tobetoapp/models/competency_test_question.dart';
-import 'package:tobetoapp/screens/competency_test_result_page.dart';
+import 'package:tobetoapp/screens/user/competency_test_result_page.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 class CompetencyTestPage extends StatefulWidget {
