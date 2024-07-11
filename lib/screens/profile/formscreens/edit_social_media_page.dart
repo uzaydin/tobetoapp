@@ -85,7 +85,19 @@ class _EditSocialMediaPageState extends State<EditSocialMediaPage> {
               (value) => setState(() => _selectedPlatform = value),
               (value) => value.name,
               Icons.account_circle),
-          buildTextFormField(_linkController, 'Link', Icons.link),
+          buildTextFormField(_linkController, 'Link', Icons.link,
+              isOptional: false, validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Link boş olamaz";
+            }
+            if (_selectedPlatform == null) {
+              return "Lütfen bir sosyal medya platformu seçin";
+            }
+            if (!isValidSocialMediaUrl(value, _selectedPlatform!)) {
+              return 'Geçerli bir ${_selectedPlatform!.name} URL\'si girin';
+            }
+            return null;
+          }),
           SizedBox(height: AppConstants.sizedBoxHeightMedium),
           SizedBox(
             width: double.infinity,

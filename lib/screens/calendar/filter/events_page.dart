@@ -29,10 +29,52 @@ class _EventsPageState extends State<EventsPage> {
   List<String> _educators = [];
   Map<String, List<String>> _educatorTrainings = {};
 
+  final ScrollController _scrollController = ScrollController();
+  int _loadedEventCount = 10;
+  bool _isLoadingMore = false;
+
   @override
   void initState() {
     super.initState();
     _fetchEducators();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !_isLoadingMore) {
+      _loadMoreEvents();
+    }
+  }
+
+  Future<void> _loadMoreEvents() async {
+    setState(() {
+      _isLoadingMore = true;
+    });
+
+    try {
+      await Future.delayed(Duration(seconds: 2));
+      setState(() {
+        _loadedEventCount += 10;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Etkinlikler yüklenirken hata oluştu: $e')),
+      );
+    } finally {
+      setState(() {
+        _isLoadingMore = false;
+      });
+    }
   }
 
   Future<void> _fetchEducators() async {
@@ -63,7 +105,9 @@ class _EventsPageState extends State<EventsPage> {
         _educatorTrainings = educatorTrainings;
       });
     } catch (e) {
-      '$e';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Eğitmenler yüklenirken hata oluştu: $e')),
+      );
     }
   }
 
@@ -73,6 +117,7 @@ class _EventsPageState extends State<EventsPage> {
       appBar: const CommonAppBar(),
       drawer: DrawerManager(),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Container(
           margin: EdgeInsets.only(
               left: AppConstants.paddingSmall,
@@ -137,12 +182,17 @@ class _EventsPageState extends State<EventsPage> {
                               final groupedEvents = state.groupedEvents;
                               if (groupedEvents.isEmpty) {
                                 return const Center(
-                                    child: Text('Mevcut etkinlik yok.'));
+                                    child: Text(
+                                  'Mevcut etkinlik yok.',
+                                  style: TextStyle(color: AppColors.tobetoMoru),
+                                ));
                               }
 
                               return ListView(
                                 shrinkWrap: true,
-                                children: groupedEvents.entries.map((entry) {
+                                children: groupedEvents.entries
+                                    .take(_loadedEventCount)
+                                    .map((entry) {
                                   final date = entry.key;
                                   final eventsForDate = entry.value;
                                   return ExpansionTile(
@@ -199,6 +249,10 @@ class _EventsPageState extends State<EventsPage> {
                                 child: Text('Bilinmeyen durum'));
                           },
                         ),
+                        if (_isLoadingMore) ...[
+                          const SizedBox(height: 20),
+                          Center(child: const CircularProgressIndicator()),
+                        ],
                         SizedBox(height: AppConstants.sizedBoxHeightXXLarge),
                         SizedBox(height: AppConstants.sizedBoxHeightLarge),
                       ],
@@ -215,17 +269,24 @@ class _EventsPageState extends State<EventsPage> {
 
   void _updateFilters() {
     List<String> filteredEducators = [];
+    List<String> combinedTrainings = [];
+
     if (_selectedEducators.isNotEmpty) {
       for (String educator in _selectedEducators) {
         if (_educatorTrainings.containsKey(educator) &&
             _educatorTrainings[educator]!.isNotEmpty) {
           filteredEducators.add(educator);
+          combinedTrainings.addAll(_educatorTrainings[educator]!);
         }
       }
     } else {
       filteredEducators.addAll(_educators.where((educator) =>
           _educatorTrainings.containsKey(educator) &&
           _educatorTrainings[educator]!.isNotEmpty));
+
+      _educatorTrainings.values.forEach((trainings) {
+        combinedTrainings.addAll(trainings);
+      });
     }
 
     context.read<CalendarBloc>().add(
@@ -233,6 +294,8 @@ class _EventsPageState extends State<EventsPage> {
             _searchController.text,
             _selectedEducators.isEmpty ? '' : _selectedEducators.join(', '),
             List<String>.from(_selectedStatuses),
+            combinedTrainings:
+                combinedTrainings.isNotEmpty ? combinedTrainings : null,
           ),
         );
   }
