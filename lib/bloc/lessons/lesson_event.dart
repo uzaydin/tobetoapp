@@ -38,8 +38,8 @@ class FetchStudentsForLesson extends LessonEvent {
   FetchStudentsForLesson(this.lesson);
 }
 
-class FetchTeacherssForLesson extends LessonEvent {
+class FetchTeachersForLesson extends LessonEvent {
   final LessonModel lesson;
 
-  FetchTeacherssForLesson(this.lesson);
+  FetchTeachersForLesson(this.lesson);
 }
