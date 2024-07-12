@@ -30,7 +30,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                context.read<AuthBloc>().add(AuthPasswordReset(_emailController.text));
+                context
+                    .read<AuthBloc>()
+                    .add(AuthPasswordReset(_emailController.text));
               },
               child: const Text('Send Password Reset Email'),
             ),

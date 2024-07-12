@@ -7,7 +7,7 @@ import 'package:tobetoapp/bloc/exam/exam_bloc.dart';
 import 'package:tobetoapp/bloc/exam/exam_event.dart';
 import 'package:tobetoapp/bloc/exam/exam_state.dart';
 import 'package:tobetoapp/repository/exam_repository.dart';
-import 'package:tobetoapp/screens/competency_test_result_page.dart';
+import 'package:tobetoapp/screens/user/competency_test_result_page.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:tobetoapp/widgets/user/competency_test_info_dialog.dart';
 import 'package:tobetoapp/widgets/user/exam_dialog.dart';

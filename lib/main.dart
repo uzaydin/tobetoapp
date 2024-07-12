@@ -11,7 +11,6 @@ import 'package:tobetoapp/bloc/auth/auth_bloc.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/auth_provider_drawer.dart';
 import 'package:tobetoapp/bloc/auth/auth_drawer/drawer_manager.dart';
 import 'package:tobetoapp/bloc/favorites/favorites_bloc.dart';
-
 import 'package:tobetoapp/bloc/blog/blog_bloc.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_bloc.dart';
 import 'package:tobetoapp/bloc/calendar_bloc/calendar_event.dart';
@@ -98,7 +97,6 @@ class Home extends StatelessWidget {
             BlocProvider(
               create: (context) => BlogBloc(BlogRepository()),
             ),
-
             BlocProvider(
               create: (context) => CatalogBloc(CatalogRepository()),
             ),
@@ -156,6 +154,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.light;
   final ThemeService _themeService = ThemeService();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   void initState() {
     super.initState();
@@ -180,9 +180,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-//
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-//
   @override
   Widget build(BuildContext context) {
     return Builder(

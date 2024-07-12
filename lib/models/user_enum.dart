@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-// Kullanıcı role 
+// Kullanıcı role
 enum UserRole {
   student,
   teacher,
@@ -284,6 +284,24 @@ extension SocialMediaPlatformExtension on SocialMediaPlatform {
         return 'Behance';
       default:
         return '';
+    }
+  }
+
+  // her s.medya platformu için URL deseni
+  String get urlPattern {
+    switch (this) {
+      case SocialMediaPlatform.Instagram:
+        return r'^https?:\/\/(www\.)?instagram\.com\/.+$';
+      case SocialMediaPlatform.Twitter:
+        return r'^https?:\/\/(www\.)?x\.com\/.+$';
+      case SocialMediaPlatform.LinkedIn:
+        return r'^https?:\/\/(www\.)?linkedin\.com\/.+$';
+      case SocialMediaPlatform.Dribble:
+        return r'^https?:\/\/(www\.)?dribbble\.com\/.+$';
+      case SocialMediaPlatform.Behance:
+        return r'^https?:\/\/(www\.)?behance\.net\/.+$';
+      default:
+        return r'';
     }
   }
 

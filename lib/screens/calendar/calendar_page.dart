@@ -5,6 +5,7 @@ import 'package:tobetoapp/models/event_model.dart';
 import 'package:tobetoapp/screens/calendar/filter/events_page.dart';
 import 'package:tobetoapp/services/event_service.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
+import 'package:tobetoapp/utils/theme/light/light_text.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -18,6 +19,7 @@ class _CalendarPageState extends State<CalendarPage> {
   CalendarView _calendarView = CalendarView.month;
   Event? _selectedEvent;
   int _currentIndex = 0;
+  final CalendarController _calendarController = CalendarController();
 
   final List<Widget> _pages = [
     const CalendarViewPage(),
@@ -62,6 +64,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
   final EventService _eventService = EventService();
   CalendarView _calendarView = CalendarView.month;
   Event? _selectedEvent;
+  final CalendarController _calendarController = CalendarController();
 
   void _showEventDetails(BuildContext context, Event event) {
     final Color borderColor = getEventColor(event);
@@ -73,49 +76,55 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
             side: BorderSide(color: borderColor, width: 3),
             borderRadius: BorderRadius.circular(AppConstants.br10),
           ),
-          child: Container(
-            width: AppConstants.screenWidth * 0.8,
-            height: AppConstants.screenHeight * 0.4,
-            padding: EdgeInsets.all(AppConstants.paddingMedium),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  event.education,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                SizedBox(height: AppConstants.sizedBoxHeightMedium),
-                Text('Eğitmen: ${event.educator}'),
-                SizedBox(height: AppConstants.sizedBoxHeightSmall),
-                Text(
-                    'Tarih: ${event.date.day.toString().padLeft(2, '0')}-${event.date.month.toString().padLeft(2, '0')}-${event.date.year}'),
-                SizedBox(height: AppConstants.sizedBoxHeightSmall),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const FaIcon(FontAwesomeIcons.hourglassStart, size: 20),
-                    SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                    Text(
-                        'Başlangıç Saati: ${event.startTime.hour.toString().padLeft(2, '0')}:${event.startTime.minute.toString().padLeft(2, '0')}'),
-                  ],
-                ),
-                SizedBox(height: AppConstants.sizedBoxHeightSmall),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const FaIcon(FontAwesomeIcons.hourglassEnd, size: 18),
-                    SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                    Text(
-                        'Bitiş Saati: ${event.endTime.hour.toString().padLeft(2, '0')}:${event.endTime.minute.toString().padLeft(2, '0')}'),
-                  ],
-                ),
-                if (event.price != null) ...[
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(AppConstants.paddingMedium),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    event.education,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  SizedBox(height: AppConstants.sizedBoxHeightMedium),
+                  Text(
+                    'Eğitmen: ${event.educator}',
+                  ),
                   SizedBox(height: AppConstants.sizedBoxHeightSmall),
-                  Text('Fiyat: ${event.price}'),
+                  Text(
+                      'Başlangıç: ${event.startTime.day.toString().padLeft(2, '0')}-${event.startTime.month.toString().padLeft(2, '0')}-${event.startTime.year}'),
+                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const FaIcon(FontAwesomeIcons.hourglassStart, size: 20),
+                      Text(
+                        '  ${event.startTime.hour.toString().padLeft(2, '0')}:${event.startTime.minute.toString().padLeft(2, '0')}',
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                  Text(
+                      'Bitiş: ${event.endTime.day.toString().padLeft(2, '0')}-${event.endTime.month.toString().padLeft(2, '0')}-${event.endTime.year}'),
+                  SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const FaIcon(FontAwesomeIcons.hourglassEnd, size: 18),
+                      SizedBox(width: AppConstants.sizedBoxWidthSmall),
+                      Text(
+                        ' ${event.endTime.hour.toString().padLeft(2, '0')}:${event.endTime.minute.toString().padLeft(2, '0')}',
+                      ),
+                    ],
+                  ),
+                  if (event.price != null) ...[
+                    SizedBox(height: AppConstants.sizedBoxHeightSmall),
+                    Text('Fiyat: ${event.price}'),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         );
@@ -132,20 +141,21 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.view_week),
-            onPressed: () {
-              setState(() {
-                _calendarView = CalendarView.week;
-              });
-            },
-          ),
-          IconButton(
               icon: const Icon(Icons.view_module),
               onPressed: () {
                 setState(() {
                   _calendarView = CalendarView.month;
+                  _calendarController.view = CalendarView.month;
                 });
               }),
+          IconButton(
+              icon: Icon(Icons.view_agenda),
+              onPressed: () {
+                setState(() {
+                  _calendarView = CalendarView.schedule;
+                  _calendarController.view = CalendarView.schedule;
+                });
+              })
         ],
       ),
       body: StreamBuilder<List<Event>>(
@@ -165,6 +175,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
 
           List<Event> events = snapshot.data!;
           return SfCalendar(
+            controller: _calendarController,
             view: _calendarView,
             firstDayOfWeek: 1,
             dataSource: EventDataSource(events),
@@ -173,7 +184,9 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
                 textAlign: TextAlign.center),
             monthViewSettings: const MonthViewSettings(
               appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-              appointmentDisplayCount: 2,
+              //appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+              showAgenda: false,
+              //appointmentDisplayCount: 2,
               showTrailingAndLeadingDates: false,
             ),
             appointmentBuilder: (context, calendarAppointmentDetails) {

@@ -34,12 +34,6 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
     context.read<LessonBloc>().add(LoadTeacherLessons(widget.teacherId));
   }
 
-  Future<List<UserModel>> _fetchStudents(LessonModel lesson) async {
-    final students =
-        await context.read<LessonRepository>().fetchStudents(lesson);
-    return students;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,34 +45,7 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
       drawer: DrawerManager(),
       body: Column(
         children: [
-          SizedBox(
-            width: double.infinity,
-            height: AppConstants.screenHeight * 0.2, // Banner yüksekliği
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: Image.asset(
-                    'assets/logo/general_banner.png', // Banner resmi
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.all(AppConstants.paddingMedium),
-                    child: const Text(
-                      "Eğitimlerim", // Banner içindeki yazı
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          _buildBannerWidget(),
           Expanded(
             child: BlocBuilder<LessonBloc, LessonState>(
               builder: (context, state) {
@@ -96,14 +63,45 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
                     );
                   }
                 } else if (state is LessonOperationFailure) {
-                  return Center(
-                      child: Text(
-                          "Kurslar yüklenirken hata oluştu: ${state.error}"));
+                  return const Center(
+                      child:
+                          Text("Henüz size atanmış bir kurs bulunmamaktadır!"));
                 } else {
                   return const Center(
                       child: Text("Bilinmeyen bir hata oluştu."));
                 }
               },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBannerWidget() {
+    return SizedBox(
+      width: double.infinity,
+      height: AppConstants.screenHeight * 0.2, // Banner yüksekliği
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/logo/general_banner.png', // Banner resmi
+              fit: BoxFit.cover,
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: EdgeInsets.all(AppConstants.paddingMedium),
+              child: const Text(
+                "Eğitimlerim", // Banner içindeki yazı
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         ],
@@ -125,68 +123,67 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
               : Container(
                   width: AppConstants.screenWidth * 0.1,
                   height: AppConstants.screenWidth * 0.1,
-                  color: Colors.grey),
+                  color: Colors.grey,
+                ),
           title: Text(lesson.title ?? "Başlık Yok"),
-          subtitle: FutureBuilder<List<UserModel>>(
-            future: _fetchStudents(lesson),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Text('Öğrenci sayısı yükleniyor...');
-              } else if (snapshot.hasError) {
-                return Text('Hata: ${snapshot.error}');
-              } else {
-                final students = snapshot.data!;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.calendar_today, size: 16),
-                        SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                        Text('Başlangıç: ${_formatDate(lesson.startDate)}'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.calendar_today, size: 16),
-                        SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                        Text('Bitiş: ${_formatDate(lesson.endDate)}'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.people, size: 16),
-                        SizedBox(width: AppConstants.sizedBoxWidthSmall),
-                        Text('Öğrenci Sayısı: ${students.length}'),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        _showStudentsBottomSheet(context, students);
-                      },
-                      child: const Text('Kullanıcı listesini görüntüle'),
-                    ),
-                    const Divider(),
-                  ],
-                );
-              }
-            },
-          ),
-          onTap: () {
-            _navigateToLessonPage(lesson);
-          },
+          subtitle: _buildLessonSubtitle(lesson),
+          onTap: () => _navigateToLessonPage(lesson),
         ),
       ],
     );
   }
 
-  void _navigateToLessonPage(LessonModel lesson) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(
-            builder: (context) => TeacherLiveLessonPage(lesson: lesson)))
-        .then((_) {
-      _loadLessons(); // geri dönüldüğünde kursların tekrar listelenmesi için
-    });
+  Widget _buildLessonSubtitle(LessonModel lesson) {
+    return FutureBuilder<List<UserModel>>(
+      future: context.read<LessonRepository>().fetchStudents(lesson),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text('Öğrenci sayısı yükleniyor...');
+        } else if (snapshot.hasError) {
+          return Text('Hata: ${snapshot.error}');
+        } else {
+          final students = snapshot.data!;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.calendar_today, size: 16),
+                  SizedBox(width: AppConstants.sizedBoxWidthSmall),
+                  Text('Başlangıç: ${_formatDate(lesson.startDate)}'),
+                ],
+              ),
+              Row(
+                children: [
+                  const Icon(Icons.calendar_today, size: 16),
+                  SizedBox(width: AppConstants.sizedBoxWidthSmall),
+                  Text('Bitiş: ${_formatDate(lesson.endDate)}'),
+                ],
+              ),
+              Row(
+                children: [
+                  const Icon(Icons.people, size: 16),
+                  SizedBox(width: AppConstants.sizedBoxWidthSmall),
+                  Text('Öğrenci Sayısı: ${students.length}'),
+                ],
+              ),
+              TextButton(
+                onPressed: () {
+                  _showStudentsBottomSheet(context, students);
+                },
+                child: const Text('Kullanıcı listesini görüntüle'),
+              ),
+              const Divider(),
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  String _formatDate(DateTime? date) {
+    if (date == null) return 'Tarih yok';
+    return DateFormat('dd MMM yyyy, hh:mm', 'tr').format(date);
   }
 
   void _showStudentsBottomSheet(
@@ -226,8 +223,7 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
                                     as ImageProvider,
                           ),
                           title: Text(
-                            '${index + 1}. ${students[index].firstName} ${students[index].lastName}',
-                          ),
+                              '${index + 1}. ${students[index].firstName} ${students[index].lastName}'),
                         );
                       },
                     ),
@@ -238,8 +234,12 @@ class _TeacherLessonPageState extends State<TeacherLessonPage> {
     );
   }
 
-  String _formatDate(DateTime? date) {
-    if (date == null) return 'Tarih yok';
-    return DateFormat('dd MMM yyyy, hh:mm', 'tr').format(date);
+  void _navigateToLessonPage(LessonModel lesson) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(
+            builder: (context) => TeacherLiveLessonPage(lesson: lesson)))
+        .then((_) {
+      _loadLessons(); // geri dönüldüğünde kursların tekrar listelenmesi için
+    });
   }
 }

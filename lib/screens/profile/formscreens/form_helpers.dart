@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tobetoapp/models/user_enum.dart';
 import 'package:tobetoapp/utils/theme/constants/constants.dart';
 
 Widget buildTextFormField(
-    TextEditingController controller, String label, IconData icon,
-    {bool isOptional = false, TextInputType? keyboardType}) {
+  TextEditingController controller,
+  String label,
+  IconData icon, {
+  bool isOptional = false,
+  TextInputType? keyboardType,
+  String? Function(String?)? validator,
+}) {
   return Padding(
     padding:
         EdgeInsets.symmetric(vertical: AppConstants.verticalPaddingSmall / 2),
@@ -17,15 +23,16 @@ Widget buildTextFormField(
           borderRadius: BorderRadius.circular(AppConstants.br8),
         ),
       ),
-      validator: (value) {
-        if (!isOptional && (value == null || value.isEmpty)) {
-          return 'Lütfen $label giriniz';
-        }
-        return null;
-      },
+      validator: validator,
       keyboardType: keyboardType,
     ),
   );
+}
+
+// girilen URL'yi URL deseni ile karşılaştırma
+bool isValidSocialMediaUrl(String url, SocialMediaPlatform platform) {
+  final urlPattern = platform.urlPattern;
+  return RegExp(urlPattern).hasMatch(url);
 }
 
 Widget buildDateFormField(
