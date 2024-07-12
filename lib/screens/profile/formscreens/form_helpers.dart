@@ -56,10 +56,8 @@ Widget buildDateFormField(
                   lastDate: DateTime.now(),
                   locale: myLocale,
                 );
-                if (pickedDate != null) {
-                  controller.text = DateFormat('dd/MM/yyyy').format(pickedDate);
-                }
-              }
+                controller.text = DateFormat('dd/MM/yyyy').format(pickedDate!);
+                            }
             : null,
         validator: (value) {
           if (!isOptional && !isDisabled && (value == null || value.isEmpty)) {

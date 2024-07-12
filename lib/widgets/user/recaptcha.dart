@@ -1,57 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:webview_flutter_plus/webview_flutter_plus.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Recaptcha extends StatefulWidget {
-  const Recaptcha({super.key});
+  final Function(bool) onVerified;
+
+  const Recaptcha({super.key, required this.onVerified});
 
   @override
   State<Recaptcha> createState() => _RecaptchaState();
 }
 
 class _RecaptchaState extends State<Recaptcha> {
-  late WebViewControllerPlus _controler;
+  late WebViewController _controller;
 
   @override
   void initState() {
-    _controler = WebViewControllerPlus()
-      ..loadFlutterAssetServer('assets/recaptcha/recaptcha.html')
+    super.initState();
+    _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onPageFinished: (url) {
-            _controler.getWebViewHeight().then((value) {
-              var height = int.parse(value.toString()).toDouble();
-              if (height != _height) {
-                if (kDebugMode) {
-                  print("Height is: $value");
-                }
-                setState(() {
-                  _height = height;
-                });
-              }
-            });
+          onUrlChange: (UrlChange change) {
+            final String url = change.url!;
+            if (url.contains('submit')) {
+              widget.onVerified(true);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Başarılı!')),
+              );
+            }
           },
         ),
-      );
-    super.initState();
+      )
+      ..loadRequest(Uri.parse('https://vast-mature-asteroid.glitch.me'));
   }
-
-  double _height = 1.0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: WebViewWidget(
-        controller: _controler,
+    return Container(
+      width: double.infinity,
+      height: 300,
+      child: WebViewWidget(
+        controller: _controller,
       ),
     );
   }
-
-  @override
-  void dispose() {
-    _controler.server.close();
-    super.dispose();
-  }
 }
+

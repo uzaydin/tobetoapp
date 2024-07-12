@@ -30,6 +30,7 @@ class _AuthState extends State<Auth> {
   bool _isPasswordVisible = false;
   bool _isRepeatPasswordVisible = false;
   bool _isLoginPage = true;
+  bool _isRecaptchaVerified = false;
 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
@@ -48,6 +49,12 @@ class _AuthState extends State<Auth> {
     _lastNameController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void _updateRecaptchaStatus(bool status) {
+    setState(() {
+      _isRecaptchaVerified = status;
+    });
   }
 
   @override
@@ -108,7 +115,8 @@ class _AuthState extends State<Auth> {
             SizedBox(height: AppConstants.sizedBoxHeightSmall),
             if (_isLoginPage)
               SizedBox(
-                  height: AppConstants.screenHeight * 0.15, child: Recaptcha()),
+                  height: AppConstants.screenHeight * 0.12, 
+                  child: Recaptcha(onVerified:_updateRecaptchaStatus)),
           ],
           if (!_isLoginPage) ...[
             _buildSignUpFields(),
@@ -477,6 +485,15 @@ class _AuthState extends State<Auth> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+
+    if (_isLoginPage && !_isRecaptchaVerified) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Lütfen reCAPTCHA doğrulamasını tamamlayın!")),
+      );
+      return;
+    }
+
       if (_isLoginPage) {
         _login();
       } else {

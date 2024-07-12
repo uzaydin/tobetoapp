@@ -78,11 +78,9 @@ class EventProvider with ChangeNotifier {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (selectedDate != null) {
-      date = selectedDate;
-      notifyListeners();
+    date = selectedDate;
+    notifyListeners();
     }
-  }
 
   Future<void> selectStartTime(BuildContext context) async {
     TimeOfDay? selectedTime = await showTimePicker(
