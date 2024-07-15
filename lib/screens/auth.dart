@@ -115,7 +115,7 @@ class _AuthState extends State<Auth> {
             SizedBox(height: AppConstants.sizedBoxHeightSmall),
             if (_isLoginPage)
               SizedBox(
-                  height: AppConstants.screenHeight * 0.12, 
+                  height: AppConstants.screenHeight * 0.20, 
                   child: Recaptcha(onVerified:_updateRecaptchaStatus)),
           ],
           if (!_isLoginPage) ...[

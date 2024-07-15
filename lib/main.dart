@@ -1,5 +1,4 @@
 // ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -97,6 +96,7 @@ class Home extends StatelessWidget {
             BlocProvider(
               create: (context) => BlogBloc(BlogRepository()),
             ),
+
             BlocProvider(
               create: (context) => CatalogBloc(CatalogRepository()),
             ),

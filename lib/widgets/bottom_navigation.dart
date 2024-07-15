@@ -134,18 +134,19 @@ class _MainPageState extends State<BottomNavigation> {
         splashColor: AppColors.tobetoMoru.withOpacity(0.2),
         highlightColor: AppColors.tobetoMoru.withOpacity(0.1),
       ),
-      child: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is Unauthenticated) {
-            setState(() {
-              _selectedIndex = 0;
-            });
-          } else if (state is AuthSuccess) {
-            context
-                .read<UserBloc>()
-                .add(FetchUser(state.id!)); // Kullanıcı bilgilerini getir
-          }
-        },
+      child: BlocBuilder<AuthBloc, AuthState>(  // Şuanlık blocbuilder olarak kalsın daha sonra duruma göre consumer olarak değiştirilebilir
+        // listener: (context, state) {
+        //   if (state is Unauthenticated) {
+        //     setState(() {
+        //       _selectedIndex = 0;
+        //     });
+        //   }
+        //   //  else if (state is AuthSuccess) {
+        //   //   context
+        //   //       .read<UserBloc>()
+        //   //       .add(FetchUser(state.id!)); // Kullanıcı bilgilerini getir
+        //   // }
+        // },
         builder: (context, state) {
           if (state is AuthLoading) {
             return const Center(

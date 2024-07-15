@@ -1,43 +1,64 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.buildlog/
-.history
-.svn/
-migrate_working_dir/
+# Firebase credentials
+/google-services.json
+/GoogleService-Info.plist
 
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
+# Environment secrets
+.env
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# Android keystore files
+/key.properties
 
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# iOS certificates
+ios/**/*.cer
+ios/**/*.p12
+ios/**/Profile/*.mobileprovision
+
+# Flutter specific files
+/flutter_build/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
-.pub-cache/
-.pub/
-/build/
+.packages
+.idea/
+.vscode/
+/build
+pubspec.lock
+firebase_options.dart
 
-# Symbolication related
-app.*.symbols
+# macOS
+**/*.xcworkspace
+**/*.xcuserstate
+**/*.xcuserdata
 
-# Obfuscation related
-app.*.map.json
+# Android
+**/local.properties
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Web
+web/**/flutter_service_worker.js
+
+# Generated files
+*.log
+*.lock
+*.log.*
+*.tmp
+*.swp
+*.swo
+*.bak
+*.sav
+*.sublime-workspace
+*.sublime-project
+.DS_Store
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# IntelliJ
+*.iml
+.idea/
+*.ipr
+*.iws
+/out/
+
+# Visual Studio Code
+.vscode/
+.history/
