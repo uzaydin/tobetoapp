@@ -34,8 +34,18 @@ Admin paneli, yöneticilerin uygulama içeriğini ve kullanıcılarını etkili 
 - **Grafiksel Analiz:** Kullanıcı aylık kayıtları ve sınıflara ait kişi sayısı, Piechart ve Barchart ile görselleştirilir.
 - **Kullanıcı Yönetimi:** Admin, sisteme ait kullanıcıların bilgilerini görüntüleyebilir, rollerini düzenleyebilir ve gerektiğinde kullanıcıları silebilir.
 - **Sınıf Yönetimi:** Sınıfların oluşturulması, düzenlenmesi ve sınıflara ait kişileri ve dersleri görüntüleme işlemlerini yapabilir.
-- **Ders Yönetimi:** Derslerin oluşturulması, düzenlenmesi ve gerektiğinde eğitmen ataması yapılabilir.
+- **Ders/Katalog Yönetimi:** Derslerin/Katalogların oluşturulması, düzenlenmesi ve gerektiğinde eğitmen ataması yapılabilir.
 - **Takvim Yönetimi:** Etkinlikler ve önemli tarihlerin takvim üzerinden yönetilmesi ve düzenlenmesi yapılabilir.
+
+## Kullanılan Teknolojiler
+
+- Flutter
+- Firebase
+- Bloc Mimarisi
+  
+
+
+## Ekran Görüntüleri
 
 
 
