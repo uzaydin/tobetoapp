@@ -7,6 +7,13 @@
 Tobeto eğitim kurumunun web sitesinin mobil uygulama versiyonu. Bu uygulama, kurumun sunduğu hizmetleri ve içerikleri mobil platformlarda erişilebilir kılmayı hedeflemektedir. Uygulama sayesinde kullanıcılar, eğitim materyallerine, duyurulara ve sınıf bilgilerine kolayca erişebilirler.
 
 ## Ekip Üyeleri
+- [Uzay Aydın](https://github.com/uzaydin)
+
+- [Nihan Ertuğ](https://github.com/NihanErtug)
+
+- [Mustafa Ünal](https://github.com/mustafa-unal)
+
+- [Yağmur Yıldırım](https://github.com/yagmur94l)
 
 
 
