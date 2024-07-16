@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobetoapp/utils/theme/constants/constants.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Recaptcha extends StatefulWidget {
@@ -39,11 +40,11 @@ class _RecaptchaState extends State<Recaptcha> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 300,
+      //height: 300,
+      height: AppConstants.screenHeight * 0.25,
       child: WebViewWidget(
         controller: _controller,
       ),
     );
   }
 }
-
