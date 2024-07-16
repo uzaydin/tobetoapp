@@ -113,10 +113,8 @@ class _AuthState extends State<Auth> {
             SizedBox(height: AppConstants.sizedBoxHeightSmall),
             _buildPasswordField(),
             SizedBox(height: AppConstants.sizedBoxHeightSmall),
-            if (_isLoginPage)
-              SizedBox(
-                  height: AppConstants.screenHeight * 0.20, 
-                  child: Recaptcha(onVerified:_updateRecaptchaStatus)),
+            if (_isLoginPage) Recaptcha(onVerified: _updateRecaptchaStatus),
+            SizedBox(height: AppConstants.sizedBoxHeightSmall),
           ],
           if (!_isLoginPage) ...[
             _buildSignUpFields(),
@@ -486,13 +484,12 @@ class _AuthState extends State<Auth> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-
-    if (_isLoginPage && !_isRecaptchaVerified) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Lütfen reCAPTCHA doğrulamasını tamamlayın!")),
-      );
-      return;
-    }
+      if (_isLoginPage && !_isRecaptchaVerified) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Lütfen reCAPTCHA doğrulamasını tamamlayın!")),
+        );
+        return;
+      }
 
       if (_isLoginPage) {
         _login();
